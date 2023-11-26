@@ -12,6 +12,10 @@ import { CommonModule } from '@angular/common';
 import { ListNoteComponent } from './component/list-note/list-note.component';
 import { ListTaskComponent } from './component/list-task/list-task.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
+import { RegisterAccountComponent } from './component/register-account/register-account.component';
+import {ToastrComponentlessModule, ToastrModule, ToastrService} from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SpinnerComponent } from './component/spinner/spinner.component';
 
 @NgModule({
   declarations: [	
@@ -22,17 +26,26 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
     AuthenticatedComponent,
     DashboardComponent,
     ListNoteComponent,
-    ListTaskComponent
+    ListTaskComponent,
+    RegisterAccountComponent,
+    SpinnerComponent
    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      positionClass: 'toast-bottom-right',
+    }),
 
   ],
-  providers: [],
+  providers: [
+    ToastrService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

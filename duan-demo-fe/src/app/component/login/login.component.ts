@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private auth: AuthenticationService,
     private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -28,12 +30,10 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
-   
-
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
         if (data.data.role[0].authority === 'CUSTOMER') {
-          console.log('Tài khoản không có quyền truy cập');
+          this.toastr.error('Tài khoản không có quyền truy cập');
         } else {
           console.log(data.data);
 
@@ -43,12 +43,11 @@ export class LoginComponent implements OnInit {
           this.tokenStorage.saveRole(role);
           console.log(role);
           console.log(this.tokenStorage.getUserRole());
-
-          console.log('Đăng nhập thành công');
+          this.toastr.success('Đăng nhập thành công');
           this.router.navigate(['/dashboard']);
         }
       } else {
-        console.log('Thông tin đăng nhập không chính xác');
+        this.toastr.warning('Thông tin đăng nhập không chính xác');
       }
     });
   }

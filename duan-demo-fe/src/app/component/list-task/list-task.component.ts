@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TaskServiceService } from 'src/app/_service/task-service/task-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-task',
@@ -19,6 +20,7 @@ export class ListTaskComponent implements OnInit {
     private taskService: TaskServiceService,
     private tokenService: TokenStorageService,
     private changeDetectorRef: ChangeDetectorRef,
+    private toastr: ToastrService
   ) { 
     
   }
@@ -41,7 +43,7 @@ export class ListTaskComponent implements OnInit {
       (res:any) => {
         this.listTaskByUsername = res;
         console.log(this.listTaskByUsername + ">>>>>>>>>>");
-        
+        this.toastr.success('Đăng nhập thành công');
         this.changeDetectorRef.detectChanges();
       },
       (error) => {

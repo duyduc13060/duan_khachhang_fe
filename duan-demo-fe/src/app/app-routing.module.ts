@@ -8,6 +8,7 @@ import { AuthGuard } from './_helper/auth.guard';
 import { ListNoteComponent } from './component/list-note/list-note.component';
 import { ListTaskComponent } from './component/list-task/list-task.component';
 import { CommonModule } from '@angular/common';
+import { RegisterAccountComponent } from './component/register-account/register-account.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,10 @@ const routes: Routes = [
     {
       path: 'login',
       component: LoginComponent
+    },
+    {
+      path: 'register-account',
+      component: RegisterAccountComponent
     }
   ] },
   {

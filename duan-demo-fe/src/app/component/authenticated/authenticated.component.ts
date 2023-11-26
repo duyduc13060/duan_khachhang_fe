@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-authenticated',
@@ -10,6 +11,7 @@ export class AuthenticatedComponent implements OnInit {
 
   constructor(
     private tokenStorageService: TokenStorageService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -18,6 +20,7 @@ export class AuthenticatedComponent implements OnInit {
   logout(){
     this.tokenStorageService.clearUser();
       window.location.reload();
+      this.toastr.success('Đăng xuất thành công');
   }
 
 }
