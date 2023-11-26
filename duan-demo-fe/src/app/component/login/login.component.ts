@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
@@ -15,11 +15,17 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   public user: any = {};
 
+  loginValidate = this.formG.group({
+    "userName":["",Validators.required],
+    "password":["",Validators.required]
+  });
+
   constructor(
     private tokenStorage: TokenStorageService,
     private auth: AuthenticationService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formG: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -51,5 +57,12 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  get form(){
+    return this.loginValidate.controls;
+  }
+
+
+
 
 }

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
 import { PublicComponent } from './component/public/public.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticatedComponent } from './component/authenticated/authenticated.component';
 import { CommonModule } from '@angular/common';
 import { ListNoteComponent } from './component/list-note/list-note.component';
@@ -18,11 +18,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './component/spinner/spinner.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     LoginComponent,
     PublicComponent,
-    
+
     AuthenticatedComponent,
     DashboardComponent,
     ListNoteComponent,
@@ -37,6 +37,7 @@ import { SpinnerComponent } from './component/spinner/spinner.component';
     FormsModule,
     CommonModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',

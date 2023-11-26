@@ -9,48 +9,101 @@
                 <h3 class="text-center font-weight-light my-4">Create Account</h3>
               </div>
               <div class="card-body">
-                <form>
+                <form [formGroup]="ResgisterUser">
                   <div class="row mb-3">
                     <!-- enter username -->
                     <div class="col-md-6">
                       <div class="form-floating mb-3 mb-md-0">
                         <input class="form-control" [(ngModel)]="user.username" name="username" id="inputUserName" type="text"
-                          placeholder="Enter your username" />
+                          placeholder="Enter your username" formControlName="userName" />
                         <label for="inputUserName">Username</label>
                       </div>
                     </div>
                     <!-- enter fullname -->
                     <div class="col-md-6">
                       <div class="form-floating">
-                        <input class="form-control" [(ngModel)]="user.fullname" name="fullname" id="inputFullName" type="text" placeholder="Enter your last name" />
+                        <input class="form-control" [(ngModel)]="user.fullname" name="fullname" id="inputFullName" type="text" placeholder="Enter your last name"  formControlName="fullName"/>
                         <label for="inputFullName">Full name</label>
+
                       </div>
                     </div>
                   </div>
                   <div class="form-floating mb-3">
-                    <input class="form-control" [(ngModel)]="user.phone" name="phone" id="inputPhone" type="text" placeholder="Enter your phone" />
+                    <input class="form-control" [(ngModel)]="user.phone" name="phone" pattern="[0-9]*" id="inputPhone" type="text" placeholder="Enter your phone" formControlName="phoneNumber"/>
                     <label for="inputPhone">Phone</label>
+
                   </div>
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <div class="form-floating mb-3 mb-md-0">
                         <input class="form-control" [(ngModel)]="rePassword" name="rePassword" id="inputPassword" type="password"
-                          placeholder="Create a password" />
+                          placeholder="Create a password"  formControlName="password"/>
                         <label for="inputPassword">Password</label>
+
+
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating mb-3 mb-md-0">
                         <input class="form-control" [(ngModel)]="user.password" name="rePassword" id="inputPasswordConfirm" type="password"
-                          placeholder="Confirm password" />
+                          placeholder="Confirm password" formControlName="rePassword"/>
                         <label for="inputPasswordConfirm">Confirm Password</label>
                       </div>
                     </div>
                   </div>
-                  <div class="mt-4 mb-0">
-                    <div class="d-grid"><button class="btn btn-primary btn-block" (click)="registerAccount()" >Create Account</button>
+                  <!--VALIDATE -->
+
+                  <div *ngIf="form.userName.errors ">
+                    <div *ngIf="form.userName.errors.required && (form.userName.touched || form.userName.dirty)">
+                      <small class="error">Enter your username </small>
                     </div>
                   </div>
+
+                  <div *ngIf="form.fullName.errors ">
+                    <div *ngIf="form.fullName.errors.required && (form.fullName.touched || form.fullName.dirty)">
+                      <small class="error">Enter your fullname</small>
+                    </div>
+                  </div>
+
+                  <div *ngIf="form.phoneNumber.errors ">
+                    <div *ngIf="form.phoneNumber.errors.required && (form.phoneNumber.touched || form.phoneNumber.dirty)">
+                      <small class="error">Enter your phone number</small>
+                    </div>
+
+                    <div *ngIf="form.phoneNumber.errors.pattern">
+                      <small class="error">Phone number invalid</small>
+                    </div>
+                  </div>
+
+                  <div *ngIf="form.password.errors ">
+                    <div *ngIf="form.password.errors.required && (form.password.touched || form.password.dirty)">
+                      <small class="error">Enter your password</small>
+                    </div>
+                  </div>
+
+                  <div *ngIf="form.rePassword.errors ">
+                    <div *ngIf="form.rePassword.errors.required && (form.rePassword.touched || form.rePassword.dirty)">
+                      <small class="error">Confirm your password</small>
+                    </div>
+
+                    <!-- <div *ngIf="form.rePassword.errors.ConfirmedValidator">
+                      Passwords did not match
+                    </div> -->
+                  </div>
+
+                    <div *ngIf="ResgisterUser.valid">
+                      <div class="mt-4 mb-0">
+                        <div class="d-grid"><button class="btn btn-primary btn-block" (click)="registerAccount()" >Create Account</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="!ResgisterUser.valid">
+                      <div class="mt-4 mb-0">
+                        <div class="d-grid"><button class="btn btn-primary btn-block" [disabled]="true"  (click)="registerAccount()" >Create Account</button>
+                        </div>
+                      </div>
+                    </div>
+
                 </form>
               </div>
               <div class="card-footer text-center py-3">
