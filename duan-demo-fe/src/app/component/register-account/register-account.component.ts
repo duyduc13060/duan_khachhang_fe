@@ -24,21 +24,22 @@ export class RegisterAccountComponent implements OnInit {
   confirmPassword = new FormControl(null, [
     (c: AbstractControl) => Validators.required(c),
     // Validators.pattern(
-    //   /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
+      // /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
     // ),
   ]);
   ResgisterUser = this.fb.group({
     "userName":["",[Validators.required]],
     "fullName":["",[Validators.required]],
-    "phoneNumber":["",[Validators.required,Validators.pattern('[0-9]*')]],
-    "password":this.password,
-    "rePassword":this.confirmPassword
+    "phoneNumber":["",[Validators.required,Validators.pattern('(0)\d{9}')]],
+    password:this.password,
+    rePassword:this.confirmPassword
     }
-    // ,
-    // {
-    //   "validator" : this.ConfirmedValidator('password','rePassword'),
-    // }
+    ,
+    {
+      validators : this.ConfirmedValidator('password','rePassword'),
+    }
   );
+
   constructor(
     private authService: AuthenticationService,
     private toastr: ToastrService,
@@ -71,21 +72,21 @@ export class RegisterAccountComponent implements OnInit {
   }
 
 
-  // ConfirmedValidator(controlName: string, matchingControlName: string) {
-  //   return (formGroup: FormGroup) => {
-  //     const control = formGroup.controls[controlName];
-  //     const matchingControl = formGroup.controls[matchingControlName];
-  //     if (
-  //       matchingControl.errors &&
-  //       !matchingControl.errors.confirmedValidator
-  //     ) {
-  //       return;
-  //     }
-  //     if (control.value !== matchingControl.value) {
-  //       matchingControl.setErrors({ confirmedValidator: true });
-  //     } else {
-  //       matchingControl.setErrors(null);
-  //     }
-  //   };
-  // }
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors.confirmedValidator
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
 }
