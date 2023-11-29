@@ -16,12 +16,14 @@ import { RegisterAccountComponent } from './component/register-account/register-
 import {ToastrComponentlessModule, ToastrModule, ToastrService} from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './component/spinner/spinner.component';
+import { ManagementUserComponent } from './component/management-user/management-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PublicComponent,
+    ManagementUserComponent,
 
     AuthenticatedComponent,
     DashboardComponent,

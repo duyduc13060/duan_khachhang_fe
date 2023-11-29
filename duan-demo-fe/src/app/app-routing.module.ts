@@ -9,6 +9,7 @@ import { ListNoteComponent } from './component/list-note/list-note.component';
 import { ListTaskComponent } from './component/list-task/list-task.component';
 import { CommonModule } from '@angular/common';
 import { RegisterAccountComponent } from './component/register-account/register-account.component';
+import { ManagementUserComponent } from './component/management-user/management-user.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'list-note', component: ListNoteComponent, canActivate: [AuthGuard] },
       { path: 'list-task', component: ListTaskComponent, canActivate: [AuthGuard] },
+      { path: 'list-management-user', component: ManagementUserComponent, canActivate: [AuthGuard] },
     ]
   }
 ];

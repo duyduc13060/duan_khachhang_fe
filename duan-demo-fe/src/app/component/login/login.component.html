@@ -1,4 +1,4 @@
-<div id="layoutAuthentication">
+<!-- <div id="layoutAuthentication">
   <div id="layoutAuthentication_content">
     <main>
       <div class="container">
@@ -26,7 +26,6 @@
                     <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
                     <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                   </div>
-                  <!-- validate -->
                   <div *ngIf="form.userName.errors ">
                     <div *ngIf="form.userName.errors.required && (form.userName.touched || form.userName.dirty)">
                       <small class="error">Enter your username </small>
@@ -54,7 +53,7 @@
       </div>
     </main>
   </div>
-  <!-- <div id="layoutAuthentication_footer">
+  <div id="layoutAuthentication_footer">
     <footer class="py-4 bg-light mt-auto">
       <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
@@ -67,5 +66,63 @@
         </div>
       </div>
     </footer>
-  </div> -->
+  </div>
+</div> -->
+
+<div class="container-fluid">
+
+  
+
+  <div class="row">
+    <div class="col-5 form-login">
+      <!-- logo -->
+      <div class="row logo">
+        <div>
+          <img src="/assets/img/logo.jpg" alt="">
+        </div>
+      </div>
+
+      <!-- title -->
+      <div class="row" >
+        <div class="title">
+          <p>Hệ thống quản trị nhân sự trong doanh nghiệp</p>
+        </div>
+        <div class="title-login">
+          <h5>ĐĂNG NHẬP</h5>
+        </div>
+      </div>
+
+      <form action="" class="form-customer">
+        <!-- username -->
+        <div class="username">
+          <div class="mb-3">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <input type="username" [(ngModel)]="user.username" name="username"
+            class="form-control" id="username" placeholder="Nhập tên đăng nhập">
+          </div>
+        </div>
+         <!-- username -->
+         <div class="password">
+          <label for="inputPassword5" class="form-label">Password</label>
+          <input type="password" [(ngModel)]="user.password" name="password"
+          id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+         </div>
+         <!-- submit-form -->
+         <div class="submit-form">
+          <div class="register-account">
+            <a [routerLink]="['/register-account']"> Bạn chưa có tài khoản ? Đăng ký. </a>
+          </div>
+          <div class="button-submit">
+            <button (click)="submitForm()"> Đăng nhập </button>
+          </div>
+
+         </div>
+      </form>
+    </div>
+    <div class="col-7">
+      <div class="login-image">
+        <img src="/assets/img/hinh-nen.jpg" alt="">
+      </div>
+    </div>
+  </div>
 </div>
