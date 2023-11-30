@@ -17,7 +17,7 @@ export class TokenStorageService {
   }
 
   public isLoggedIn() :boolean{
-    const authToken = this.getUser();
+    const authToken = this.getToken();
 
     return authToken !== null;
 }
@@ -54,7 +54,6 @@ export class TokenStorageService {
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.removeItem(USER_NAME);
-    window.localStorage.removeItem(USER_ROLE);
   }
 
 

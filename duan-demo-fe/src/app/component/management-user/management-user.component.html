@@ -1,3 +1,90 @@
-<p>
-  management-user works!
-</p>
+<div class="container-fluid">
+  <div class="user-management">
+    <div class="user-management-header-title">
+      <h1>Trang quản trị</h1>
+    </div>
+
+    <div class="header">
+      <div class="user-management-header">
+        <label for="">Danh sách user</label>
+      </div>
+      <div class="user-management-header-create blue">
+        <button>
+          <svg _ngcontent-lkj-c19="" fill="none" height="12" viewBox="0 0 12 12" width="12"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect _ngcontent-lkj-c19="" fill="white" height="12" rx="1" width="2" x="5"></rect>
+            <rect _ngcontent-lkj-c19="" fill="white" height="12" rx="1" transform="rotate(90 12 5)" width="2" x="12"
+              y="5">
+            </rect>
+          </svg>
+          Tạo mới
+        </button>
+      </div>
+    </div>
+
+
+    <div class="search-user">
+      <div class="row">
+        <div class="col-3 status">
+          <h3>Trạng thái</h3>
+          <ng-select bindLabel="name" 
+                    bindValue="code" 
+                    style="font-size: 12px;" 
+                    [(ngModel)]="userSearch.usernam"
+                    placeholder="Trạng thái">
+            <ng-template ng-option-tmp let-item="item">
+              <div style=" white-space: nowrap;text-overflow: ellipsis;overflow: hidden">{{item.name}}</div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-3 status">
+          <h3>Số điện thoại</h3>
+          <ng-select bindLabel="name" 
+                    bindValue="code" 
+                    style="font-size: 12px;" 
+                    [(ngModel)]="userSearch.usernam"
+                    placeholder="">
+            <ng-template ng-option-tmp let-item="item">
+              <div style=" white-space: nowrap;text-overflow: ellipsis;overflow: hidden">{{item.name}}</div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-3 keysearch">
+          <h3>Từ khóa</h3>
+          <input type="text" name="keysearch" placeholder="Nhập username hoặc họ tên user" id="">
+        </div>
+        <div class="col-3 button-search">
+          <button>Tìm kiếm</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-search">
+      <table class="table table-bordered" *ngIf="lstUser.length > 0">
+        <thead class=" table-secondary">
+            <tr>
+                <th>id</th>
+                <th>Username</th>
+                <th>Họ và tên</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of lstUser">
+              <td>{{item.id}}</td>
+              <td>{{item.username}}</td>
+              <td>{{item.fullname }}</td>
+              <td>{{item.phone}}</td>
+              <td>{{item.address}}</td>
+              <td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
+              <th></th>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

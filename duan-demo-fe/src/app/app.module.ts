@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
 import { PublicComponent } from './component/public/public.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticatedComponent } from './component/authenticated/authenticated.component';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,8 @@ import {ToastrComponentlessModule, ToastrModule, ToastrService} from 'ngx-toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './component/spinner/spinner.component';
 import { ManagementUserComponent } from './component/management-user/management-user.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AuthInterceptor } from './_helper/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ManagementUserComponent } from './component/management-user/management-
     CommonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NgSelectModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
@@ -48,6 +51,11 @@ import { ManagementUserComponent } from './component/management-user/management-
   ],
   providers: [
     ToastrService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
