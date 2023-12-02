@@ -1,0 +1,103 @@
+<div class="modal-content modal-dialog-custom">
+  <div class="modal-header">
+    <h4 *ngIf="!isUpdate">Thêm mới người dùng</h4>
+    <h4 *ngIf="isUpdate">CẬP NHẬT NGƯỜI DÙNG</h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <input type="text" [(ngModel)]="body.id" *ngIf="isUpdate" [hidden]="true">
+      <div class="col-md-6">
+        <label class="input-label">Username <span>*</span></label>
+        <input type="text" class="input-typing overflow-dot" [(ngModel)]="body.username"
+          (keydown)="revoveInvalid(validUsername)" (blur)="validateUsername()" [disabled]="isUpdate"
+          placeholder="Nhập username" matTooltipClass="material-tooltip">
+        <div class="validate-input" *ngIf="!validUsername.done">
+          <p class="validate-input-label" *ngIf="validUsername.empty">Username không được bỏ trống</p>
+          <p class="validate-input-label" *ngIf="validUsername.maxLength">Username không được nhập quá 50 ký tự</p>
+          <p class="validate-input-label" *ngIf="validUsername.UTF8 || validUsername.space">Username không được chứa kí
+            tự có dấu hoặc khoảng trắng</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="input-label">Họ và tên <span>*</span></label>
+        <input type="text" class="input-typing overflow-dot" [(ngModel)]="body.fullname"
+          (keydown)="revoveInvalid(validFullname)" (blur)="validateFullname()" placeholder="Nhập họ và tên"
+          matTooltipClass="material-tooltip">
+        <div class="validate-input" *ngIf="!validFullname.done">
+          <p class="validate-input-label" *ngIf="validFullname.empty">Họ và tên không được bỏ trống</p>
+          <p class="validate-input-label" *ngIf="validFullname.maxLength">Họ và tên không được nhập quá 250 ký tự</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="input-label">Số điện thoại</label>
+        <input type="text" class="input-typing overflow-dot" [(ngModel)]="body.phone"
+          (keydown)="revoveInvalid(validPhone)" (blur)="validatePhone()" placeholder="Nhập số điện thoại"
+          [matTooltip]="body.phone">
+        <div class="validate-input" *ngIf="!validPhone.done">
+          <p class="validate-input-label" *ngIf="validPhone.empty">Số điện thoại không được bỏ trống</p>
+          <p class="validate-input-label" *ngIf="validPhone.maxLength">Số điện thoại không được nhập quá 20 ký tự</p>
+          <p class="validate-input-label" *ngIf="validPhone.regex">Số điện thoại không đúng định dạng</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="input-label">Email <span>*</span></label>
+        <input type="text" class="input-typing overflow-dot" [(ngModel)]="body.email" (blur)="validateEmail()"
+          placeholder="Nhập email" matTooltipClass="material-tooltip">
+        <div class="validate-input" *ngIf="!validEmail.done">
+          <p class="validate-input-label" *ngIf="validEmail.empty">Email không được bỏ trống</p>
+          <p class="validate-input-label" *ngIf="validEmail.maxLength">Email không được nhập quá 250 ký tự</p>
+          <p class="validate-input-label" *ngIf="validEmail.regex">Email không đúng định dạng</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="input-label">ROLE <span>*</span></label>
+        <ng-select [items]="listRoles" placeholder="Lựa chọn" class="input-select" bindLabel="name" bindValue="id"
+          [(ngModel)]="body.role" (change)="revoveInvalid(validRole)" [searchable]="true" [clearable]="true"
+          matTooltipClass="material-tooltip">
+          <ng-template ng-option-tmp let-item="item">
+            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <b [style.color]="item.color">{{item.name}}</b>
+          </ng-template>
+        </ng-select>
+        <div class="validate-input" *ngIf="!validRole.done">
+          <p class="validate-input-label" *ngIf="validRole.empty">
+            Role không được bỏ trống
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="input-label">Trạng thái</label>
+        <ng-select [items]="listStatus" placeholder="Lựa chọn" class="input-select" bindLabel="name" bindValue="id"
+          [(ngModel)]="body.status" [searchable]="false" [clearable]="false">
+          <ng-template ng-option-tmp let-item="item">
+            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <b [style.color]="item.color">{{item.name}}</b>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div class="col-md-12">
+        <div class="note" *ngIf="!isUpdate">
+          <!--          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+          <!--            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.844 13.5L15.854 13.49L8.85837 1.49L8.84838 1.5C8.67848 1.2 8.36868 1 7.99891 1C7.62914 1 7.32933 1.2 7.14944 1.5L7.13945 1.49L0.143819 13.49L0.153813 13.5C0.0638688 13.65 0.00390625 13.81 0.00390625 14C0.00390625 14.55 0.453625 15 1.00328 15H14.9945C15.5442 15 15.9939 14.55 15.9939 14C15.9939 13.81 15.934 13.65 15.844 13.5ZM8.99829 12.99H6.99953V10.99H8.99829V12.99ZM6.99953 9.99H8.99829V4.99H6.99953V9.99Z" fill="#F3A412"/>-->
+          <!--          </svg>-->
+          <span class="note-des">Chú ý: Khi tạo thêm mới thành công, mật khẩu mặc định của người dùng là</span>
+          <span class="note-pass">123456aA@</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="btn-action">
+      <div class="btn-action-dv gray" style="margin-right: 12px;" (click)="closeModal()">
+        Hủy bỏ
+      </div>
+      <div class="btn-action-dv orange" (click)="submit()">Lưu lại</div>
+    </div>
+  </div>
+</div>

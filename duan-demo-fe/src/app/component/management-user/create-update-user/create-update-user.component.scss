@@ -1,0 +1,117 @@
+:host ::ng-deep{
+    .col-md-6{
+      margin-bottom: 12px !important;
+    }
+    .ng-select-container{
+      height: inherit !important;
+    }
+    .btn-action{
+      display: flex;
+      margin-top: 20px;
+    }
+    .btn-action-dv{
+      width: 105px;
+      height: 32px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .gray{
+      background: #E6E8F0;
+      color: #696F8C;
+    }
+    .orange{
+      background: #2319d6;
+    }
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input{
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+    }
+    .modal-content{
+      .modal-header{
+        justify-content: center;
+        border-bottom: 2px solid #a2a6e0;
+        margin-bottom: 18px;
+        h4{
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 30px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          text-transform: uppercase;
+          color: #101840;
+        }
+      }
+      .modal-body{
+        .input-label{
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 24px;
+          color: #474D66;
+          span{
+            color: red;
+          }
+        }
+        .input-typing{
+          width: 380px;
+          height: 40px;
+          border: none;
+          border: 1px solid #D8DAE5;
+          border-radius: 4px;
+          padding: 12px;
+          margin-top: 9px;
+        }
+        .input-select{
+          width: 380px;
+          height: 40px;
+          border-radius: 6px;
+          margin-top: 9px;
+        }
+  
+        .note{
+          display: flex;
+          align-items: center;
+          .note-des{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+            color: #696F8C;
+            //margin-left: 10px;
+            margin-right: 5px;
+          }
+          .note-pass{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+            color: #101840;
+            font-weight: 600;
+          }
+        }
+      }
+      .modal-footer{
+        display: flex;
+        justify-content: center;
+        border-top: 2px solid #a2a6e0;
+        margin-top: 25px;
+      }
+    }
+  }
+  
+  .validate-input{
+    .validate-input-label{
+      margin: 5px 0 0 !important;
+      color: red;
+      font-size: 12px;
+      line-height: 10px;
+      font-weight: 500;
+    }
+  }
+  

@@ -14,7 +14,10 @@ export class AuthenticatedComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
+  username;
+
   ngOnInit() {
+    this.username = this.tokenStorageService.getUser();
   }
 
   logout(){

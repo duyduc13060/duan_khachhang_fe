@@ -1,6 +1,6 @@
 export class UserSearch{
 
-    fullname: string;
-    usernam: string;
+    status: number;
+    keySearch: string;
 
 }

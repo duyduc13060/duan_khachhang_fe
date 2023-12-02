@@ -19,13 +19,21 @@ import { SpinnerComponent } from './component/spinner/spinner.component';
 import { ManagementUserComponent } from './component/management-user/management-user.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AuthInterceptor } from './_helper/auth.interceptor';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CreateUpdateUserComponent } from './component/management-user/create-update-user/create-update-user.component';
+import { ActionManagementUserComponent } from './component/management-user/action-management-user/action-management-user.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PublicComponent,
+
     ManagementUserComponent,
+    CreateUpdateUserComponent,
+    ActionManagementUserComponent,
 
     AuthenticatedComponent,
     DashboardComponent,
@@ -43,6 +51,9 @@ import { AuthInterceptor } from './_helper/auth.interceptor';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgSelectModule,
+
+    MatDialogModule,
+    MatTooltipModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
@@ -51,6 +62,7 @@ import { AuthInterceptor } from './_helper/auth.interceptor';
   ],
   providers: [
     ToastrService,
+    BsModalService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
