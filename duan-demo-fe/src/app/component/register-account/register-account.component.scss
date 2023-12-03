@@ -1,3 +1,22 @@
 .error{
   color: rgba(247, 90, 69, 0.757);
 }
+
+.validate-input{
+  .validate-input-label{
+    margin: 5px 0 0 !important;
+    color: red;
+    font-size: 12px;
+    line-height: 10px;
+    font-weight: 500;
+  }
+} 
+.card-body{
+  .col-md-6{
+    label{
+      span{
+        color: red;
+      }
+    }
+  }
+}

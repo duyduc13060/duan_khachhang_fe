@@ -116,7 +116,7 @@ export class CreateUpdateUserComponent implements OnInit {
       phone: this.body.phone?.trim(),
       email: this.body.email.trim(),
       status: this.body.status,
-      role: this.body.role,
+      roleId: this.body.role,
     }
 
     if(bodySave.id == null || bodySave.id === undefined){

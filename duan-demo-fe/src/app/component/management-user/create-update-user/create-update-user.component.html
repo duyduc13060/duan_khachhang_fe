@@ -56,7 +56,7 @@
           [(ngModel)]="body.role" (change)="revoveInvalid(validRole)" [searchable]="true" [clearable]="true"
           matTooltipClass="material-tooltip">
           <ng-template ng-option-tmp let-item="item">
-            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+            <div [style.color]="item.color">{{item.name}}</div>
           </ng-template>
           <ng-template ng-label-tmp let-item="item">
             <b [style.color]="item.color">{{item.name}}</b>
@@ -73,7 +73,7 @@
         <ng-select [items]="listStatus" placeholder="Lựa chọn" class="input-select" bindLabel="name" bindValue="id"
           [(ngModel)]="body.status" [searchable]="false" [clearable]="false">
           <ng-template ng-option-tmp let-item="item">
-            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+            <div  [style.color]="item.color">{{item.name}}</div>
           </ng-template>
           <ng-template ng-label-tmp let-item="item">
             <b [style.color]="item.color">{{item.name}}</b>

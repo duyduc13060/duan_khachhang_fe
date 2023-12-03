@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/_model/User';
 import { UserSearch } from 'src/app/_model/user-search';
 
 const AUTH_API = 'http://localhost:8084/api/user';

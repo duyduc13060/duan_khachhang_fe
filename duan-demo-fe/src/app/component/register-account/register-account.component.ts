@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_model/User';
 import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ValidateInput } from 'src/app/_model/validate-input.model';
+import { CommonFunction } from 'src/app/utils/common-function';
 
 @Component({
   selector: 'app-register-account',
@@ -15,30 +17,21 @@ export class RegisterAccountComponent implements OnInit {
   user: User = new User();
   rePassword: string;
 
-  password = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    // Validators.pattern(
-    //   /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
-    // ),
-  ]);
-  confirmPassword = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    // Validators.pattern(
-      // /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
-    // ),
-  ]);
-  ResgisterUser = this.fb.group({
-    "userName":["",[Validators.required]],
-    "fullName":["",[Validators.required]],
-    "phoneNumber":["",[Validators.required,Validators.pattern('(0)\d{9}')]],
-    password:this.password,
-    rePassword:this.confirmPassword
-    }
-    ,
-    {
-      validators : this.ConfirmedValidator('password','rePassword'),
-    }
-  );
+  error = {
+    checkValidate: false,
+    message: null
+  }
+
+  errorUsername = {
+    checkValidate: false,
+    message: null
+  }
+
+  validUsername: ValidateInput = new ValidateInput();
+  validFullname: ValidateInput = new ValidateInput();
+  validPhone: ValidateInput = new ValidateInput();
+  validEmail: ValidateInput = new ValidateInput();
+  validPassword: ValidateInput = new ValidateInput();
 
   constructor(
     private authService: AuthenticationService,
@@ -52,41 +45,81 @@ export class RegisterAccountComponent implements OnInit {
   }
 
 
+  validateUsername() {
+    this.validUsername = CommonFunction.validateInputUTF8Space(this.user.username, 50, null, true, true)
+  }
+  validateFullname() {
+    this.validFullname = CommonFunction.validateInput(this.user.fullname, 250, null)
+  }
+  validatePhone() {
+    this.validPhone = CommonFunction.validateInput2(this.user.phone, true, 20, "(\\+84|0)([0-9]{9}|[0-9]{10})")
+  }
+  validateEmail() {
+    this.validEmail = CommonFunction.validateInput(this.user.email, 250, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+  }
 
-  registerAccount(){
+  validatePassword() {
+    this.validPassword = CommonFunction.validateInput(this.rePassword, 20, null)
+  }
+
+  validateConfirmPassword() {
+    if (this.user.password === undefined || this.user.password === "" || this.user.password === null) {
+      this.error.checkValidate = true;
+      this.error.message = 'Password không được để trống';
+      return;
+    }
+
+    if (this.rePassword !== this.user.password) {
+      this.error.checkValidate = true;
+      this.error.message = 'Mật khẩu nhập lại không giống với mật khẩu đã nhập!';
+      return;
+    }
+
+    this.error.checkValidate = false;
+    this.error.message = ''
+  }
+
+
+  registerAccount() {
+
+    this.validateConfirmPassword();
+
+    this.user.username = CommonFunction.trimText(this.user.username)
+    this.user.fullname = CommonFunction.trimText(this.user.fullname)
+    this.user.phone = CommonFunction.trimText(this.user.phone)
+    this.user.email = CommonFunction.trimText(this.user.email)
+    this.validUsername = CommonFunction.validateInputUTF8Space(this.user.username, 50, null, true, true)
+    this.validFullname = CommonFunction.validateInput(this.user.fullname, 250, null)
+    this.validPhone = CommonFunction.validateInput2(this.user.phone, true, 20, "(\\+84|0)([0-9]{9}|[0-9]{10})")
+    this.validEmail = CommonFunction.validateInput(this.user.email, 250, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    this.validPassword = CommonFunction.validateInput2(this.rePassword, true, 20, null)
+
+    if (!this.validUsername.done || !this.validFullname.done || !this.validPhone.done || !this.validEmail.done || !this.validPassword.done) {
+      return
+    }
+
+    if (this.error.checkValidate) {
+      return;
+    }
+
     if (this.rePassword != this.user.password) {
       this.toastr.warning('Mật khẩu nhập lại không giống với mật khẩu đã nhập!');
     } else {
-      this.authService.registerAccount(this.user)
-      .subscribe(res => {
-        this.toastr.success('Đăng Ký Thành Công!');
-        sessionStorage.removeItem("email");
-        this.router.navigate(["login"]);
-      },
-      error => this.toastr.error('Đăng ký Thất Bại :((!'));
+      this.authService.registerAccount(this.user).subscribe(
+        (res: any) => {
+          if (res.success == 200) {
+            this.toastr.success('Đăng Ký Thành Công!');
+            sessionStorage.removeItem("email");
+            this.router.navigate(["login"]);
+          }else{
+            this.toastr.error(res.message);
+          }
+        },
+        (error) => {
+
+        }
+      );
     }
   }
 
-  get form(){
-    return this.ResgisterUser.controls;
-  }
-
-
-  ConfirmedValidator(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      if (
-        matchingControl.errors &&
-        !matchingControl.errors.confirmedValidator
-      ) {
-        return;
-      }
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ confirmedValidator: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
-  }
 }

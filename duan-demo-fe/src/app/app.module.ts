@@ -24,6 +24,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreateUpdateUserComponent } from './component/management-user/create-update-user/create-update-user.component';
 import { ActionManagementUserComponent } from './component/management-user/action-management-user/action-management-user.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ChatBoxComponent } from './component/chat-box/chat-box.component';
+import { ManagementRoleComponent } from './component/management-role/management-role.component';
+import { CreateUpdateRolesComponent } from './component/management-role/create-update-roles/create-update-roles.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { ActionRolesManagerComponent } from './component/management-role/action-roles-manager/action-roles-manager.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -34,6 +40,12 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     ManagementUserComponent,
     CreateUpdateUserComponent,
     ActionManagementUserComponent,
+
+    ManagementRoleComponent,
+    CreateUpdateRolesComponent,
+    ActionRolesManagerComponent,
+
+    ChatBoxComponent,
 
     AuthenticatedComponent,
     DashboardComponent,
@@ -54,10 +66,15 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 
     MatDialogModule,
     MatTooltipModule,
+    MatCheckboxModule,
+
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
     }),
+    AgGridModule.withComponents([
+      ManagementRoleComponent
+    ]), 
 
   ],
   providers: [

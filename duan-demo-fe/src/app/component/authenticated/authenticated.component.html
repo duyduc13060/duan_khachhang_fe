@@ -41,12 +41,12 @@
           <div class="sb-sidenav-menu-heading">Interface</div>
 
           <!-- tab management user -->
-          <a class="nav-link collapsed" [routerLink]="['/list-task']" data-bs-toggle="collapse" data-bs-target="#collapse-user"
-            aria-expanded="false" aria-controls="collapse-user">
+          <!-- <a class="nav-link collapsed" [routerLink]="['/list-task']" data-bs-toggle="collapse"
+            data-bs-target="#collapse-user" aria-expanded="false" aria-controls="collapse-user">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Danh sách công việc
             <div class="sb-sidenav-collapse-arrow"></div>
-          </a>
+          </a> -->
           <!-- <div class="collapse" id="collapse-user" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
               <a class="nav-link" [routerLink]="['/list-task']">Danh sách user</a>
@@ -56,18 +56,31 @@
           <!-- tab management user -->
 
           <!-- tab management note -->
-          <a class="nav-link collapsed" [routerLink]="['/list-note']" data-bs-toggle="collapse" data-bs-target="#collapse-note"
-            aria-expanded="false" aria-controls="collapse-note">
+          <!-- <a class="nav-link collapsed" [routerLink]="['/list-note']" data-bs-toggle="collapse"
+            data-bs-target="#collapse-note" aria-expanded="false" aria-controls="collapse-note">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Danh sách note
             <div class="sb-sidenav-collapse-arrow"></div>
-          </a>
+          </a> -->
           <!-- <div class="collapse" id="collapse-note" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
               <a class="nav-link" [routerLink]="['/list-note']">Danh sách note</a>
               <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
             </nav>
           </div> -->
+
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-word"
+            aria-expanded="false" aria-controls="collapse-word">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Công việc
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapse-word" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" [routerLink]="['/list-task']">Quản lý công việc</a>
+              <a class="nav-link" [routerLink]="['/list-note']">Quản lý note</a>
+            </nav>
+          </div>
           <!-- tab management note -->
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-sell"
@@ -79,7 +92,21 @@
           <div class="collapse" id="collapse-sell" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
               <a class="nav-link" [routerLink]="['/list-management-user']">Quản lý người dùng</a>
-              <a class="nav-link" >Quản lý role</a>
+              <a class="nav-link" [routerLink]="['/list-management-role']">Quản lý role</a>
+            </nav>
+          </div>
+
+          <!-- tab chatbox -->
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-chatBox"
+            aria-expanded="false" aria-controls="collapse-chatBox">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Chatbox
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapse-chatBox" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" [routerLink]="['/chat-box']">Text search</a>
+              <a class="nav-link">Gen code</a>
             </nav>
           </div>
           <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"

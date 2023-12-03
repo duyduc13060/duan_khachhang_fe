@@ -7,6 +7,7 @@ export class  User {
   passConfirm!: string;
   password!: string;
   phone!: string;
+  email!:string;
   createDate!: Date;
   address!: string;
   role!: number;

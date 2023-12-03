@@ -1,0 +1,165 @@
+:host ::ng-deep{
+  .ag-cell-value {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .cell-action .ag-cell-value{
+    text-overflow: unset;
+    overflow: unset;
+  }
+  .grid-title{
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 16px;
+    color: #8F95B2;
+    text-transform: uppercase;
+  }
+  .ag-row-odd{
+    background: #F4F6FA;
+  }
+  .center{
+    .ag-cell-label-container{
+      div{
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  .m-l-5{
+    margin-left: 5px;
+  }
+  .ng-select-container{
+    .ng-value-container{
+      .ng-placeholder{
+        font-weight: 400 !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
+        color: #101840 !important;
+      }
+    }
+  }
+  ::placeholder {
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 16px !important;
+    color: #696F8C !important;
+  }
+  .btn-action-dv{
+    width: 101px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    svg{
+      margin-right: 8px;
+    }
+  }
+  .blue{
+    background: #3366FF;
+  }
+  .orange{
+    background: #F26522;
+  }
+  .ng-select-container{
+    height: inherit !important;
+  }
+}
+.user-manager{
+  padding-left: 36px;
+  padding-right: 35px;
+
+  .user-manager-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E6E8F0;
+
+    .user-manager-header-title{
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 30px;
+      text-transform: uppercase;
+      color: #101840;
+      margin: 0;
+    }
+  }
+
+  .user-manager-body{
+    margin-top: 20px;
+
+    .user-manager-body-search{
+      display: flex;
+      margin-bottom: 24px;
+
+      .user-manager-body-search-item{
+        margin-right: 12px;
+        display: flex;
+        flex-direction: column;
+        width: 279px;
+
+        .user-manager-body-search-item-title{
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 24px;
+          color: #474D66;
+        }
+        .user-manager-body-search-item-select{
+          width: 279px;
+          height: 40px;
+        }
+        input{
+          width: 279px;
+          height: 40px;
+          border: none;
+          border: 1px solid #D8DAE5;
+          border-radius: 4px;
+          padding: 12px;
+        }
+      }
+
+      .btn-action-dv{
+        width: 118px;
+        height: 40px;
+        border: none;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+:host::ng-deep {
+  .u-manager {
+    .grid {
+      .ag-header{
+        position: sticky;
+        top: 133px;
+        z-index: 1;
+      }
+
+      .ag-root-wrapper{
+        overflow: unset;
+      }
+
+      .set-height-ag-root-wrapper {
+        .ag-root-wrapper {
+          height: 480px;
+        }
+      }
+    }
+
+    .top {
+      .ag-header{
+        top: 226.5px;
+      }
+    }
+  }
+}

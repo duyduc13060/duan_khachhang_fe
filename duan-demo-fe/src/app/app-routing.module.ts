@@ -10,6 +10,8 @@ import { ListTaskComponent } from './component/list-task/list-task.component';
 import { CommonModule } from '@angular/common';
 import { RegisterAccountComponent } from './component/register-account/register-account.component';
 import { ManagementUserComponent } from './component/management-user/management-user.component';
+import { ChatBoxComponent } from './component/chat-box/chat-box.component';
+import { ManagementRoleComponent } from './component/management-role/management-role.component';
 
 
 const routes: Routes = [
@@ -31,6 +33,11 @@ const routes: Routes = [
       { path: 'list-note', component: ListNoteComponent, canActivate: [AuthGuard] },
       { path: 'list-task', component: ListTaskComponent, canActivate: [AuthGuard] },
       { path: 'list-management-user', component: ManagementUserComponent, canActivate: [AuthGuard] },
+
+      { path: 'list-management-role', component: ManagementRoleComponent, canActivate: [AuthGuard] },
+      
+      { path: 'chat-box', component: ChatBoxComponent , canActivate: [AuthGuard]},
+   
     ]
   }
 ];

@@ -3,7 +3,22 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  action: {
+    create: 'create',
+    update: 'update',
+    delete: 'delete',
+    search: 'search',
+    export: 'export',
+    detail: 'detail',
+    lock: 'lock',
+    unlock: 'unlock',
+    confirm: 'confirm',
+    handling: 'handling',
+    import: 'import',
+  },
+  
 };
 
 /*

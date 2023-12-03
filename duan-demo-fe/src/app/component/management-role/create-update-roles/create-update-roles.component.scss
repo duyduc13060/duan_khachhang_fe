@@ -1,0 +1,197 @@
+:host ::ng-deep{
+    .col-md-6{
+      margin-bottom: 12px !important;
+    }
+    .ng-select-container{
+      height: inherit !important;
+    }
+    .btn-action{
+      display: flex;
+      margin-top: 30px;
+    }
+    .btn-action-dv{
+      width: 105px;
+      height: 32px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .gray{
+      background: #E6E8F0;
+      color: #696F8C;
+    }
+    .orange{
+      background: #F26522;
+    }
+    .modal-content{
+      .modal-header{
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid;
+        margin-bottom: 30px;
+        h4{
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 30px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          text-transform: uppercase;
+          color: #101840;
+        }
+      }
+      .modal-body{
+        .input-label{
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 24px;
+          color: #474D66;
+          span{
+            color: red;
+          }
+        }
+        .input-typing{
+          width: 250px;
+          height: 40px;
+          border: none;
+          border: 1px solid #D8DAE5;
+          border-radius: 4px;
+          padding: 12px;
+        }
+        .textarea-typing{
+          width: inherit;
+          min-height: 90px;
+          border: none;
+          border: 1px solid #D8DAE5;
+          border-radius: 4px;
+          padding: 12px;
+         }
+        .input-select{
+          width: 250px;
+          height: 40px;
+          border-radius: 6px;
+        }
+  
+        .title-grid{
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #101840;
+          margin-top: 5px;
+          span{
+            color: red;
+          }
+        }
+        .decentralization{
+          tr:nth-child(odd){
+            background: #F4F6FA;
+          }
+          tr:nth-child(even){
+            background: #fff;
+          }
+          width: 100%;
+          .decentralization_header{
+            height: 48px;
+            background: #F4F6FA;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+  
+            .header_no,
+            .header_function,
+            .header_apply,
+            .header_action{
+              font-weight: 600;
+              font-size: 10px;
+              line-height: 16px;
+              text-align: center;
+              text-transform: uppercase;
+              color: #8F95B2;
+            }
+            .header_no{
+              width: 60px;
+            }
+            .header_function{
+              width: 220px;
+              text-align: left;
+            }
+            .header_apply{
+              width: 90px;
+            }
+            .header_action{
+              width: 342px;
+            }
+          }
+          .decentralization_body{
+            height: 72px;
+            .body_no,
+            .body_function,
+            .body_apply{
+              font-weight: 500;
+              font-size: 12px;
+              line-height: 20px;
+              text-align: center;
+              color: #101840;
+            }
+            .body_function{
+              text-align: left;
+              p{
+                margin: 0;
+                white-space: nowrap;
+                width: 220px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+            .body_action{
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: inherit;
+              .body_action_select{
+                border: none;
+                border-radius: 6px;
+                width: 318px;
+              }
+            }
+          }
+        }
+      }
+      .modal-footer{
+        position: sticky;
+        bottom: 0;
+        z-index: 9999;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid;
+        margin-top: 30px;
+      }
+    }
+  
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected{
+      background: #fff !important;
+    }
+  }
+  
+  .validate-input{
+    .validate-input-label{
+      margin: 5px 0 0 !important;
+      color: red;
+      font-size: 12px;
+      line-height: 10px;
+      font-weight: 500;
+    }
+  }
+  
