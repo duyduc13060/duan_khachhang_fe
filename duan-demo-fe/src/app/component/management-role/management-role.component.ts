@@ -1,13 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ToastrService } from 'ngx-toastr';
-import { RoleSearch } from 'src/app/_model/role-search';
 import { RolesService } from 'src/app/_service/role-service/roles.service';
 import { CreateUpdateRolesComponent } from './create-update-roles/create-update-roles.component';
 import * as moment from 'moment';
 import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
-import { CommonFunction } from 'src/app/utils/common-function';
 import { CommonServiceService } from 'src/app/utils/common-service.service';
 import { ActionRolesManagerComponent } from './action-roles-manager/action-roles-manager.component';
 
@@ -330,7 +326,7 @@ export class ManagementRoleComponent implements OnInit {
           display: 'flex',
           'justify-content': 'center',
           top: '0px',
-          'margin-top': '-10px',
+          'margin-top': '-36px',
           'text-align': 'center',
           'white-space': 'break-spaces'
         },
@@ -341,11 +337,26 @@ export class ManagementRoleComponent implements OnInit {
             return time;
           }
         },
-        valueGetter: (param) => {
-          if(param.data.createTime){
-            const time = moment(param.data.createTime).format('DD/MM/YYYY hh:mm:ss');
-            return time;
+        // valueGetter: (param) => {
+        //   if(param.data.createTime){
+        //     const time = moment(param.data.createTime).format('DD/MM/YYYY hh:mm:ss');
+        //     return time;
+        //   }
+        // },
+        cellRenderer: (param) => {
+          var temDiv = document.createElement("div");
+          var dateDiv = document.createElement("div");
+          var timeDiv = document.createElement("div");
+          if (param.value) {
+            var date = new Date(param.value);
+            dateDiv.innerText = this.formatDate(param.value);
+            timeDiv.innerText = moment(date).format("HH:mm:ss");
+            temDiv.appendChild(dateDiv);
+            temDiv.appendChild(timeDiv);
+          } else {
+            temDiv.innerText = "-";
           }
+          return temDiv;
         },
       },
       {
@@ -372,7 +383,7 @@ export class ManagementRoleComponent implements OnInit {
           display: 'flex',
           'justify-content': 'center',
           top: '0px',
-          'margin-top': '-10px',
+          'margin-top': '-36px',
           'text-align': 'center',
           'white-space': 'break-spaces'
         },
@@ -383,11 +394,26 @@ export class ManagementRoleComponent implements OnInit {
             return time;
           }
         },
-        valueGetter: (param) => {
-          if(param.data.updateTime){
-            const time = moment(param.data.updateTime).format('DD/MM/YYYY hh:mm:ss');
-            return time;
+        // valueGetter: (param) => {
+        //   if(param.data.updateTime){
+        //     const time = moment(param.data.updateTime).format('DD/MM/YYYY hh:mm:ss');
+        //     return time;
+        //   }
+        // },
+        cellRenderer: (param) => {
+          var temDiv = document.createElement("div");
+          var dateDiv = document.createElement("div");
+          var timeDiv = document.createElement("div");
+          if (param.value) {
+            var date = new Date(param.value);
+            dateDiv.innerText = this.formatDate(param.value);
+            timeDiv.innerText = moment(date).format("HH:mm:ss");
+            temDiv.appendChild(dateDiv);
+            temDiv.appendChild(timeDiv);
+          } else {
+            temDiv.innerText = "-";
           }
+          return temDiv;
         },
       },
       {
@@ -507,4 +533,8 @@ export class ManagementRoleComponent implements OnInit {
     this.search(this.page);
   }
 
+  formatDate(originalDate: string): string {
+    const date = new Date(originalDate);
+    return `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear()}`;
+  }
 }

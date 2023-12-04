@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ValidateInput } from 'src/app/_model/validate-input.model';
 import { RolesService } from 'src/app/_service/role-service/roles.service';

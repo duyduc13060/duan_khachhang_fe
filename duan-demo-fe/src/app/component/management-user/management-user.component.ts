@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
 import { UserSearch } from 'src/app/_model/user-search';
 import { UserService } from 'src/app/_service/user-service/user.service';
 import { MatDialog } from '@angular/material/dialog';

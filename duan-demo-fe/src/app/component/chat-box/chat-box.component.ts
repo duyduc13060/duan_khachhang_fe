@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatBoxComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private chatBoxService: ChatBoxService
+  ) { }
 
   ngOnInit() {
   }
+
+
+  
 
 }

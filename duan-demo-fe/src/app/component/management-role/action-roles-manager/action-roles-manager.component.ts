@@ -1,12 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {MatDialog} from '@angular/material/dialog';
-import {TranslateService} from '@ngx-translate/core';
 import {ToastrService} from 'ngx-toastr';
 import {CreateUpdateRolesComponent} from '../create-update-roles/create-update-roles.component';
 import { RolesService } from 'src/app/_service/role-service/roles.service';
 import { ManagementRoleComponent } from '../management-role.component';
-import { CommonFunction } from 'src/app/utils/common-function';
 
 @Component({
   selector: 'kt-action-roles-manager',
