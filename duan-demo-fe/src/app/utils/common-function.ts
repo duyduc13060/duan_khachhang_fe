@@ -1,8 +1,6 @@
 // import {Action} from '../model/action.model';
 import { PHONE_10_NUMBER, PHONE_9_NUMBER } from "../helpers/constants";
 import { ValidateInput } from "../_model/validate-input.model";
-import { environment } from "src/environments/environment";
-import { Action } from "../_model/action.model";
 
 export class CommonFunction {
 

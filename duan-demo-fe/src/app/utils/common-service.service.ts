@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// @ts-ignore
-// import * as fileSaver from 'file-saver';
-import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root',

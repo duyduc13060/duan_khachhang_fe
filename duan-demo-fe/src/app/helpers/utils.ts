@@ -2,11 +2,6 @@ import {formatDate} from '@angular/common';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
 import {TranslateService} from '@ngx-translate/core';
-import {environment} from '../../environments/environment';
-import {filter, first, takeUntil, tap} from 'rxjs/operators';
-import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import * as CryptoJS from 'crypto-js';
 
 export function removeEmptyQuery(query: object) {
 
