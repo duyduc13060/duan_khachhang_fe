@@ -13,6 +13,10 @@ export class ChatBoxService {
   ) { }
 
 
+  getMessage(){
+    return this.http.get(AUTH_API + '/get-message');
+  }
+
   send(data:any){
     return this.http.post(AUTH_API + "/generate-message", data);
   }
