@@ -1,7 +1,6 @@
 import {formatDate} from '@angular/common';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
-import {TranslateService} from '@ngx-translate/core';
 
 export function removeEmptyQuery(query: object) {
 
@@ -326,25 +325,6 @@ export function prepareSubmit(f: FormGroup | FormArray) {
     } else {
       prepareSubmit(f.controls[i] as any);
     }
-  }
-}
-
-export function transformDateOfWeek(date: string, translate: TranslateService) {
-  switch (date) {
-    case 'Monday':
-      return translate.instant('ATTENDANCE_STUDENT.MONDAY');
-    case 'Tuesday':
-      return translate.instant('ATTENDANCE_STUDENT.TUESDAY');
-    case 'Wednesday':
-      return translate.instant('ATTENDANCE_STUDENT.WEDNESDAY');
-    case 'Thursday':
-      return translate.instant('ATTENDANCE_STUDENT.THURSDAY');
-    case 'Friday':
-      return translate.instant('ATTENDANCE_STUDENT.FRIDAY');
-    case 'Saturday':
-      return translate.instant('ATTENDANCE_STUDENT.SATURDAY');
-    default:
-      return translate.instant('ATTENDANCE_STUDENT.SUNDAY');
   }
 }
 

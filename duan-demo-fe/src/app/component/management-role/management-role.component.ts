@@ -494,9 +494,6 @@ export class ManagementRoleComponent implements OnInit {
     this.changeDetechtorRef.detectChanges();
   }
 
-  // trans(key: string) : string{
-  //   return this.translateService.instant(key);
-  // }
 
   onSort(sortMode: 'ASC' | 'DESC', columnName: string): void {
     this.orderName = columnName;

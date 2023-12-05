@@ -80,8 +80,6 @@ export class CreateUpdateRolesComponent implements OnInit {
               id:0,
               code: 'all',
               name: 'Tất cả',
-              // nameEN: this.translateService.instant('ROLES_MANAGER.ALL'),
-              // nameLA: this.translateService.instant('ROLES_MANAGER.ALL')
            }
           )
 
@@ -184,13 +182,6 @@ export class CreateUpdateRolesComponent implements OnInit {
     this.validName = CommonFunction.validateInput(this.body.name, 250, null)
   }
 
-  // test(){
-  //   console.log('body', this.body);
-  //   console.log('currentLanguage', this.currentLanguage);
-  //   console.log('body', this.body.listFunctions[0]['name' + this.currentLanguage]);
-  //   console.log('this.translateService.instant(\'ROLES_MANAGER.ALL\')', 'Tất cả')
-  //   console.log('listAction', this.listAction);
-  // }
 
   changeAction(item,event){
     console.log('item', item);
@@ -318,8 +309,6 @@ export class CreateUpdateRolesComponent implements OnInit {
             id:0,
             code: 'all',
             name: "Tất cả",
-            // nameEN: this.translateService.instant('ROLES_MANAGER.ALL'),
-            // nameLA: this.translateService.instant('ROLES_MANAGER.ALL')
           }
         )
 
@@ -412,10 +401,6 @@ export class CreateUpdateRolesComponent implements OnInit {
   revoveInvalid(result){
     result.done = true
   }
-
-  // trans(key: string) : string{
-  //   return this.translateService.instant(key);
-  // }
 
   closeModal(){
     this.dialogRef.close({event: 'cancel'});
