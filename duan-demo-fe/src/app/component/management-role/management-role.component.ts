@@ -394,12 +394,6 @@ export class ManagementRoleComponent implements OnInit {
             return time;
           }
         },
-        // valueGetter: (param) => {
-        //   if(param.data.updateTime){
-        //     const time = moment(param.data.updateTime).format('DD/MM/YYYY hh:mm:ss');
-        //     return time;
-        //   }
-        // },
         cellRenderer: (param) => {
           var temDiv = document.createElement("div");
           var dateDiv = document.createElement("div");

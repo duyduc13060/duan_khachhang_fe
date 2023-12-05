@@ -25,12 +25,13 @@
     "ag-grid-angular": "^25.3.0",
     "ag-grid-community": "^25.3.0",
     "ag-grid-enterprise": "^25.3.0",
+    "moment": "^2.29.4",
+    "ngx-bootstrap": "^7.0.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "webpack-dev-server": "^4.15.1",
-    "zone.js": "~0.10.2",
-    "ngx-bootstrap": "^7.0.0"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.3",
