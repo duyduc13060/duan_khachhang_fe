@@ -30,7 +30,6 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   constructor(
     private chatBoxService: ChatBoxService,
     private toastr: ToastrService,
-    private spinnerService: SpinnerService,
   ) { }
 
   ngOnInit() {
@@ -58,17 +57,21 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
   listMessage;
   getMessage(){
-    this.spinnerService.changeLoading(true);
     this.chatBoxService.getMessage().subscribe(res =>{
       this.listMessage = res;
-      this.spinnerService.changeLoading(false);
       console.log(this.listMessage);
     })
   }
 
 
   sendChatBox(){
-    this.spinnerService.changeLoading(true);
+    this.isLoading = true;
+    if(this.chatRequest.content === null || this.chatRequest.content === '' || this.chatRequest.content == undefined){
+      this.toastr.error("Ban chua nhap content truoc khi gui yeu cau");
+      this.isLoading = false;
+      return;
+    }
+
     const request = {
       model:this.chatRequest.model, 
       messages: [
@@ -86,7 +89,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
     this.chatBoxService.send(request).subscribe((res:any) =>{
       if(res.status === "OK"){
-        this.spinnerService.changeLoading(false);;
+        this.isLoading = false;
         this.getMessage();
         this.chatRequest.content = '';
       }else{

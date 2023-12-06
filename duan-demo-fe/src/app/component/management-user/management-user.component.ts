@@ -126,9 +126,14 @@ export class ManagementUserComponent implements OnInit {
   deleteUser(id){
     this.userService.deleteUser(id).subscribe(
       (res:any) => {
-        this.toastr.success("Xóa user thành công");
-        this.changeDetectorRef.detectChanges();
-        this.searchUser();
+        if(res.success == 200){
+          this.toastr.success("Xóa user thành công");
+          this.changeDetectorRef.detectChanges();
+          this.searchUser();
+        }
+        if(res.success == 400){
+          this.toastr.error(res.message);
+        }
       },
       (error) => {
       }

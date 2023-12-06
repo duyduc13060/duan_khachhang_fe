@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
-        if (data.data.role[0].authority === 'CUSTOMER') {
+        if (data.data.role !== 'ADMIN') {
           this.toastr.error('Tài khoản không có quyền truy cập');
         } else {
           console.log(data.data);
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           this.tokenStorage.saveUser(data.data.username);
           this.tokenStorage.saveUser_id(data.data.id);
 
-          const role = data.data.role[0].authority;
+          const role = data.data.role;
           this.tokenStorage.saveRole(role);
           console.log(role);
           console.log(this.tokenStorage.getUserRole());

@@ -28,17 +28,17 @@ export class CreateUpdateUserComponent implements OnInit {
 
   listRoles=[
     {
-      id: 0,
+      id: 1,
       name: 'ADMIN',
       color: '#52BD94'
     },
     {
-      id: 1,
+      id: 2,
       name: 'STAFF',
       color: '#D14343'
     },
     {
-      id: 2,
+      id: 3,
       name: 'CUSTOMER',
       // color: '#D14725'
     }
