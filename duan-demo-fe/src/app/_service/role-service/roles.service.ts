@@ -47,4 +47,8 @@ constructor(
     return this.http.post<any>(url, this.httpOptions);
   }
 
+  getAllListRole(){
+    return this.http.get(AUTH_API + '/role/list/get-all');
+  }
+
 }

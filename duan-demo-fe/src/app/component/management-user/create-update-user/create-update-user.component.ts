@@ -5,6 +5,7 @@ import { ValidateInput } from 'src/app/_model/validate-input.model';
 import { UserService } from 'src/app/_service/user-service/user.service';
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ManagementUserComponent } from '../management-user.component';
+import { RolesService } from 'src/app/_service/role-service/roles.service';
 
 @Component({
   selector: 'app-create-update-user',
@@ -26,23 +27,23 @@ export class CreateUpdateUserComponent implements OnInit {
     }
   ];
 
-  listRoles=[
-    {
-      id: 1,
-      name: 'ADMIN',
-      color: '#52BD94'
-    },
-    {
-      id: 2,
-      name: 'STAFF',
-      color: '#D14343'
-    },
-    {
-      id: 3,
-      name: 'CUSTOMER',
-      // color: '#D14725'
-    }
-  ]
+  // listRoles=[
+  //   {
+  //     id: 1,
+  //     name: 'ADMIN',
+  //     color: '#52BD94'
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'STAFF',
+  //     color: '#D14343'
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'CUSTOMER',
+  //     // color: '#D14725'
+  //   }
+  // ]
 
 
   body = {
@@ -52,7 +53,7 @@ export class CreateUpdateUserComponent implements OnInit {
     phone: null,
     email: null,
     status: 1,
-    role: null,
+    roleId: null,
   }
   isUpdate = false
 
@@ -67,6 +68,7 @@ export class CreateUpdateUserComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private toaStr : ToastrService,
     private userService: UserService,
+    private roleService: RolesService
   ) {
     if(data !== null){
       this.isUpdate = true
@@ -75,6 +77,14 @@ export class CreateUpdateUserComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.getListRole();
+  }
+
+  listRoles;
+  getListRole(){
+    this.roleService.getAllListRole().subscribe(res =>{
+      this.listRoles = res;
+    })
   }
 
 
@@ -103,7 +113,7 @@ export class CreateUpdateUserComponent implements OnInit {
     this.validFullname = CommonFunction.validateInput(this.body.fullname, 250, null)
     this.validPhone = CommonFunction.validateInput2(this.body.phone,true, 20, null)
     this.validEmail = CommonFunction.validateInput(this.body.email, 250, /^[^\s@]+@[^\s@]+\.[^\s@]+$/)
-    this.validRole = CommonFunction.validateInput(this.body.role, null, null)
+    this.validRole = CommonFunction.validateInput(this.body.roleId, null, null)
 
     if(!this.validUsername.done || !this.validFullname.done || !this.validPhone.done || !this.validEmail.done || !this.validRole.done){
       return
@@ -116,7 +126,7 @@ export class CreateUpdateUserComponent implements OnInit {
       phone: this.body.phone?.trim(),
       email: this.body.email.trim(),
       status: this.body.status,
-      roleId: this.body.role,
+      roleId: this.body.roleId,
     }
 
     if(bodySave.id == null || bodySave.id === undefined){

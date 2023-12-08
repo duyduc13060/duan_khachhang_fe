@@ -46,6 +46,8 @@ export class ManagementUserComponent implements OnInit {
     this.searchUser();
   }
 
+  
+
   searchUser(){
     const body = {
       status: this.userSearch.status,

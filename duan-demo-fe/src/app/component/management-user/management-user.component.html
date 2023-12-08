@@ -91,7 +91,8 @@
               <td>{{item.phone}}</td>
               <td>{{item.email}}</td>
               <td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
-              <th>{{item.roleId == 0 ? 'Người quản trị': item.roleId == 1 ? 'Nhân viên':'Khách hàng'}}</th>
+              <!-- <th>{{item.roleId == 0 ? 'Người quản trị': item.roleId == 1 ? 'Nhân viên':'Khách hàng'}}</th> -->
+              <td>{{item.roleName}}</td>
               <td *ngIf="item.status === 0; else custome" class="custom-status-inactive">
                 <span *ngIf="item.status === 0">Inactive</span>
               </td>

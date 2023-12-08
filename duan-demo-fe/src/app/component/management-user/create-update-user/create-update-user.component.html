@@ -52,8 +52,13 @@
       </div>
       <div class="col-md-6">
         <label class="input-label">ROLE <span>*</span></label>
-        <ng-select [items]="listRoles" placeholder="Lựa chọn" class="input-select" bindLabel="name" bindValue="id"
-          [(ngModel)]="body.role" (change)="revoveInvalid(validRole)" [searchable]="true" [clearable]="true"
+        <ng-select 
+             [items]="listRoles"
+             placeholder="Lựa chọn" 
+             class="input-select" bindLabel="name" bindValue="id"
+            [(ngModel)]="body.roleId" 
+            (change)="revoveInvalid(validRole)" 
+            [searchable]="true" [clearable]="true"
           matTooltipClass="material-tooltip">
           <ng-template ng-option-tmp let-item="item">
             <div [style.color]="item.color">{{item.name}}</div>
