@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { SpinnerService } from 'src/app/_service/spinner.service';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -26,13 +27,16 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
   chatRequest = new ChatRequest();
   isLoading: boolean = false;
+  username;
 
   constructor(
     private chatBoxService: ChatBoxService,
+    private tokenStorageService: TokenStorageService,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
+    this.username = this.tokenStorageService.getUser();
     this.chatRequest.model = this.listModel[0].name
     this.getMessage()
   }

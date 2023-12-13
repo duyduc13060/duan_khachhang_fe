@@ -8,6 +8,7 @@
     .btn-action{
       display: flex;
       margin-top: 30px;
+      margin-bottom: 30px;
     }
     .btn-action-dv{
       width: 105px;
@@ -28,7 +29,7 @@
       color: #696F8C;
     }
     .orange{
-      background: #F26522;
+      background: #330387;
     }
     .modal-content{
       .modal-header{
@@ -49,6 +50,7 @@
           text-align: center;
           text-transform: uppercase;
           color: #101840;
+          margin-top: 15px;
         }
       }
       .modal-body{

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
-        if (data.data.role !== 'ADMIN') {
+        if (data.data.role !== 'ADMIN' ||  data.data.role !== 'USER') {
           this.toastr.error('Tài khoản không có quyền truy cập');
         } else {
           console.log(data.data);
@@ -56,6 +56,10 @@ export class LoginComponent implements OnInit {
         }
       } else {
         this.toastr.warning('Thông tin đăng nhập không chính xác');
+      }
+
+      if(data.success === false){
+        this.toastr.warning(data.message);
       }
     });
   }

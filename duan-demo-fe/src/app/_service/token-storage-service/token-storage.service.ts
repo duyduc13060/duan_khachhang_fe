@@ -54,6 +54,7 @@ export class TokenStorageService {
     window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.removeItem(USER_NAME);
+    window.localStorage.removeItem(USER_ROLE);
   }
 
 
