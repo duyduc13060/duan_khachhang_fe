@@ -9,7 +9,7 @@
         <label for="">Danh sách user</label>
       </div>
       <div class="user-management-header-create blue">
-        <button (click)="openFormCreate()">
+        <button (click)="openFormCreate()" *ngIf="action.create">
           <svg _ngcontent-lkj-c19="" fill="none" height="12" viewBox="0 0 12 12" width="12"
             xmlns="http://www.w3.org/2000/svg">
             <rect _ngcontent-lkj-c19="" fill="white" height="12" rx="1" width="2" x="5"></rect>
@@ -63,7 +63,7 @@
             placeholder="Nhập username hoặc họ tên user" id="">
         </div>
         <div class="col-3 button-search">
-          <button (click)="searchUser()">Tìm kiếm</button>
+          <button (click)="searchUser()" *ngIf="action.search">Tìm kiếm</button>
         </div>
       </div>
     </div>

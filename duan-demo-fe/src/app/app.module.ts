@@ -30,6 +30,7 @@ import { CreateUpdateRolesComponent } from './component/management-role/create-u
 import { AgGridModule } from 'ag-grid-angular';
 import { ActionRolesManagerComponent } from './component/management-role/action-roles-manager/action-roles-manager.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { QuestionAnswerComponent } from './component/question-answer/question-answer.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ActionRolesManagerComponent,
 
     ChatBoxComponent,
+
+    QuestionAnswerComponent,
 
     AuthenticatedComponent,
     DashboardComponent,

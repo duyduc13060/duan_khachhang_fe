@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
 import { CommonServiceService } from 'src/app/utils/common-service.service';
 import { ActionRolesManagerComponent } from './action-roles-manager/action-roles-manager.component';
+import { CommonFunction } from 'src/app/utils/common-function';
+import { Action } from 'src/app/_model/action.model';
 
 @Component({
   selector: 'app-management-role',
@@ -64,7 +66,7 @@ export class ManagementRoleComponent implements OnInit {
   page;
   rangeWithDots: any[];
   hide = false;
-  // action: Action = new Action();
+  action: Action = new Action();
   isShowSearch: boolean = true;
   status: any;
   checkSearch = false
@@ -80,7 +82,7 @@ export class ManagementRoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.action = CommonFunction.getActionOfFunction('QLR')
+    this.action = CommonFunction.getActionOfFunction('QLR')
     this.search(1)
     this.status = {
       name: 'Tất cả',

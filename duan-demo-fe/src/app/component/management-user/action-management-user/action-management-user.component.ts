@@ -3,6 +3,8 @@ import { CreateUpdateUserComponent } from '../create-update-user/create-update-u
 import { ManagementUserComponent } from '../management-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import { Action } from 'src/app/_model/action.model';
+import { CommonFunction } from 'src/app/utils/common-function';
 
 @Component({
   selector: 'app-action-management-user',
@@ -23,6 +25,8 @@ export class ActionManagementUserComponent implements OnInit {
 
   @Input() getId: number;
 
+  action: Action = new Action();
+
   constructor(
     private matDialog : MatDialog,
     private modalService: BsModalService,
@@ -31,6 +35,7 @@ export class ActionManagementUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.action = CommonFunction.getActionOfFunction('QLU')
   }
 
   ngOnChanges(){

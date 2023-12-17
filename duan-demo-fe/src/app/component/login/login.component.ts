@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { StorageSessionService } from 'src/app/auth/storage.session.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
     private auth: AuthenticationService,
     private router: Router,
     private toastr: ToastrService,
-    private formG: FormBuilder
+    private formG: FormBuilder,
+    private storageSessionService: StorageSessionService,
   ) { }
 
   ngOnInit() {
@@ -36,16 +39,23 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
+
+    sessionStorage.removeItem('role');
+
+
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
-        if (data.data.role !== 'ADMIN' ||  data.data.role !== 'USER') {
-          this.toastr.error('Tài khoản không có quyền truy cập');
-        } else {
+        // if (data.data.role !== 'ADMIN') {
+        //   this.toastr.error('Tài khoản không có quyền truy cập');
+        // } else {
           console.log(data.data);
 
           this.tokenStorage.saveToken(data.data.token);
           this.tokenStorage.saveUser(data.data.username);
           this.tokenStorage.saveUser_id(data.data.id);
+          
+          this.storageSessionService.set('role',data.data.roleDto);
+          sessionStorage.setItem(environment.authTokenKey, data.data.token);
 
           const role = data.data.role;
           this.tokenStorage.saveRole(role);
@@ -53,7 +63,7 @@ export class LoginComponent implements OnInit {
           console.log(this.tokenStorage.getUserRole());
           this.toastr.success('Đăng nhập thành công');
           this.router.navigate(['/dashboard']);
-        }
+        // }
       } else {
         this.toastr.warning('Thông tin đăng nhập không chính xác');
       }
@@ -67,8 +77,6 @@ export class LoginComponent implements OnInit {
   get form(){
     return this.loginValidate.controls;
   }
-
-
 
 
 }

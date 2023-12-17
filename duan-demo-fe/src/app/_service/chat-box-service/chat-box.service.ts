@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const AUTH_API = 'http://localhost:8084/api/chat-box';
+const AUTH_API = 'http://localhost:8084/api/QLCHAT/chat-box';
 
 @Injectable({
   providedIn: 'root'

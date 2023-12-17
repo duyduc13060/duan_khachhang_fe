@@ -5,6 +5,8 @@ import {ToastrService} from 'ngx-toastr';
 import {CreateUpdateRolesComponent} from '../create-update-roles/create-update-roles.component';
 import { RolesService } from 'src/app/_service/role-service/roles.service';
 import { ManagementRoleComponent } from '../management-role.component';
+import { CommonFunction } from 'src/app/utils/common-function';
+import { Action } from 'src/app/_model/action.model';
 
 @Component({
   selector: 'kt-action-roles-manager',
@@ -17,7 +19,7 @@ export class ActionRolesManagerComponent implements OnInit {
   rowIndex;
   cellValue;
   modalRef: BsModalRef;
-  // action: Action = new Action()
+  action: Action = new Action()
   constructor(
     private modalService: BsModalService,
     private matDialog : MatDialog,
@@ -27,7 +29,7 @@ export class ActionRolesManagerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.action = CommonFunction.getActionOfFunction('QLR')
+    this.action = CommonFunction.getActionOfFunction('QLR')
   }
 
   agInit(params ): void {

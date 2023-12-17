@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from 'src/app/_model/User';
 
-const AUTH_API = 'http://localhost:8084/api/note';
+const AUTH_API = 'http://localhost:8084/api/QLNOTE/note';
 @Injectable({
   providedIn: 'root'
 })

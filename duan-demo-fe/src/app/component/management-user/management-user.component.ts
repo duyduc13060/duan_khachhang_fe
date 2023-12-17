@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { Action } from 'src/app/_model/action.model';
+import { CommonFunction } from 'src/app/utils/common-function';
 
 @Component({
   selector: 'app-management-user',
@@ -33,6 +35,7 @@ export class ManagementUserComponent implements OnInit {
 
   userSearch: UserSearch = new UserSearch();
   lstUser: any;
+  action: Action = new Action();
 
   constructor(
     private userService: UserService,
@@ -43,6 +46,7 @@ export class ManagementUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.action = CommonFunction.getActionOfFunction('QLU')
     this.searchUser();
   }
 
