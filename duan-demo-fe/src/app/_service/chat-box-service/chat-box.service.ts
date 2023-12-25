@@ -21,6 +21,10 @@ export class ChatBoxService {
     return this.http.post(AUTH_API + "/generate-message", data);
   }
 
+  sendChatAmazon(data:any){
+    return this.http.post(AUTH_API + "/generate-message-amazon", data);
+  }
+
 
 
 }

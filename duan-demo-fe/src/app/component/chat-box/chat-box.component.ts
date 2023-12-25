@@ -23,6 +23,10 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     {
       name: "codellama-34b-instruct"
     },
+    {
+      name: "bedrock"
+    },
+
   ]
 
   chatRequest = new ChatRequest();
@@ -75,31 +79,53 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
       this.isLoading = false;
       return;
     }
-
-    const request = {
-      model:this.chatRequest.model, 
-      messages: [
-        {
-          role: "system",
-          content: "Be precise and concise."
-        },
-        {
-          role: "user",
-          content: this.chatRequest.content
-        },
-
-      ]
-    }
-
-    this.chatBoxService.send(request).subscribe((res:any) =>{
-      if(res.status === "OK"){
-        this.isLoading = false;
-        this.getMessage();
-        this.chatRequest.content = '';
-      }else{
-        this.toastr.error("co loi xay ra");
+    
+    
+    const foundObject = this.listModel.find(item => item.name === "bedrock");
+    if(foundObject){
+      const request = {
+        prompt: this.chatRequest.content,
+        key: "ABC@123",
+        max: 1000
       }
-    })
+
+      this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+
+    }else{
+
+      const request = {
+        model:this.chatRequest.model, 
+        messages: [
+          {
+            role: "system",
+            content: "Be precise and concise."
+          },
+          {
+            role: "user",
+            content: this.chatRequest.content
+          },
+  
+        ]
+      }
+
+      this.chatBoxService.send(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+    }
 
   }
 
