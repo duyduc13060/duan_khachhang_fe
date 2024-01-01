@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
 
     sessionStorage.removeItem('role');
 
-
     this.auth.login(this.user).subscribe((data) => {
       if (data.success) {
         // if (data.data.role !== 'ADMIN') {
@@ -74,9 +73,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get form(){
-    return this.loginValidate.controls;
-  }
+  // get form(){
+  //   return this.loginValidate.controls;
+  // }
 
 
 }

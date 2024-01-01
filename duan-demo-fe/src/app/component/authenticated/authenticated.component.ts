@@ -15,9 +15,12 @@ export class AuthenticatedComponent implements OnInit {
   ) { }
 
   username;
+  role;
+  checkRole = false
 
   ngOnInit() {
     this.username = this.tokenStorageService.getUser();
+    this.role = this.tokenStorageService.getUserRole();
   }
 
   logout(){

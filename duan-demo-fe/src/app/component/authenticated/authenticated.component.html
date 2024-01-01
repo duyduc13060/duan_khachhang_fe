@@ -78,7 +78,7 @@
           <div class="collapse" id="collapse-word" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
               <a class="nav-link" [routerLink]="['/list-task']">Quản lý công việc</a>
-              <a class="nav-link" [routerLink]="['/list-note']">Quản lý note</a>
+              <a class="nav-link" *ngIf="role === 'ADMIN'" [routerLink]="['/list-note']">Quản lý note</a>
             </nav>
           </div>
           <!-- tab management note -->
