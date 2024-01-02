@@ -62,7 +62,7 @@
                         </div>
 
                         <div style="display: flex;">
-                            <div class="upload-file" (keydown.enter)="file.click()" style="display: flex; flex-direction: column;">
+                            <div class="upload-file" (keydown.enter)="file.click()" style="display: flex; flex-direction: column;" *ngIf="action.import">
                                 <input #file type="file" id="upload-file" style="display: none;"
                                     (change)="upload(file.files); importFile()">
                                 <label for="upload-file" tabindex="0" class="index-focus file i-btn" style="width: auto; padding: 7px 15px;    
@@ -110,16 +110,16 @@
                           <div class="col-lg-3">
                               <label for="" style="margin-bottom: 10px;">Lựa chọn Model</label>
                               <ng-select
-                              [items]="listModel"
-                              placeholder="Lựa chọn"
-                              [(ngModel)]="chatRequest.model"
-                              class="input-select"
-                              bindLabel="name"
-                              bindValue="name"
-                              [searchable]="false"
-                              [clearable]="false"
-                              style="width: 200px;"
-                              >
+                                [items]="listModel"
+                                placeholder="Lựa chọn"
+                                [(ngModel)]="chatRequest.model"
+                                class="input-select"
+                                bindLabel="name"
+                                bindValue="name"
+                                [searchable]="false"
+                                [clearable]="false"
+                                style="width: 200px;"
+                                >
                               </ng-select>
                           </div>
                       </div>

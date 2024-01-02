@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserSearch } from 'src/app/_model/user-search';
 
-const AUTH_API = 'http://localhost:8084/api/QLU/user';
+const AUTH_API = 'http://localhost:8084/api/QLU';
 @Injectable({
   providedIn: 'root'
 })

@@ -176,6 +176,11 @@ export class CommonFunction {
         break
       }
     }
+
+    if(functionDetail.listActions == null){
+      return;
+    }
+
     for(let a of functionDetail.listActions){
       if(a.code === environment.action.create){
         action.create = true

@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Action } from 'src/app/_model/action.model';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { CommonFunction } from 'src/app/utils/common-function';
 
 @Component({
   selector: 'app-question-answer',
@@ -31,7 +33,7 @@ export class QuestionAnswerComponent implements OnInit {
   @ViewChild('scrollframe1', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item1') itemElements: QueryList<any>;
   private scrollContainer: any;
-
+  action: Action = new Action();
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -42,6 +44,7 @@ export class QuestionAnswerComponent implements OnInit {
 
 
   ngOnInit() {
+    this.action = CommonFunction.getActionOfFunction('QLQS')
     this.chatRequest.model = this.listModel[0].name
     this.username = this.tokenStorageService.getUser();
     this.getMessage()
@@ -135,8 +138,8 @@ export class QuestionAnswerComponent implements OnInit {
           role: "user",
           content:this.chatRequest.system + " " + this.chatRequest.context + " " + this.chatRequest.content
         },
-
       ]
+      // stream: true
     }
 
     this.chatBoxService.send(request).subscribe((res:any) =>{

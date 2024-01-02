@@ -71,7 +71,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     })
   }
 
-
+  check = false;
   sendChatBox(){
     this.isLoading = true;
     if(this.chatRequest.content === null || this.chatRequest.content === '' || this.chatRequest.content == undefined){
@@ -81,8 +81,13 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     }
     
     
-    const foundObject = this.listModel.find(item => item.name === "bedrock");
-    if(foundObject){
+    // const foundObject = this.listModel.find(item => item.name === "bedrock");
+
+    if(this.chatRequest.model === 'bedrock'){
+      this.check = true;
+    }
+
+    if(this.check){
       const request = {
         prompt: this.chatRequest.content,
         key: "ABC@123",
@@ -112,8 +117,8 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
             role: "user",
             content: this.chatRequest.content
           },
-  
         ]
+        // stream: true
       }
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
