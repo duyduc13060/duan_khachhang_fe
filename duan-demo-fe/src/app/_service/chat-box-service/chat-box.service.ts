@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 const AUTH_API = 'http://localhost:8084/api/QLCHAT/chat-box';
 
@@ -13,15 +14,15 @@ export class ChatBoxService {
   ) { }
 
 
-  getMessage(){
+  getMessage(): Observable<any>{
     return this.http.get(AUTH_API + '/get-message');
   }
 
-  send(data:any){
+  send(data:any): Observable<any>{
     return this.http.post(AUTH_API + "/generate-message", data);
   }
 
-  sendChatAmazon(data:any){
+  sendChatAmazon(data:any): Observable<any>{
     return this.http.post(AUTH_API + "/generate-message-amazon", data);
   }
 

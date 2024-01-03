@@ -29,6 +29,7 @@ export class QuestionAnswerComponent implements OnInit {
 
   listMessage;
   chatRequest = new ChatRequest();
+  private timeoutId: any;
 
   @ViewChild('scrollframe1', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item1') itemElements: QueryList<any>;
@@ -80,6 +81,22 @@ export class QuestionAnswerComponent implements OnInit {
     }
   }
 
+  documentResponse:any;
+  searchEs(){
+
+    const data = {
+      document: this.chatRequest.content
+    }
+    this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
+      this.documentResponse = res[0].document;
+
+      this.timeoutId = setTimeout(() => {
+        this.sendChatBox(this.documentResponse);
+      }, 1000);
+
+    })
+  }
+
 
   importFile(){
     if (this.fileImport) {
@@ -107,7 +124,7 @@ export class QuestionAnswerComponent implements OnInit {
     }
   }
 
-  sendChatBox(){
+  sendChatBox(documentResponse){
     this.isLoading = true;
     if(this.chatRequest.content === null || this.chatRequest.content === '' || this.chatRequest.content == undefined){
       this.toastr.error("Ban chua nhap content truoc khi gui yeu cau");
@@ -124,8 +141,9 @@ export class QuestionAnswerComponent implements OnInit {
       this.chatRequest.context = '';
     }
 
-    
-
+    if(documentResponse == '' || documentResponse == null){
+      documentResponse = this.chatRequest.content
+    }
 
     const request = {
       model:this.chatRequest.model, 
@@ -136,7 +154,7 @@ export class QuestionAnswerComponent implements OnInit {
         },
         {
           role: "user",
-          content:this.chatRequest.system + " " + this.chatRequest.context + " " + this.chatRequest.content
+          content:this.chatRequest.system + " " + this.chatRequest.context + " " + documentResponse
         },
       ]
       // stream: true
