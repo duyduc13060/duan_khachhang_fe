@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { SpinnerService } from 'src/app/_service/spinner.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { ReviewComponent } from '../review/review.component';
 
 @Component({
   selector: 'app-chat-box',
@@ -37,6 +39,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     private chatBoxService: ChatBoxService,
     private tokenStorageService: TokenStorageService,
     private toastr: ToastrService,
+    private matDialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -132,6 +135,23 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
       })
     }
 
+  }
+
+  openFormCreate(messageId){
+    const data = {
+      messageId: messageId
+    }
+    this.matDialog
+      .open(ReviewComponent, {
+        width: "850px",
+        maxHeight: "90vh",
+        maxWidth: "90vw",
+        data: data,
+        panelClass: "review-custom",
+        autoFocus: false,
+      })
+      .afterClosed().subscribe((resp) => {
+      });
   }
 
 }

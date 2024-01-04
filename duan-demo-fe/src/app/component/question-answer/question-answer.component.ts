@@ -7,6 +7,11 @@ import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.servi
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { CommonFunction } from 'src/app/utils/common-function';
+import { ReviewServiceService } from 'src/app/_service/review-service/review-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Review } from 'src/app/_model/review-chat';
+import { ReviewComponent } from '../review/review.component';
+
 
 @Component({
   selector: 'app-question-answer',
@@ -41,6 +46,8 @@ export class QuestionAnswerComponent implements OnInit {
     private toastr: ToastrService,
     private questionAnswerServiceService : QuestionAnswerServiceService,
     private chatBoxService: ChatBoxService,
+    private reviewService: ReviewServiceService,
+    private matDialog: MatDialog,
   ) { }
 
 
@@ -176,6 +183,23 @@ export class QuestionAnswerComponent implements OnInit {
       this.listMessage = res;
       console.log(this.listMessage);
     })
+  }
+
+  openFormCreate(messageId){
+    const data = {
+      messageId: messageId
+    }
+    this.matDialog
+      .open(ReviewComponent, {
+        width: "850px",
+        maxHeight: "90vh",
+        maxWidth: "90vw",
+        data: data,
+        panelClass: "review-custom",
+        autoFocus: false,
+      })
+      .afterClosed().subscribe((resp) => {
+      });
   }
 
 }

@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="hearder">
+    <h2 >Provide additional feedback</h2>
+  </div>
+
+  <div class="content-review">
+      <textarea cols="101" 
+                rows="4" 
+                [(ngModel)]="review.content"
+                placeholder="What do you link about response ?">
+      </textarea>
+  </div>
+
+  <div class="button-submit">
+    <button class="close" (click)="closeModal()">Close</button>
+    <button class="submit" (click)="createReview()">Submit feedback</button>
+  </div>
+
+</div>

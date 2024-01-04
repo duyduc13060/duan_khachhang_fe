@@ -154,8 +154,8 @@ export class CreateUpdateUserComponent implements OnInit {
     }
   }
 
-  closeModal(){
-    this.dialogRef.close({event: 'cancel'});
-  }
+    closeModal(){
+      this.dialogRef.close({event: 'cancel'});
+    }
 
 }
