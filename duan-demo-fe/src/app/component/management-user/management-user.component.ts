@@ -37,6 +37,12 @@ export class ManagementUserComponent implements OnInit {
   lstUser: any;
   action: Action = new Action();
 
+  page;
+  pageSize = 10;
+  total;
+  totalPage;
+  currentPage = 1;
+
   constructor(
     private userService: UserService,
     private matDialog: MatDialog,
@@ -47,20 +53,24 @@ export class ManagementUserComponent implements OnInit {
 
   ngOnInit() {
     this.action = CommonFunction.getActionOfFunction('QLU')
-    this.searchUser();
+    this.searchUser(0);
   }
 
   
-
-  searchUser(){
-    const body = {
-      status: this.userSearch.status,
-      keySearch: this.userSearch.keySearch
+  objSearch: any = {};
+  searchUser(page){
+    this.objSearch = {
+      data: {
+        status: this.userSearch.status,
+        keySearch: this.userSearch.keySearch
+      },
+      page: page,
+      pageSize: this.pageSize
     }
 
-    this.userService.searchUser(body).subscribe(
+    this.userService.searchUser(this.objSearch).subscribe(
       (res:any) => {
-       this.lstUser = res.data
+       this.lstUser = res.data.data
        this.changeDetectorRef.detectChanges();
       },
       (error) => {
@@ -80,7 +90,7 @@ export class ManagementUserComponent implements OnInit {
         autoFocus: false,
       })
       .afterClosed().subscribe((resp) => {
-        this.searchUser();
+        this.searchUser(0);
       });
   }
 
@@ -111,7 +121,7 @@ export class ManagementUserComponent implements OnInit {
             autoFocus: false,
           }
         ).afterClosed().subscribe((res) => {
-          this.searchUser();
+          this.searchUser(0);
         });
         this.changeDetectorRef.detectChanges();
       },
@@ -135,7 +145,7 @@ export class ManagementUserComponent implements OnInit {
         if(res.success == 200){
           this.toastr.success("Xóa user thành công");
           this.changeDetectorRef.detectChanges();
-          this.searchUser();
+          this.searchUser(0);
         }
         if(res.success == 400){
           this.toastr.error(res.message);

@@ -63,7 +63,7 @@
             placeholder="Nhập username hoặc họ tên user" id="">
         </div>
         <div class="col-3 button-search">
-          <button (click)="searchUser()" *ngIf="action.search">Tìm kiếm</button>
+          <button (click)="searchUser(0)" *ngIf="action.search">Tìm kiếm</button>
         </div>
       </div>
     </div>
@@ -84,8 +84,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of lstUser">
-              <td>{{item.id}}</td>
+            <tr *ngFor="let item of lstUser; index as i">
+              <td>{{i + 1}}</td>
               <td>{{item.username}}</td>
               <td>{{item.fullname }}</td>
               <td>{{item.phone}}</td>
@@ -108,6 +108,17 @@
             </tr>
         </tbody>
       </table>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <app-pagination 
+            [total]="total" 
+            [totalPage]="totalPage" 
+            [dataLength]="lstUser?.length" 
+            [pageSize]="pageSize"
+            [currentPage]="currentPage" 
+            [collapse]="false" 
+            (paginate)="searchUser($event)">
+      </app-pagination>
     </div>
   </div>
 </div>

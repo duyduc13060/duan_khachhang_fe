@@ -4,8 +4,20 @@ import { ValidateInput } from "../_model/validate-input.model";
 import { environment } from "src/environments/environment";
 import { Action } from "../_model/action.model";
 import * as CryptoJS from 'crypto-js';
+import { DateModel } from "../_model/date.model";
 
 export class CommonFunction {
+
+  static stringToObjectDate(date: string): DateModel {
+    const dateSplit = date.split('-')
+    // tslint:disable-next-line:radix
+    return new DateModel(parseInt(dateSplit[0]), parseInt(dateSplit[1]), parseInt(dateSplit[2]))
+  }
+  static objectDateToStringDateFormat(date): string {
+    return `${date.year}-${('0' + date.month).slice(-2)}-${('0' + date.day).slice(-2)}`
+  }
+
+  
 
   // Hàm validate sđt
   static validatePhoneNumber(phone: any) {
@@ -177,11 +189,11 @@ export class CommonFunction {
       }
     }
 
-    if(functionDetail.listActions == null){
+    if(functionDetail?.listActions == null){
       return;
     }
 
-    for(let a of functionDetail.listActions){
+    for(let a of functionDetail?.listActions){
       if(a.code === environment.action.create){
         action.create = true
       }else if(a.code === environment.action.update){

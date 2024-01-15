@@ -1,0 +1,77 @@
+<div class="modal-content modal-dialog-custom">
+  <div class="modal-header">
+    <h4 *ngIf="!isUpdate">Thêm mới Prompt</h4>
+    <h4 *ngIf="isUpdate">CẬP NHẬT Prompt</h4>
+  </div>
+
+  <div class="modal-body" style="padding: 15px;">
+    <div class="row"> 
+      <div class="col-md-6">
+        <label class="input-label">Loại <span>*</span></label>
+          <ng-select
+            [items]="listPromptType"
+            placeholder="Tất cả"
+            class="input-select"
+            bindLabel="name"
+            bindValue="id"
+            [(ngModel)]="body.promptTypeId"
+            [searchable]="false"
+            [clearable]="false"
+            (change)="revoveInvalid($event)"
+          >
+          <ng-template ng-option-tmp let-item="item">
+            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <b [style.color] = "item.color" >{{item.name}}</b>
+          </ng-template>
+        </ng-select>
+        <div class="validate-input" *ngIf="!validpromptTypeId.done">
+          <p class="validate-input-label" *ngIf="validpromptTypeId.empty">Loại không được để trống</p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+
+      </div>
+
+      <div class="col-md-12">
+        <label class="input-label" style="margin-top: 12px;">Cách sử dụng</label>
+        <textarea type="text" 
+                  (blur)="validPrtUseName()"
+                  class="textarea-typing" 
+                  [(ngModel)]="body.descriptionUse" 
+                  placeholder="Nhập mô tả cách sử dụng"></textarea>
+        <div class="validate-input" *ngIf="!validPtUseName.done">
+          <p class="validate-input-label" *ngIf="validPtUseName.empty">Cách sử dụng không được để trống</p>
+          <p class="validate-input-label" *ngIf="validPtUseName.maxLength">Cách sử dụng không được nhập quá 500 ký tự</p>
+        </div>         
+      </div>
+
+      <div class="col-md-12">
+        <label class="input-label" style="margin-top: 12px;">Prompt</label>
+        <textarea type="text" 
+                  (blur)="validPtName()"
+                  class="textarea-typing" 
+                  [(ngModel)]="body.promptName" 
+                  placeholder="Nhập prompt">
+        </textarea>
+        <div class="validate-input" *ngIf="!validPromptName.done">
+          <p class="validate-input-label" *ngIf="validPromptName.empty">Prompt không được để trống</p>
+          <p class="validate-input-label" *ngIf="validPromptName.maxLength">Prompt không được nhập quá 500 ký tự</p>
+        </div> 
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="btn-action">
+      <div class="btn-action-dv gray" style="margin-right: 12px;" (click)="closeModal()">
+        Hủy bỏ
+      </div>
+      <div class="btn-action-dv orange" (click)="submit()">Lưu lại</div>
+    </div>
+  </div>
+</div>

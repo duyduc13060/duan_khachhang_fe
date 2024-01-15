@@ -81,6 +81,20 @@
               <a class="nav-link" [routerLink]="['/list-note']">Quản lý note</a>
             </nav>
           </div>
+
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-prompt"
+          aria-expanded="false" aria-controls="collapse-prompt">
+          <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+          Prompt
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapse-prompt" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" [routerLink]="['/list-management-prompt']">Prompt Space</a>
+          </nav>
+        </div>
+
+
           <!-- tab management note -->
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-sell"

@@ -1,0 +1,116 @@
+<div class="container-fluid">
+  <div class="prompt-management">
+    <div class="prompt-management-header-title">
+      <h1>Trang quản trị</h1>
+    </div>
+
+    <div class="header">
+      <div class="prompt-management-header">
+        <label for="">Danh sách prompt</label>
+      </div>
+      <div class="prompt-management-header-create blue">
+        <button (click)="openFormCreate()" *ngIf="action?.create">
+          <svg _ngcontent-lkj-c19="" fill="none" height="12" viewBox="0 0 12 12" width="12"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect _ngcontent-lkj-c19="" fill="white" height="12" rx="1" width="2" x="5"></rect>
+            <rect _ngcontent-lkj-c19="" fill="white" height="12" rx="1" transform="rotate(90 12 5)" width="2" x="12"
+              y="5">
+            </rect>
+          </svg>
+          Tạo mới
+        </button>
+      </div>
+    </div>
+
+
+    <div class="search-prompt">
+      <div class="row">
+        <div class="col-3 status">
+          <h3>Loại prompt</h3>
+          <ng-select
+              [items]="listPromptType"
+              placeholder="Lựa chọn"
+              class="input-select"
+              [(ngModel)]="prompt.promptTypeId"
+              bindLabel="name"
+              bindValue="id"
+              [searchable]="false"
+              [clearable]="false"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            <div [matTooltip]="item.name" [style.color]="item.color">{{item.name}}</div>
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <b [style.color] = "item.color" >{{item.name}}</b>
+          </ng-template>
+        </ng-select>
+        </div>
+        <div class="col-3 status">
+          <h3>Ngày tạo</h3>
+          <!-- <kt-ngb-single-date-picker
+            [dateValue]="dateObj"
+            [messageNull]="'Ngày áp dụng không được để trống'"
+            (dateOutput)="changeApplyDateInput($event)"
+          ></kt-ngb-single-date-picker>
+          <div style="color: red" *ngIf="this.showErr">{{messageErr}}</div> -->
+          <div class="position-relative">
+            <input class="form-control" placeholder="dd/mm/yyyy" style="font-size: 12px; height: 40px;" name="dp"
+                ngbDatepicker  #d="ngbDatepicker"
+                  [footerTemplate]="OK1"
+                  [(ngModel)]="prompt.createDate"
+                  oninput="this.value = this.value.replace(/[^0-9/]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="10">
+            <img class="calendar-icon cursor-pointer" src="../../../assets/img/calendar.svg" (click)="this.removeTabIndex(d)"  />
+            <ng-template #OK1>
+              <div class="footer-button">
+                <button class="btn btn-info-clear " type="button" (click)="clear();d.close()">Xóa</button>
+                <button class="btn btn-info-today " type="button" (click)="selectToday(d);d.close()">Hôm nay</button>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+       
+        <div class="col-3 keysearch">
+          <h3>Từ khóa</h3>
+          <input type="text" name="keysearch" [(ngModel)]="prompt.keySearch"
+            placeholder="Nhập cách sử dụng hoặc nội dung  prompt" id="">
+        </div>
+        <div class="col-3 button-search">
+          <button (click)="searchPrompt(0)" *ngIf="action?.search">Tìm kiếm</button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="grid" style="margin-top: 50px;">
+      <ag-grid-angular 
+        [suppressRowTransform]="true"
+        [tooltipShowDelay]="0"
+        [suppressRowClickSelection]="true"
+        style="width: 100%; min-height: 480px"
+        domLayout="{{ rowData.length ? 'autoHeight' : 'normal' }}"
+        class="ag-theme-balham"
+        [ngClass]="{'set-height-ag-root-wrapper': !rowData.length, 'top': !isShowSearch}"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [headerHeight]="headerHeight"
+        [suppressMovableColumns]="true"
+        [rowHeight]="rowHeight"
+        (gridReady)="onGridReady($event)"
+        (gridSizeChanged)="gridSizeChanged($event)"
+        [enableCellTextSelection]="true"
+      >
+      </ag-grid-angular>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <app-pagination 
+            [total]="total" 
+            [totalPage]="totalPage" 
+            [dataLength]="rowData?.length" 
+            [pageSize]="pageSize"
+            [currentPage]="currentPage" 
+            [collapse]="false" 
+            (paginate)="searchPrompt($event)">
+      </app-pagination>
+    </div>
+
+</div>   

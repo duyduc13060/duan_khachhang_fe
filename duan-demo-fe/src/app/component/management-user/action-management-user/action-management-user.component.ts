@@ -62,7 +62,7 @@ export class ActionManagementUserComponent implements OnInit {
         autoFocus: false
       }
     ).afterClosed().subscribe((res) => {
-      this.userManagement.searchUser();
+      this.userManagement.searchUser(0);
     });
   }
 

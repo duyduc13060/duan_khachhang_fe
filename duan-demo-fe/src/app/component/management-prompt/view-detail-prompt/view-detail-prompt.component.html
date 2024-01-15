@@ -1,0 +1,54 @@
+<div class="modal-content modal-dialog-custom">
+  <div class="modal-header">
+    Xem chi tiết nội dung prompt
+  </div>
+
+  <div class="modal-body" style="padding: 15px;">
+    <div class="row">
+
+    </div>
+    <div class="row" style="margin-top: 15px;">
+      <h3>Danh sách những người like prompt</h3>
+      <div class="grid">
+        <ag-grid-angular 
+          [suppressRowTransform]="true"
+          [tooltipShowDelay]="0"
+          [suppressRowClickSelection]="true"
+          style="width: 100%; min-height: 480px"
+          domLayout="{{ rowData.length ? 'autoHeight' : 'normal' }}"
+          class="ag-theme-balham"
+          [ngClass]="{'set-height-ag-root-wrapper': !rowData.length, 'top': !isShowSearch}"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [headerHeight]="headerHeight"
+          [suppressMovableColumns]="true"
+          [rowHeight]="rowHeight"
+          (gridReady)="onGridReady($event)"
+          (gridSizeChanged)="gridSizeChanged($event)"
+          [enableCellTextSelection]="true"
+        >
+        </ag-grid-angular>
+      </div>
+      <div style="margin-bottom: 32px;">
+        <app-pagination 
+              [total]="total" 
+              [totalPage]="totalPage" 
+              [dataLength]="rowData?.length" 
+              [pageSize]="pageSize"
+              [currentPage]="currentPage" 
+              [collapse]="false" 
+              (paginate)="listUsernameLikes($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="modal-footer">
+    <div class="btn-action">
+      <div class="btn-action-dv gray" style="margin-right: 12px;" (click)="closeModal()">
+        Hủy bỏ
+      </div>
+      <div class="btn-action-dv orange" (click)="submit()">Lưu lại</div>
+    </div>
+  </div> -->
+</div>

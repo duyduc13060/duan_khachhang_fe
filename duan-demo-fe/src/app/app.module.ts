@@ -8,7 +8,7 @@ import { PublicComponent } from './component/public/public.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticatedComponent } from './component/authenticated/authenticated.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ListNoteComponent } from './component/list-note/list-note.component';
 import { ListTaskComponent } from './component/list-task/list-task.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
@@ -20,7 +20,7 @@ import { ManagementUserComponent } from './component/management-user/management-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AuthInterceptor } from './_helper/auth.interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { CreateUpdateUserComponent } from './component/management-user/create-update-user/create-update-user.component';
 import { ActionManagementUserComponent } from './component/management-user/action-management-user/action-management-user.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -32,7 +32,18 @@ import { ActionRolesManagerComponent } from './component/management-role/action-
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { QuestionAnswerComponent } from './component/question-answer/question-answer.component';
 import { ReviewComponent } from './component/review/review.component';
-
+import { ManagementPromptComponent } from './component/management-prompt/management-prompt.component';
+import { CreateUpdatePromptComponent } from './component/management-prompt/create-update-prompt/create-update-prompt.component';
+import { ActionPromptManageComponent } from './component/management-prompt/action-prompt-manage/action-prompt-manage.component';
+import { AppPage } from 'e2e/src/app.po';
+import { PaginationComponent } from './component/pagination/pagination.component';
+import { NgbSingleDatePickerComponent } from './component/ngb-single-date-picker/ngb-single-date-picker.component';
+import { Date2Component } from './component/share/date2/date2.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarTriggerDirective } from './directives/calendar-trigger.directive';
+import { ViewDetailPromptComponent } from './component/management-prompt/view-detail-prompt/view-detail-prompt.component';
+import { ClickLikePromptComponent } from './component/management-prompt/click-like-prompt/click-like-prompt.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,19 +58,33 @@ import { ReviewComponent } from './component/review/review.component';
     CreateUpdateRolesComponent,
     ActionRolesManagerComponent,
 
+    ManagementPromptComponent,
+    CreateUpdatePromptComponent,
+    ActionPromptManageComponent,
+    ViewDetailPromptComponent,
+    ClickLikePromptComponent,
+
     ChatBoxComponent,
 
     QuestionAnswerComponent,
     ReviewComponent,
+
+    
 
     AuthenticatedComponent,
     DashboardComponent,
     ListNoteComponent,
     ListTaskComponent,
     RegisterAccountComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginationComponent,
+
+    NgbSingleDatePickerComponent,
+    Date2Component,
+    CalendarTriggerDirective
    ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -80,6 +105,8 @@ import { ReviewComponent } from './component/review/review.component';
     AgGridModule.withComponents([
       ManagementRoleComponent
     ]), 
+    NgbModule,
+    NgbDatepickerModule,
 
   ],
   providers: [
@@ -90,6 +117,7 @@ import { ReviewComponent } from './component/review/review.component';
       useClass: AuthInterceptor,
       multi: true,
     },
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

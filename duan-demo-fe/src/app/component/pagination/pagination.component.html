@@ -1,6 +1,5 @@
 <div class="sy-paging w-100 d-flex align-items-center" *ngIf="dataLength && dataLength > 0">
-	<span class="sy-paging-result">{{first}}-{{last}} {{ 'TEACHER.OF' | translate }} {{total}} {{ 'TEACHER.RESULT' |
-		translate }}</span>
+	<span class="sy-paging-result">{{first}}-{{last}} của {{total}} kết quả</span>
 	<ul class="mb-0 d-flex align-items-center">
 
 		<div class="hide-on-mobile" (click)="page(1)" [class.disabled]="currentPage == 1" style="margin-right: 25px;cursor: pointer;">

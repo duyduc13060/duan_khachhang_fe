@@ -13,6 +13,7 @@ import { ManagementUserComponent } from './component/management-user/management-
 import { ChatBoxComponent } from './component/chat-box/chat-box.component';
 import { ManagementRoleComponent } from './component/management-role/management-role.component';
 import { QuestionAnswerComponent } from './component/question-answer/question-answer.component';
+import { ManagementPromptComponent } from './component/management-prompt/management-prompt.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,8 @@ const routes: Routes = [
       { path: 'list-management-user', component: ManagementUserComponent, canActivate: [AuthGuard] },
 
       { path: 'list-management-role', component: ManagementRoleComponent, canActivate: [AuthGuard] },
+
+      { path: 'list-management-prompt', component: ManagementPromptComponent, canActivate: [AuthGuard] },
       
       { path: 'chat-box', component: ChatBoxComponent , canActivate: [AuthGuard]},
       { path: 'question-answer', component:  QuestionAnswerComponent, canActivate: [AuthGuard] },
