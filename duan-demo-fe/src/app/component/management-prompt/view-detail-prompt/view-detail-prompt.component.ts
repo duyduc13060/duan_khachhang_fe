@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Optional } from 'ag-grid-community';
 import * as moment from 'moment';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { ClickLikeService } from 'src/app/_service/click-service/click-like.service';
 import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
 
@@ -45,6 +46,7 @@ export class ViewDetailPromptComponent implements OnInit {
     private clickLikeService: ClickLikeService,
     public dialogRef: MatDialogRef<ViewDetailPromptComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private toaStr : ToastrService,
   ) { 
     console.log(data);
     this.body = data;
@@ -63,6 +65,34 @@ export class ViewDetailPromptComponent implements OnInit {
   refresh(params) {
     // set value into cell again
     return true
+  }
+
+  textToCopy;
+  copyToClipboard() {
+    this.textToCopy = this.body.descriptionUse;
+    navigator.clipboard.writeText(this.textToCopy)
+      .then(() => {
+        this.toaStr.success(
+          "Đã sao chép cách sử dụng"
+        );
+      })
+      .catch(err => {
+          console.error('Error when copying: ', err);
+      });
+  }
+
+  textToCopy1;
+  copyToLinkboard1(){
+    this.textToCopy1 = this.body.promptName;
+    navigator.clipboard.writeText(this.textToCopy1)
+      .then(() => {
+        this.toaStr.success(
+          "Đã sao chép cách sử dụng nội dung prompt"
+        );
+      })
+      .catch(err => {
+          console.error('Error when copying: ', err);
+      });
   }
 
   buildColumnDefs(){

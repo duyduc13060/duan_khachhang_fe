@@ -1,5 +1,14 @@
 .modal-content {
     .modal-header {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 30px;
+        align-items: center;
+        text-align: center;
+        text-transform: uppercase;
+        color: #101840;
+        margin-top: 20px;
+
         position: sticky;
         top: 0;
         z-index: 9999;
@@ -23,7 +32,50 @@
     }
 
     .modal-body {
+      .view-detail{
+        h3{
+          color: var(--neutral-text-normal-n-800,#474d66);
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 24px;
+          text-transform: uppercase;
+        }
+        .infomation-prompt{
+          .title-prompt{
+            display: flex;
+            .description-use-prompt, .content-prompt, .prompt-type-prompt, .create-username-prompt{
+              display: flex;
+              color: var(--neutral-text-muted-n-700,#696f8c);
+              font-size: 14px;
+              font-weight: 600;
+              line-height: 20px;
+              width: 30%;
+              margin-bottom: 18px;
+            }
+            span{
+              color: #101840;
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 24px;
+              padding-left: 20px;
+              width: 70%;
+              word-wrap: break-word;
+            }
+          }
+        }
+      }
         
+        .list-like{
+          h3{
+            color: var(--neutral-text-normal-n-800,#474d66);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            text-transform: uppercase;
+          }
+        }
     }
     .modal-footer{
         position: sticky;

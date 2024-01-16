@@ -4,17 +4,71 @@
   </div>
 
   <div class="modal-body" style="padding: 15px;">
-    <div class="row">
+    <div class="row view-detail">
+      <h3>THÔNG TIN CHI TIẾT PROMPT</h3>
+      <div class="infomation-prompt">
 
+        <div class="title-prompt">
+          <div class="description-use-prompt">
+            Cách sử dụng: 
+          </div>
+          <span>
+            {{body.descriptionUse}}
+            <svg xmlns="http://www.w3.org/2000/svg" 
+              height="16" 
+              width="14" 
+              style="margin-left: 15px; cursor: pointer;"
+              viewBox="0 0 448 512"
+              (click)="copyToClipboard()"
+              >
+              <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+            </svg>
+          </span>
+          
+        </div>
+
+        <div class="title-prompt">
+            <div class="content-prompt">
+              Nội dung prompt: 
+            </div>
+            <span>{{body.promptName}}
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                height="16" 
+                width="14" 
+                style="margin-left: 15px; cursor: pointer;"
+                viewBox="0 0 448 512"
+                (click)="copyToLinkboard1()"
+                >
+                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+              </svg>
+            </span>
+        </div>
+
+        <div class="title-prompt">
+          <div class="prompt-type-prompt">
+            Loại: 
+          </div>
+          <span>{{body.promptTypeName}}</span>
+        </div>
+
+        <div class="title-prompt">
+          <div class="create-username-prompt">
+            Người đóng góp: 
+          </div>
+          <span>{{body.createUsername}}</span>
+        </div>
+
+      </div>
     </div>
-    <div class="row" style="margin-top: 15px;">
+    <div class="row list-like" style="margin-top: 15px;">
       <h3>Danh sách những người like prompt</h3>
       <div class="grid">
         <ag-grid-angular 
           [suppressRowTransform]="true"
           [tooltipShowDelay]="0"
           [suppressRowClickSelection]="true"
-          style="width: 100%; min-height: 480px"
+          style="width: 100%;"
+          [style.height]="rowData.length > 0 ? 'max-content' : '270px'"
           domLayout="{{ rowData.length ? 'autoHeight' : 'normal' }}"
           class="ag-theme-balham"
           [ngClass]="{'set-height-ag-root-wrapper': !rowData.length, 'top': !isShowSearch}"
