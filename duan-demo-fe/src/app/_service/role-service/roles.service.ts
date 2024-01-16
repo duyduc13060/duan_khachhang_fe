@@ -43,7 +43,7 @@ constructor(
   }
 
   getAllFunction(){
-    const url = AUTH_API + `/search/role/search/functions/get-all`;
+    const url = AUTH_API + `/role/search/functions/get-all`;
     return this.http.post<any>(url, this.httpOptions);
   }
 
