@@ -70,27 +70,27 @@
           </div> -->
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-word"
-            aria-expanded="false" aria-controls="collapse-word">
+            aria-expanded="false" aria-controls="collapse-word" *ngIf="this.authenQLTASK || this.authenQLNOTE">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Công việc
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
           <div class="collapse" id="collapse-word" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" [routerLink]="['/list-task']">Quản lý công việc</a>
-              <a class="nav-link" [routerLink]="['/list-note']">Quản lý note</a>
+              <a class="nav-link" [routerLink]="['/list-task']"*ngIf="this.authenQLTASK" >Quản lý công việc</a>
+              <a class="nav-link" [routerLink]="['/list-note']" *ngIf="this.authenQLNOTE">Quản lý note</a>
             </nav>
           </div>
 
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-prompt"
-          aria-expanded="false" aria-controls="collapse-prompt">
+          aria-expanded="false" aria-controls="collapse-prompt" *ngIf="this.authenQLPT">
           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
           Prompt
           <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
         </a>
         <div class="collapse" id="collapse-prompt" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" [routerLink]="['/list-management-prompt']">Prompt Space</a>
+            <a class="nav-link" [routerLink]="['/list-management-prompt']" *ngIf="this.authenQLPT">Prompt Space</a>
           </nav>
         </div>
 
@@ -98,29 +98,29 @@
           <!-- tab management note -->
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-sell"
-            aria-expanded="false" aria-controls="collapse-sell">
+            aria-expanded="false" aria-controls="collapse-sell" *ngIf="this.authenQLU || this.authenQLR">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Tài khoản
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
           <div class="collapse" id="collapse-sell" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" [routerLink]="['/list-management-user']">Quản lý người dùng</a>
-              <a class="nav-link" [routerLink]="['/list-management-role']">Quản lý role</a>
+              <a class="nav-link" [routerLink]="['/list-management-user']" *ngIf="this.authenQLU">Quản lý người dùng</a>
+              <a class="nav-link" [routerLink]="['/list-management-role']" *ngIf="this.authenQLR">Quản lý role</a>
             </nav>
           </div>
 
           <!-- tab chatbox -->
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-chatBox"
-            aria-expanded="false" aria-controls="collapse-chatBox">
+            aria-expanded="false" aria-controls="collapse-chatBox" *ngIf="this.authenQLCHAT || this.authenQLQS">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Chatbox
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
           <div class="collapse" id="collapse-chatBox" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" [routerLink]="['/chat-box']">Text search</a>
-              <a class="nav-link" [routerLink]="['/question-answer']">Question & Answer</a>
+              <a class="nav-link" [routerLink]="['/chat-box']" *ngIf="this.authenQLCHAT">Text search</a>
+              <a class="nav-link" [routerLink]="['/question-answer']" *ngIf="this.authenQLQS">Question & Answer</a>
             </nav>
           </div>
           <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"

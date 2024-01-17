@@ -44,7 +44,7 @@
                   placeholder="Nhập mô tả cách sử dụng"></textarea>
         <div class="validate-input" *ngIf="!validPtUseName.done">
           <p class="validate-input-label" *ngIf="validPtUseName.empty">Cách sử dụng không được để trống</p>
-          <p class="validate-input-label" *ngIf="validPtUseName.maxLength">Cách sử dụng không được nhập quá 500 ký tự</p>
+          <p class="validate-input-label" *ngIf="validPtUseName.maxLength">Cách sử dụng không được nhập quá 1000 ký tự</p>
         </div>         
       </div>
 
@@ -58,7 +58,7 @@
         </textarea>
         <div class="validate-input" *ngIf="!validPromptName.done">
           <p class="validate-input-label" *ngIf="validPromptName.empty">Prompt không được để trống</p>
-          <p class="validate-input-label" *ngIf="validPromptName.maxLength">Prompt không được nhập quá 500 ký tự</p>
+          <p class="validate-input-label" *ngIf="validPromptName.maxLength">Prompt không được nhập quá 1000 ký tự</p>
         </div> 
 
       </div>

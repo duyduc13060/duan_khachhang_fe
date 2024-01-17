@@ -55,11 +55,11 @@ export class CreateUpdatePromptComponent implements OnInit {
   }
 
   validPtName(){
-    this.validPromptName = CommonFunction.validateInput(this.body.promptName, 500, null)
+    this.validPromptName = CommonFunction.validateInput(this.body.promptName, 1000, null)
   }
 
   validPrtUseName(){
-    this.validPtUseName = CommonFunction.validateInput(this.body.descriptionUse, 500, null)
+    this.validPtUseName = CommonFunction.validateInput(this.body.descriptionUse, 1000, null)
   }
 
   revoveInvalid(result){
@@ -68,8 +68,8 @@ export class CreateUpdatePromptComponent implements OnInit {
 
   submit(){
     this.validpromptTypeId = CommonFunction.validateInput(this.body.promptTypeId, null, null)
-    this.validPtUseName = CommonFunction.validateInput(this.body.descriptionUse, 500, null)
-    this.validPromptName = CommonFunction.validateInput(this.body.promptName, 500, null)
+    this.validPtUseName = CommonFunction.validateInput(this.body.descriptionUse, 1000, null)
+    this.validPromptName = CommonFunction.validateInput(this.body.promptName, 1000, null)
 
     if(!this.validPromptName.done || !this.validPtUseName.done || !this.validpromptTypeId.done){
       return

@@ -53,7 +53,7 @@ export class ManagementUserComponent implements OnInit {
 
   ngOnInit() {
     this.action = CommonFunction.getActionOfFunction('QLU')
-    this.searchUser(0);
+    this.searchUser(1);
   }
 
   
@@ -64,13 +64,20 @@ export class ManagementUserComponent implements OnInit {
         status: this.userSearch.status,
         keySearch: this.userSearch.keySearch
       },
-      page: page,
+      page: page - 1,
       pageSize: this.pageSize
     }
 
+    this.currentPage = page;
+    console.log(this.currentPage + ">>>>currentPage");
+    console.log(page + ">>>>page");
     this.userService.searchUser(this.objSearch).subscribe(
       (res:any) => {
        this.lstUser = res.data.data
+       
+       this.total = res?.data?.total;
+       this.totalPage = res?.data?.totalPage;
+
        this.changeDetectorRef.detectChanges();
       },
       (error) => {
@@ -90,7 +97,7 @@ export class ManagementUserComponent implements OnInit {
         autoFocus: false,
       })
       .afterClosed().subscribe((resp) => {
-        this.searchUser(0);
+        this.searchUser(1);
       });
   }
 
@@ -121,7 +128,7 @@ export class ManagementUserComponent implements OnInit {
             autoFocus: false,
           }
         ).afterClosed().subscribe((res) => {
-          this.searchUser(0);
+          this.searchUser(1);
         });
         this.changeDetectorRef.detectChanges();
       },
@@ -145,7 +152,7 @@ export class ManagementUserComponent implements OnInit {
         if(res.success == 200){
           this.toastr.success("Xóa user thành công");
           this.changeDetectorRef.detectChanges();
-          this.searchUser(0);
+          this.searchUser(1);
         }
         if(res.success == 400){
           this.toastr.error(res.message);

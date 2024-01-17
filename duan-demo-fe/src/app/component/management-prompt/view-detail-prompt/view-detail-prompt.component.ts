@@ -54,7 +54,7 @@ export class ViewDetailPromptComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listUsernameLikes(0);
+    this.listUsernameLikes(1);
   }
 
   agInit(params ): void {
@@ -194,7 +194,7 @@ export class ViewDetailPromptComponent implements OnInit {
   listUsernameLikes(page){
     const data = {
       promptId: this.body.id,
-      page: page,
+      page: page - 1,
       pageSize: this.pageSize
     }
     this.currentPage = page;

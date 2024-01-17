@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
           
           this.storageSessionService.set('role',data.data.roleDto);
           sessionStorage.setItem(environment.authTokenKey, data.data.token);
+          sessionStorage.setItem('functionCode',data.data.roleDto.functionCode);
 
           const role = data.data.role;
           this.tokenStorage.saveRole(role);

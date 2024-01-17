@@ -58,7 +58,7 @@ export class ManagementPromptComponent implements OnInit {
     this.action = CommonFunction.getActionOfFunction('QLPT')
 
     this.getAllPromptType();
-    this.searchPrompt(0);
+    this.searchPrompt(1);
   }
 
   buildColumnDefs(){
@@ -363,7 +363,7 @@ export class ManagementPromptComponent implements OnInit {
       }
     ).afterClosed().subscribe((res) => {
       console.log(res);
-      this.searchPrompt(0);
+      this.searchPrompt(1);
     });
   }
 
@@ -422,19 +422,19 @@ export class ManagementPromptComponent implements OnInit {
     }
   }
 
-
-
   searchPrompt(page){
 
     const data = {
       promptTypeId: this.prompt.promptTypeId,
       promptName: this.prompt.keySearch,
       searchDate: parseDate2(this.prompt.createDate), 
-      page: page,
+      page: page - 1,
       pageSize: this.pageSize
     }
 
     this.currentPage = page;
+    console.log(this.currentPage + ">>>>currentPage");
+    console.log(page + ">>>>page");
     this.promptService.searchPrompt(data).subscribe(res=>{
       this.rowData = res?.data?.content;
 
