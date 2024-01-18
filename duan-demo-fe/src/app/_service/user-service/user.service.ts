@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserSearch } from 'src/app/_model/user-search';
+import { environment } from '../../../environments/environment';
 
-const AUTH_API = 'http://localhost:8084/api/QLU';
+const AUTH_API = environment.apiUrl + "QLU";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +28,7 @@ export class UserService {
   }
 
   deleteUser(idUser): Observable<any>{
-    return this.http.delete(AUTH_API + "/delete/user/" + idUser) 
+    return this.http.delete(AUTH_API + "/delete/user/" + idUser)
   }
 
   viewDetailUser(idUser): Observable<any>{

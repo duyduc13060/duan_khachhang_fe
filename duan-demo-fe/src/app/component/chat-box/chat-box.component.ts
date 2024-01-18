@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
-import { SpinnerService } from 'src/app/_service/spinner.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ReviewComponent } from '../review/review.component';
+
 
 @Component({
   selector: 'app-chat-box',
@@ -20,7 +20,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
   listModel = [
     {
-      name: "mistral-7b-instruct"
+      name: "mixtral-8x7b-instruct"
     },
     {
       name: "codellama-34b-instruct"
@@ -28,7 +28,6 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     {
       name: "bedrock"
     },
-
   ]
 
   chatRequest = new ChatRequest();
@@ -49,8 +48,8 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.scrollContainer = this.scrollFrame.nativeElement;  
-    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());    
+    this.scrollContainer = this.scrollFrame.nativeElement;
+    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
   }
 
   private onItemElementsChanged(): void {
@@ -67,6 +66,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
 
   listMessage;
+  listMessageBedrock;
   getMessage(){
     this.chatBoxService.getMessage().subscribe(res =>{
       this.listMessage = res;
@@ -74,7 +74,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     })
   }
 
-  check = false;
+
   sendChatBox(){
     this.isLoading = true;
     if(this.chatRequest.content === null || this.chatRequest.content === '' || this.chatRequest.content == undefined){
@@ -82,19 +82,12 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
       this.isLoading = false;
       return;
     }
-    
-    
-    // const foundObject = this.listModel.find(item => item.name === "bedrock");
 
     if(this.chatRequest.model === 'bedrock'){
-      this.check = true;
-    }
-
-    if(this.check){
       const request = {
         prompt: this.chatRequest.content,
         key: "ABC@123",
-        max: 1000
+        max: 5000
       }
 
       this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
@@ -108,9 +101,8 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
       })
 
     }else{
-
       const request = {
-        model:this.chatRequest.model, 
+        model:this.chatRequest.model,
         messages: [
           {
             role: "system",
@@ -121,7 +113,6 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
             content: this.chatRequest.content
           },
         ]
-        // stream: true
       }
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
@@ -137,9 +128,10 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
   }
 
-  openFormCreate(messageId){
+  openFormCreate(messageId, rating){
     const data = {
-      messageId: messageId
+      messageId: messageId,
+      rating : rating
     }
     this.matDialog
       .open(ReviewComponent, {

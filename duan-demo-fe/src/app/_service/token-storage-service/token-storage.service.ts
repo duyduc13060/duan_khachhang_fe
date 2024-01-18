@@ -4,6 +4,7 @@ const USER_KEY = 'auth-user';
 const id_pro = 'id_pro';
 const USER_NAME = 'auth-user-name';
 const USER_ROLE = 'auth-user-role';
+const FULL_NAME = 'auth-full-name';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +37,10 @@ export class TokenStorageService {
     window.localStorage.removeItem(USER_NAME);
     window.localStorage.setItem(USER_NAME, JSON.stringify(user));
   }
+  public saveFullName(fullname:string): void {
+    window.localStorage.removeItem(FULL_NAME);
+    window.localStorage.setItem(FULL_NAME, JSON.stringify(fullname));
+  }
   public saveidproduct(id:any): void{
     window.localStorage.removeItem(id_pro);
     window.localStorage.setItem(id_pro, JSON.stringify(id));
@@ -62,6 +67,9 @@ export class TokenStorageService {
   public getUser():any{
     return JSON.parse(localStorage.getItem(USER_NAME)!);
   }
+  public getRole():any{
+    return JSON.parse(localStorage.getItem(USER_ROLE)!);
+  }
   public getUser_id():any{
     return JSON.parse(localStorage.getItem(USER_KEY)!);
   }
@@ -70,6 +78,9 @@ export class TokenStorageService {
   }
   public getUserRole(): any{
     return JSON.parse(localStorage.getItem(USER_ROLE)!);
+  }
+  public getFullName():any{
+    return JSON.parse(localStorage.getItem(FULL_NAME)!);
   }
 
   get(key: string){

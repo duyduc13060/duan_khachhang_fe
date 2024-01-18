@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { User } from 'src/app/_model/User';
+import { environment } from '../../../environments/environment';
 
-const AUTH_API = 'http://localhost:8084/api/QLTASK/task';
+const AUTH_API = environment.apiUrl + "QLTASK/task";
+
 @Injectable({
   providedIn: 'root'
 })

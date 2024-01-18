@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,11 +16,13 @@ export class AuthenticatedComponent implements OnInit {
   ) { }
 
   username;
+  fullname;
   checkRole = false
   functionCode;
 
   ngOnInit() {
-    this.username = this.tokenStorageService.getUser();
+    // this.username = this.tokenStorageService.getUser();
+    this.fullname = this.tokenStorageService.getFullName();
     this.authen();
   }
 
@@ -33,7 +35,7 @@ export class AuthenticatedComponent implements OnInit {
   authenQLPT = false;
   authen(){
     this.functionCode =  sessionStorage.getItem("functionCode");
-    
+
     const parse = this.functionCode.split("|")
     for (let index = 0; index < parse.length; index++) {
       if (parse[index] === "QLU") {

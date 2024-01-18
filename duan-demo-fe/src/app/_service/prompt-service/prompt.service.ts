@@ -26,7 +26,7 @@ export class PromptService {
   }
 
   deletePrompt(idPrompt): Observable<any>{
-    return this.http.delete(AUTH_API + "/delete/prompt/" + idPrompt) 
+    return this.http.delete(AUTH_API + "/delete/prompt/" + idPrompt)
   }
 
 }

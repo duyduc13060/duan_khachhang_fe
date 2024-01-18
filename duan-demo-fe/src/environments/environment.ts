@@ -10,6 +10,8 @@ export const environment = {
   production: false,
   CRYPTO: `${CRYPTO}`,
   authTokenKey: 'authce9d77b308c149d5992a80073637e4d5ulearn',
+  // apiUrl: 'http://10.21.101.70:8084/api/',
+  apiUrl: 'http://localhost:8084/api/',
 
   action: {
     create: 'create',
@@ -24,7 +26,7 @@ export const environment = {
     handling: 'handling',
     import: 'import',
   },
-  
+
 };
 
 /*

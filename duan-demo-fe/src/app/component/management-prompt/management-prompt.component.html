@@ -17,7 +17,7 @@
               y="5">
             </rect>
           </svg>
-          Tạo mới
+           Tạo mới
         </button>
       </div>
     </div>
@@ -68,7 +68,7 @@
             </ng-template>
           </div>
         </div>
-       
+
         <div class="col-3 keysearch">
           <h3>Từ khóa</h3>
           <input type="text" name="keysearch" [(ngModel)]="prompt.keySearch"
@@ -80,9 +80,9 @@
       </div>
     </div>
 
-    
+
     <div class="grid" style="margin-top: 50px;">
-      <ag-grid-angular 
+      <ag-grid-angular
         [suppressRowTransform]="true"
         [tooltipShowDelay]="0"
         [suppressRowClickSelection]="true"
@@ -102,15 +102,15 @@
       </ag-grid-angular>
     </div>
     <div style="margin-bottom: 32px;">
-      <app-pagination 
-            [total]="total" 
-            [totalPage]="totalPage" 
-            [dataLength]="rowData?.length" 
+      <app-pagination
+            [total]="total"
+            [totalPage]="totalPage"
+            [dataLength]="rowData?.length"
             [pageSize]="pageSize"
-            [currentPage]="currentPage" 
-            [collapse]="false" 
+            [currentPage]="currentPage"
+            [collapse]="false"
             (paginate)="searchPrompt($event)">
       </app-pagination>
     </div>
 
-</div>   
+</div>

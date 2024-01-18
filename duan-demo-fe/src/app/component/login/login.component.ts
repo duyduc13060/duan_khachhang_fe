@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
-import { ToastrService } from 'ngx-toastr';
 import { StorageSessionService } from 'src/app/auth/storage.session.service';
 import { environment } from 'src/environments/environment';
 
@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
           this.tokenStorage.saveToken(data.data.token);
           this.tokenStorage.saveUser(data.data.username);
           this.tokenStorage.saveUser_id(data.data.id);
-          
+          this.tokenStorage.saveFullName(data.data.fullname);
+
           this.storageSessionService.set('role',data.data.roleDto);
           sessionStorage.setItem(environment.authTokenKey, data.data.token);
           sessionStorage.setItem('functionCode',data.data.roleDto.functionCode);

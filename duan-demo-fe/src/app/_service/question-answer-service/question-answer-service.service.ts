@@ -21,5 +21,10 @@ export class QuestionAnswerServiceService {
     return this.http.post(AUTH_API + '/search/vector',data);
   }
 
+  deleteDocument() : Observable<any>{
+    return this.http.delete(AUTH_API + '/delete/message_index');
+  }
+
+
 
 }

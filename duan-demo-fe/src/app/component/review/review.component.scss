@@ -1,28 +1,65 @@
-.container{
-    .hearder{
-        margin-top: 20px;
-        border-bottom: 1px solid #695c5c; 
-        padding: 10px; 
-    }
-    .content-review{
-        margin-top: 50px;
-    }
-    .button-submit{
-        display: flex;
-        justify-content: flex-end;
-        .close{
-            margin: 10px 0 15px 5px;
-            border-radius: 5px;
-            padding: 6px;
-            color: #e9351f;
-            border: 1px solid;
-        }
-        .submit{
-            margin: 10px 0 15px 5px;
-            border-radius: 5px;
-            padding: 6px;
-            color: blue;
-            border: 1px solid;
-        }
-    }
+.container {
+  width: 80%;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+h1 {
+  margin-top: 10px;
+  color: #333;
+}
+
+h2 {
+  margin-top: 5px;
+  color: #333;
+}
+
+.review-options {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.content-review {
+  margin-top: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.button-submit {
+  margin-top: 20px;
+  text-align: right;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.close {
+  background-color: #f44336;
+  color: white;
+  margin-bottom: 20px;
+}
+
+button.submit {
+  background-color: #4CAF50;
+  color: white;
+  margin-left: 10px;
+  margin-bottom: 20px;
 }

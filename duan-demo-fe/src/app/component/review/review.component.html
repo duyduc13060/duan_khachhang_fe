@@ -1,19 +1,31 @@
 <div class="container">
   <div class="hearder">
-    <h2 >Provide additional feedback</h2>
+    <h1>USER FEEDBACK</h1>
   </div>
 
+  <div>
+    <h2>Phân Loại</h2>
+    <select class="review-options" (change)="onSelect($event.target.value)">
+      <option value="sql" selected>SQL</option>
+      <option value="crud">Danh mục CRUD</option>
+      <option value="api">API</option>
+      <option value="unit_test">Unit Test</option>
+      <option value="java_function">Java Function</option>
+      <option value="optimization-code">Tối Ưu Code</option>
+      <option value="review-code">Review Code</option>
+    </select>
+  </div>
   <div class="content-review">
-      <textarea cols="101" 
-                rows="4" 
+      <textarea cols="101"
+                rows="4"
                 [(ngModel)]="review.content"
-                placeholder="What do you link about response ?">
+                placeholder="What do you think about response?">
       </textarea>
   </div>
 
   <div class="button-submit">
     <button class="close" (click)="closeModal()">Close</button>
-    <button class="submit" (click)="createReview()">Submit feedback</button>
+    <button class="submit" (click)="createReview()">Submit</button>
   </div>
 
 </div>

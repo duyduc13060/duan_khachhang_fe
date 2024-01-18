@@ -13,6 +13,7 @@ import { ReviewServiceService } from 'src/app/_service/review-service/review-ser
 export class ReviewComponent implements OnInit {
 
   review = new Review;
+  selectedValue: string;
 
   body;
   constructor(
@@ -20,19 +21,25 @@ export class ReviewComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private reviewService: ReviewServiceService,
     private toaStr : ToastrService
-  ) { 
+  ) {
     this.body = data;
   }
 
+  onSelect(value: string): void {
+    this.selectedValue = value;
+  }
+
   ngOnInit() {
-   
+    this.selectedValue = 'Other';
   }
 
   createReview(){
-    console.log(this.review.content + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    console.log(this.review.content + ">>");
     const data = {
       content: this.review.content,
-      messageId: this.body.messageId
+      messageId: this.body.messageId,
+      rating : this.body.rating,
+      type : this.selectedValue
     }
 
     this.reviewService.createReview(data).subscribe(res=>{

@@ -1,17 +1,13 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Action } from 'src/app/_model/action.model';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
-import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
-import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewServiceService } from 'src/app/_service/review-service/review-service.service';
-import { MatDialog } from '@angular/material/dialog';
-import { Review } from 'src/app/_model/review-chat';
+import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ReviewComponent } from '../review/review.component';
-
 
 @Component({
   selector: 'app-question-answer',
@@ -22,13 +18,17 @@ export class QuestionAnswerComponent implements OnInit {
 
   isLoading: boolean = false;
   username;
+  role;
 
   listModel = [
     {
-      name: "mistral-7b-instruct"
+      name: "mixtral-8x7b-instruct"
     },
     {
       name: "codellama-34b-instruct"
+    },
+    {
+      name: "bedrock"
     },
   ]
 
@@ -39,7 +39,7 @@ export class QuestionAnswerComponent implements OnInit {
   @ViewChild('scrollframe1', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item1') itemElements: QueryList<any>;
   private scrollContainer: any;
-  action: Action = new Action();
+
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -52,17 +52,18 @@ export class QuestionAnswerComponent implements OnInit {
 
 
   ngOnInit() {
-    this.action = CommonFunction.getActionOfFunction('QLQS')
     this.chatRequest.model = this.listModel[0].name
+    //this.chatRequest.system = "System: Chỉ được sử dụng thông tin trong Context để trả lời yêu cầu ở cuối cùng. Nếu không biết thì trả lời là không biết. Yêu cầu trả lời hoàn toàn theo ngôn ngữ của yêu cầu ở dưới cùng."
     this.username = this.tokenStorageService.getUser();
+    this.role = this.tokenStorageService.getRole();
     this.getMessage()
   }
 
   ngAfterViewInit() {
-    this.scrollContainer = this.scrollFrame.nativeElement;  
-    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());    
+    this.scrollContainer = this.scrollFrame.nativeElement;
+    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
   }
-  
+
   private onItemElementsChanged(): void {
     this.scrollToBottom();
   }
@@ -95,7 +96,7 @@ export class QuestionAnswerComponent implements OnInit {
       document: this.chatRequest.content
     }
     this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
-      this.documentResponse = res[0].document;
+      this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
 
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
@@ -104,6 +105,17 @@ export class QuestionAnswerComponent implements OnInit {
     })
   }
 
+  clearContent() {
+    this.toastr.success('Document index was successfully deleted.');
+    this.questionAnswerServiceService.deleteDocument().subscribe(
+      (res:any) => {
+        this.toastr.success("Upload file thành công");
+      },
+      (error) => {
+        console.error("File is not selected.", error);
+      }
+    );
+  }
 
   importFile(){
     if (this.fileImport) {
@@ -114,8 +126,9 @@ export class QuestionAnswerComponent implements OnInit {
       // Tạo FormData và thêm file vào đó
       const formData = new FormData();
       formData.append('file', this.fileImport);
+      this.toastr.success("Upload file thành công");
 
-      // Gửi formData đến server 
+      // Gửi formData đến server
       this.questionAnswerServiceService.uploadFile(formData).subscribe(
         (res:any) => {
             this.toastr.success("Upload file thành công");
@@ -124,7 +137,7 @@ export class QuestionAnswerComponent implements OnInit {
           console.error("File is not selected.", error);
         }
       );
-      
+
     } else {
       console.error('File is not selected.');
       this.toastr.error('File is not selected.');
@@ -140,7 +153,7 @@ export class QuestionAnswerComponent implements OnInit {
     }
 
     if(
-      this.chatRequest.system === null || this.chatRequest.system === '' || this.chatRequest.system == undefined 
+      this.chatRequest.system === null || this.chatRequest.system === '' || this.chatRequest.system == undefined
     ){
       this.chatRequest.system = '';
     }
@@ -152,30 +165,51 @@ export class QuestionAnswerComponent implements OnInit {
       documentResponse = this.chatRequest.content
     }
 
-    const request = {
-      model:this.chatRequest.model, 
-      messages: [
-        {
-          role: "system",
-          content: "Use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer"
-        },
-        {
-          role: "user",
-          content:this.chatRequest.system + " " + this.chatRequest.context + " " + documentResponse
-        },
-      ]
-      // stream: true
-    }
 
-    this.chatBoxService.send(request).subscribe((res:any) =>{
-      if(res.status === "OK"){
-        this.isLoading = false;
-        this.getMessage();
-        this.chatRequest.content = '';
-      }else{
-        this.toastr.error("co loi xay ra");
+    if(this.chatRequest.model === 'bedrock'){
+      const request = {
+        prompt: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer " + this.chatRequest.system + ". {Context} " + this.chatRequest.context + " " + documentResponse + " {End}. <br><b>Question: " + this.chatRequest.content +"</b>",
+        key: "ABC@123",
+        max: 5000
       }
-    })
+
+      this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+
+    }else{
+      const request = {
+        model:this.chatRequest.model,
+        messages: [
+          {
+            role: "system",
+            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer "
+          },
+          {
+            role: "user",
+            content: "System: " + this.chatRequest.system + ". {Context} " + this.chatRequest.context + " " + documentResponse + " {End}.<br><b>Question: " + this.chatRequest.content +"</b>"
+          },
+        ],
+        max_tokens: 20000,
+        temperature: 0
+      }
+
+      this.chatBoxService.send(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+    }
   }
 
   getMessage(){
@@ -185,9 +219,10 @@ export class QuestionAnswerComponent implements OnInit {
     })
   }
 
-  openFormCreate(messageId){
+  openFormCreate(messageId, rating){
     const data = {
-      messageId: messageId
+      messageId: messageId,
+      rating : rating
     }
     this.matDialog
       .open(ReviewComponent, {
@@ -201,5 +236,4 @@ export class QuestionAnswerComponent implements OnInit {
       .afterClosed().subscribe((resp) => {
       });
   }
-
 }
