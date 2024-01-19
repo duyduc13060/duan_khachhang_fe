@@ -3,4 +3,6 @@ export class Review {
   messageId:number;
   rating: string;
   type: string;
+  messageRequest: string;
+  messageResponse: string;
 }

@@ -1,0 +1,27 @@
+<div class="list-feedback" style="margin-left: 25px; margin-right: 25px;">
+
+  <h1>Danh sách Feedback</h1>
+
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Feedback</th>
+            <th>Question</th>
+            <th>AI Response</th>
+            <th>Rating</th>
+            <th>Request Type</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listChatReview; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{item.content}}</td>
+        <td>{{item.messageRequest}}</td>
+        <td>{{item.messageResponse}}</td>
+        <td>{{item.rating}}</td>
+        <td>{{item.type}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

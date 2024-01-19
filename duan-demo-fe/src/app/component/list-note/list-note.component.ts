@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Note } from 'src/app/_model/Note';
-import { User } from 'src/app/_model/User';
-import { NoteServiceService} from 'src/app/_service/note-service/note-service.service';
+import { NoteServiceService } from 'src/app/_service/note-service/note-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { TokenStorageService } from 'src/app/_service/token-storage-service/toke
   styleUrls: ['./list-note.component.scss']
 })
 export class ListNoteComponent implements OnInit {
-  
+
 
   public user: any = {};
   username;
@@ -22,8 +21,8 @@ export class ListNoteComponent implements OnInit {
     private noteService: NoteServiceService,
     private tokenService: TokenStorageService,
     private changeDetectorRef: ChangeDetectorRef,
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -39,12 +38,12 @@ export class ListNoteComponent implements OnInit {
     this.user = {
       username: this.username
     }
-    
+
     this.noteService.getListNoteByUsername(this.user).subscribe(
       (res:any) => {
         this.listNoteByUsername = res;
         console.log(this.listNoteByUsername + ">>>>>>>>>>");
-        
+
         this.changeDetectorRef.detectChanges();
       },
       (error) => {
@@ -52,7 +51,7 @@ export class ListNoteComponent implements OnInit {
       }
     );
 
-    
+
   }
 
 

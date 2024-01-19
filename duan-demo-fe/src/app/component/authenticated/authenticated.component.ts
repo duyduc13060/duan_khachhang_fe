@@ -23,6 +23,7 @@ export class AuthenticatedComponent implements OnInit {
   ngOnInit() {
     // this.username = this.tokenStorageService.getUser();
     this.fullname = this.tokenStorageService.getFullName();
+    this.username = this.tokenStorageService.getUser();
     this.authen();
   }
 
@@ -30,6 +31,7 @@ export class AuthenticatedComponent implements OnInit {
   authenQLTASK = false;
   authenQLR = false;
   authenQLNOTE = false;
+  authenQLRV = false;
   authenQLCHAT = false;
   authenQLQS = false;
   authenQLPT = false;
@@ -52,6 +54,10 @@ export class AuthenticatedComponent implements OnInit {
 
       if (parse[index] === "QLNOTE") {
         this.authenQLNOTE = true;
+      }
+
+      if (parse[index] === "QLRV") {
+        this.authenQLRV = true;
       }
 
       if (parse[index] === "QLCHAT") {

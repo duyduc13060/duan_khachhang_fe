@@ -1,20 +1,20 @@
+import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { Action } from 'src/app/_model/action.model';
+import { DateModel } from 'src/app/_model/date.model';
 import { Prompt } from 'src/app/_model/prompt';
-import { PromptService } from 'src/app/_service/prompt-service/prompt.service';
 import { ClickLikeService } from 'src/app/_service/click-service/click-like.service';
+import { PromptService } from 'src/app/_service/prompt-service/prompt.service';
 import { PromptTypeService } from 'src/app/_service/prompt-type/prompt-type.service';
 import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ActionPromptManageComponent } from './action-prompt-manage/action-prompt-manage.component';
-import { CreateUpdatePromptComponent } from './create-update-prompt/create-update-prompt.component';
-import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
-import { DateModel } from 'src/app/_model/date.model';
-import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
-import { formatDate } from '@angular/common';
-import { ViewDetailPromptComponent } from './view-detail-prompt/view-detail-prompt.component';
 import { ClickLikePromptComponent } from './click-like-prompt/click-like-prompt.component';
+import { CreateUpdatePromptComponent } from './create-update-prompt/create-update-prompt.component';
+import { ViewDetailPromptComponent } from './view-detail-prompt/view-detail-prompt.component';
 
 @Component({
   selector: 'app-management-prompt',
@@ -22,7 +22,7 @@ import { ClickLikePromptComponent } from './click-like-prompt/click-like-prompt.
   styleUrls: ['./management-prompt.component.scss']
 })
 export class ManagementPromptComponent implements OnInit {
- 
+
   columnDefs;
   rowData;
   headerHeight = 48
@@ -30,7 +30,7 @@ export class ManagementPromptComponent implements OnInit {
   gridApi;
   gridColumnApi;
   isShowSearch: boolean = true;
- 
+
   action: Action = new Action();
 
   listPromptType;
@@ -49,7 +49,7 @@ export class ManagementPromptComponent implements OnInit {
     private matDialog: MatDialog,
     private calendar: NgbCalendar,
     private clickLikeService: ClickLikeService
-  ) { 
+  ) {
     this.rowData = [];
     this.buildColumnDefs();
   }
@@ -378,7 +378,7 @@ export class ManagementPromptComponent implements OnInit {
   selectToday(datepicker: NgbInputDatepicker) {
     this.prompt.createDate = this.calendar.getToday();
     datepicker.navigateTo();
-   
+
   }
 
   removeTabIndex(d: NgbInputDatepicker) {
@@ -427,7 +427,7 @@ export class ManagementPromptComponent implements OnInit {
     const data = {
       promptTypeId: this.prompt.promptTypeId,
       promptName: this.prompt.keySearch,
-      searchDate: parseDate2(this.prompt.createDate), 
+      searchDate: parseDate2(this.prompt.createDate),
       page: page - 1,
       pageSize: this.pageSize
     }
@@ -446,13 +446,13 @@ export class ManagementPromptComponent implements OnInit {
       } else {
         this.gridApi.setDomLayout('autoHeight');
       }
-  
+
       this.changeDetechtorRef.detectChanges();
     })
-    
+
   }
 
-  
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -485,7 +485,7 @@ export class ManagementPromptComponent implements OnInit {
     console.log('event', event);
     if(event && event !=='error'){
       // this.prompt.createDate = (event.year+'-'+event.month+'-'+event.day)
-     
+
       this.dateObj  = event;
 
     }else{

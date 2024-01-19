@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
-
 const AUTH_API = 'http://localhost:8084/api/QLRV';
 @Injectable({
   providedIn: 'root'
@@ -18,9 +16,8 @@ constructor(
     return this.http.post(AUTH_API + '/create',data);
   }
 
-  getListReviewUser(message:number):Observable<any>{
-    return this.http.get(AUTH_API + '/detail?messageId='+ message)
-  }
-
+  getListReviewUser(username: string, userrole: string): Observable<any>{
+    return this.http.post<any>(AUTH_API + '/get-list-reviews', {username, userrole});
+}
 
 }
