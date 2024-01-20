@@ -1,7 +1,10 @@
 .container-fluid{
-    padding-left: 50px;
+    height: 100vh;
+    overflow: auto;
+    padding-left: 250px;
+    // padding-left: 50px;
     padding-right: 70px;
-    margin-bottom: 90px;
+    // margin-bottom: 90px;
     background: #eeedeb;
     .prompt-management {
         .prompt-management-header-title{

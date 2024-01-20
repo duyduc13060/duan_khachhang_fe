@@ -60,10 +60,13 @@ export class ManagementRoleComponent implements OnInit {
   totalRecord = 0;
   first = 1;
   last = 10;
-  total = 0;
+  total;
+
   totalPage = 0;
-  pageSize = 20;
+  pageSize = 10;
   page;
+  currentPage = 1;
+
   rangeWithDots: any[];
   hide = false;
   action: Action = new Action();
@@ -129,22 +132,10 @@ export class ManagementRoleComponent implements OnInit {
     this.rolesManagerService.search(body,page-1,this.pageSize).subscribe(res => {
       this.hide = true;
       this.rowData = res.content;
-      this.totalRecord = res.totalElements;
-      this.first = ((page -1 ) * this.pageSize) + 1;
-      this.last = this.first + this.rowData.length - 1;
-      if (this.totalRecord % this.pageSize === 0) {
-        this.totalPage = Math.floor(this.totalRecord / this.pageSize);
-        this.rangeWithDots = this.commonService.pagination(
-          this.page,
-          this.totalPage
-        );
-      } else {
-        this.totalPage = Math.floor(this.totalRecord / this.pageSize) + 1;
-        this.rangeWithDots = this.commonService.pagination(
-          this.page,
-          this.totalPage
-        );
-      }
+
+
+      this.total = res?.totalElements;
+      this.totalPage = res?.totalPages;
 
       if (this.rowData.length === 0) {
         this.gridApi.setDomLayout('normal');

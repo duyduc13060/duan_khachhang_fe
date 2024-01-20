@@ -291,3 +291,10 @@ body{
   left: 50%;
   position: absolute;
 }
+
+.container-fluid{
+  height: 100vh;
+  overflow: auto;
+  padding-left: 250px;
+  padding-right: 70px;
+}

@@ -58,7 +58,7 @@ export class ActionPromptManageComponent implements OnInit {
       }
     ).afterClosed().subscribe((res) => {
       console.log(res);
-      // this.rolesManagerComponent.search(this.rolesManagerComponent.page);
+      this.managementPromptComponent.searchPrompt(1);
     });
   }
 
@@ -74,7 +74,7 @@ export class ActionPromptManageComponent implements OnInit {
     })
     this.modalRef.hide();
     this.toaStr.success("Xoa thanh cong !!!");
-    this.managementPromptComponent.searchPrompt(0);
+    this.managementPromptComponent.searchPrompt(1);
   }
 
 }

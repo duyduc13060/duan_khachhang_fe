@@ -10864,6 +10864,12 @@ body {
   display: flex;
 }
 #layoutSidenav #layoutSidenav_nav {
+
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 200px;
+
   flex-basis: 225px;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;

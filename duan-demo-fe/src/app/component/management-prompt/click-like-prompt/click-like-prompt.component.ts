@@ -38,7 +38,9 @@ export class ClickLikePromptComponent implements OnInit,ICellRendererAngularComp
     }
     this.clickLikeService.clickLike(data).subscribe(res=>{
       console.log("da like");
-      this.managementPromptComponent.searchPrompt(0);
+      // this.managementPromptComponent.searchPrompt(1);
+      this.countNumberLike();
+      this.viewDetailClick();
     })
    
   }

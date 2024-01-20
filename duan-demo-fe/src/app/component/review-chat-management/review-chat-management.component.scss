@@ -1,7 +1,11 @@
 .list-feedback {
   margin-top: 50px;
-  margin-left: 25px;
+  // margin-left: 25px;
   margin-right: 25px;
+
+  padding-left: 250px;
+  height: 100vh;
+  overflow: auto;
 
   table {
     width: 100%;

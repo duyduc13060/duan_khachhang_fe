@@ -73,10 +73,10 @@ export class ManagementUserComponent implements OnInit {
     console.log(page + ">>>>page");
     this.userService.searchUser(this.objSearch).subscribe(
       (res:any) => {
-       this.lstUser = res.data.data
+       this.lstUser = res.data.content
        
-       this.total = res?.data?.total;
-       this.totalPage = res?.data?.totalPage;
+       this.total = res?.data?.totalElements;
+       this.totalPage = res?.data?.totalPages;
 
        this.changeDetectorRef.detectChanges();
       },
