@@ -77,7 +77,7 @@
   padding-right: 35px;
 
   padding-left: 250px;
-  height: 100vh;
+  height: 90vh;
   overflow: auto;
 
   .user-manager-header{
@@ -140,30 +140,30 @@
   }
 }
 
-:host::ng-deep {
-  .u-manager {
-    .grid {
-      .ag-header{
-        position: sticky;
-        top: 133px;
-        z-index: 1;
-      }
+// :host::ng-deep {
+//   .u-manager {
+//     .grid {
+//       .ag-header{
+//         position: sticky;
+//         top: 133px;
+//         z-index: 1;
+//       }
 
-      .ag-root-wrapper{
-        overflow: unset;
-      }
+//       .ag-root-wrapper{
+//         overflow: unset;
+//       }
 
-      .set-height-ag-root-wrapper {
-        .ag-root-wrapper {
-          height: 480px;
-        }
-      }
-    }
+//       .set-height-ag-root-wrapper {
+//         .ag-root-wrapper {
+//           height: 480px;
+//         }
+//       }
+//     }
 
-    .top {
-      .ag-header{
-        top: 226.5px;
-      }
-    }
-  }
-}
+//     .top {
+//       .ag-header{
+//         top: 226.5px;
+//       }
+//     }
+//   }
+// }
