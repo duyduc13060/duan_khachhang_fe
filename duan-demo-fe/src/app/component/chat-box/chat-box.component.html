@@ -12,16 +12,16 @@
                       <div class="row">
                           <div style="display: flex; justify-content: space-between;">
                               <div class="col-lg-6">
-                                  <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                  <!-- <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                       <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                   </a>
                                   <div class="chat-about">
                                       <h6 class="m-b-0" style="font-size: 25px;">{{username}}</h6>
-                                      <!-- <small>Last seen: 2 hours ago</small> -->
-                                  </div>
+                                      <small>Last seen: 2 hours ago</small>
+                                  </div> -->
                               </div>
                               <div>
-                                  <label for="" style="margin-bottom: 10px;">Lựa chọn Model</label>
+                                  <label for="" style="margin-bottom: 5px;">Lựa chọn Model</label>
                                   <ng-select
                                   [items]="listModel"
                                   placeholder="Lựa chọn"
@@ -40,7 +40,7 @@
                   </div>
                   <!-- body -->
                   <div class="chat-history" id="scroll" >
-                      <ul class="m-b-0" style="height: 72vh; overflow: scroll;" #scrollframe>
+                      <ul class="m-b-0" style="height: 69vh; overflow: scroll;" #scrollframe>
 
                           <li class="clearfix"  *ngFor="let item of listMessage" #item>
                               <div class="message-data text-right" style="display: flex;
@@ -48,7 +48,7 @@
                                   <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                   <div style="font-size: 15px; text-transform: uppercase;">YOU</div>
                               </div>
-                              <div class="message other-message" style="white-space: break-spaces;">
+                              <div class="message other-message" style="margin-right: 20px;">
                                   <!-- <span style="float: inline-start;">{{item.contentRequest}}</span> -->
                                   {{item.contentRequest}}
                               </div>
@@ -81,10 +81,10 @@
 
                   <div class="chat-message clearfix">
                       <div class="input-group mb-0">
-                          <input type="text" class="form-control"
+                          <textarea class="form-control" style="height: 90px;"
                           [(ngModel)]="chatRequest.content"
                            placeholder="Enter text here..."
-                           (keyup.enter)="sendChatBox()">
+                           (keyup.enter)="sendChatBox()"></textarea>
                            <div class="input-group-prepend" (click)="sendChatBox()">
                               <span class="input-group-custom">
                                   <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">

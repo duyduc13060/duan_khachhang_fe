@@ -2,11 +2,13 @@ import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } fro
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { Action } from 'src/app/_model/action.model';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
 import { ReviewServiceService } from 'src/app/_service/review-service/review-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewComponent } from '../review/review.component';
 
 @Component({
@@ -19,8 +21,12 @@ export class QuestionAnswerComponent implements OnInit {
   isLoading: boolean = false;
   username;
   role;
+  action: Action = new Action();
 
   listModel = [
+    {
+      name: "gemini-pro"
+    },
     {
       name: "mixtral-8x7b-instruct"
     },
@@ -57,6 +63,7 @@ export class QuestionAnswerComponent implements OnInit {
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
     this.getMessage()
+    this.action = CommonFunction.getActionOfFunction('QLQS')
   }
 
   ngAfterViewInit() {
@@ -77,21 +84,23 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   fileName;
+  fileNames: string[];
   fileImport: File;
+  filesImport: FileList;
   formData;
   form: FormGroup;
 
   upload(files: FileList | null) {
     if (files && files.length > 0) {
-      this.fileImport = files[0];
-      console.log(this.fileImport);
-      this.fileName = this.fileImport.name;
+      this.filesImport = files;
+      console.log(this.filesImport);
+      this.fileNames = Array.from(files).map(file => file.name);
     }
-  }
+}
 
   documentResponse:any;
   searchEs(){
-
+    this.isLoading = true;
     const data = {
       document: this.chatRequest.content
     }
@@ -118,26 +127,27 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   importFile(){
-    if (this.fileImport) {
-      console.log('File Name:', this.fileImport.name);
-      console.log('File Size:', this.fileImport.size);
-      console.log('File Type:', this.fileImport.type);
+    if (this.filesImport) {
+      Array.from(this.filesImport).forEach(file => {
+        console.log('File Name:', file.name);
+        console.log('File Size:', file.size);
+        console.log('File Type:', file.type);
 
-      // Tạo FormData và thêm file vào đó
-      const formData = new FormData();
-      formData.append('file', this.fileImport);
-      this.toastr.success("Upload file thành công");
+        // Tạo FormData và thêm file vào đó
+        const formData = new FormData();
+        formData.append('file', file);
+        this.toastr.success("Upload file thành công");
 
-      // Gửi formData đến server
-      this.questionAnswerServiceService.uploadFile(formData).subscribe(
-        (res:any) => {
-            this.toastr.success("Upload file thành công");
-        },
-        (error) => {
-          console.error("File is not selected.", error);
-        }
-      );
-
+        // Gửi formData đến server
+        this.questionAnswerServiceService.uploadFile(formData).subscribe(
+          (res:any) => {
+              this.toastr.success("Upload file thành công");
+          },
+          (error) => {
+            console.error("File is not selected.", error);
+          }
+        );
+      });
     } else {
       console.error('File is not selected.');
       this.toastr.error('File is not selected.');
@@ -168,7 +178,7 @@ export class QuestionAnswerComponent implements OnInit {
 
     if(this.chatRequest.model === 'bedrock'){
       const request = {
-        prompt: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer " + this.chatRequest.system + ". {Context} " + this.chatRequest.context + " " + documentResponse + " {End}. <br><b>Question: " + this.chatRequest.content +"</b>",
+        prompt: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer " + "{Context} " + this.chatRequest.context + " " + documentResponse + " {End}. <br><b>Question: " + this.chatRequest.content +"</b>",
         key: "ABC@123",
         max: 5000
       }
@@ -183,6 +193,28 @@ export class QuestionAnswerComponent implements OnInit {
         }
       })
 
+    }else if(this.chatRequest.model === 'gemini-pro'){
+      const request = {
+        contents: [
+          {
+            parts: [
+              {
+                text: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer " + "{Context} " + this.chatRequest.context + " " + documentResponse + " {End}. <br><b>Question: " + this.chatRequest.content +"</b>"
+              }
+            ]
+          }
+        ]
+      }
+
+      this.chatBoxService.sendChatGeminiPro(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
     }else{
       const request = {
         model:this.chatRequest.model,
@@ -193,7 +225,7 @@ export class QuestionAnswerComponent implements OnInit {
           },
           {
             role: "user",
-            content: "System: " + this.chatRequest.system + ". {Context} " + this.chatRequest.context + " " + documentResponse + " {End}.<br><b>Question: " + this.chatRequest.content +"</b>"
+            content: "{Context} " + this.chatRequest.context + " " + documentResponse + " {End}.<br><b>Question: " + this.chatRequest.content +"</b>"
           },
         ],
         max_tokens: 20000,

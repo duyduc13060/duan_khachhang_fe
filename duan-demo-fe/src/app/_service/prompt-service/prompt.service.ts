@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
+const AUTH_API = environment.apiUrl + "QLPT";
 
-const AUTH_API = 'http://localhost:8084/api/QLPT';
 @Injectable({
   providedIn: 'root'
 })

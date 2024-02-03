@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
   <!-- Navbar Brand-->
   <a class="navbar-brand ps-3" href="index.html">Welcome to {{username}}</a>
   <!-- Sidebar Toggle-->
@@ -18,8 +18,8 @@
       <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
         aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="#!">Settings</a></li>
-        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+        <li><a class="dropdown-item">Settings</a></li>
+        <li><a class="dropdown-item">Activity Log</a></li>
         <li>
           <hr class="dropdown-divider" />
         </li>
@@ -38,7 +38,7 @@
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Dashboard
           </a>
-          <div class="sb-sidenav-menu-heading">Interface</div>
+          <div class="sb-sidenav-menu-heading">Menu</div>
 
           <!-- tab management user -->
           <!-- <a class="nav-link collapsed" [routerLink]="['/list-task']" data-bs-toggle="collapse"
@@ -70,7 +70,7 @@
           </div> -->
 
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse-word"
-            aria-expanded="false" aria-controls="collapse-word" *ngIf="this.authenQLTASK || this.authenQLNOTE">
+            aria-expanded="false" aria-controls="collapse-word" *ngIf="this.authenQLTASK || this.authenQLNOTE || this.authenQLFB">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Công việc
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -79,7 +79,7 @@
             <nav class="sb-sidenav-menu-nested nav">
               <a class="nav-link" [routerLink]="['/list-task']"*ngIf="this.authenQLTASK" >Quản lý công việc</a>
               <a class="nav-link" [routerLink]="['/list-note']" *ngIf="this.authenQLNOTE">Quản lý note</a>
-              <a class="nav-link" [routerLink]="['/review-chat-management']">Quản lý chat feedback</a>
+              <a class="nav-link" [routerLink]="['/review-chat-management']" *ngIf="this.authenQLFB">Quản lý chat feedback</a>
             </nav>
           </div>
 
@@ -120,8 +120,8 @@
           </a>
           <div class="collapse" id="collapse-chatBox" aria-labelledby="heading" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" [routerLink]="['/chat-box']" *ngIf="this.authenQLCHAT">Text search</a>
-              <a class="nav-link" [routerLink]="['/question-answer']" *ngIf="this.authenQLQS">Question & Answer</a>
+              <a class="nav-link" [routerLink]="['/chat-box']" *ngIf="this.authenQLCHAT">Code Generator</a>
+              <a class="nav-link" [routerLink]="['/question-answer']" *ngIf="this.authenQLQS">Chat With Doc</a>
             </nav>
           </div>
           <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"

@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { RoleSearch } from 'src/app/_model/role-search';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
-const AUTH_API = 'http://localhost:8084/api/QLR';
+const AUTH_API = environment.apiUrl + "QLR";
 
 @Injectable({
   providedIn: 'root'

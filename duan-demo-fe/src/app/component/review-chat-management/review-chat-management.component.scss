@@ -1,33 +1,57 @@
 .list-feedback {
-  margin-top: 50px;
-  // margin-left: 25px;
-  margin-right: 25px;
-
-  padding-left: 250px;
+  margin: 36px;
+  padding-left: 220px;
+  padding-right: 25px;
   height: 100vh;
   overflow: auto;
+  background-color: #f5f5f5;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-  }
+.list-feedback tr:nth-child(even) {
+  background-color: #e8eeee;
+}
 
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
+.btn-delete {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  th {
+.btn-delete:hover {
+  background-color: #c9302c;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+
+  button {
+    background-color: #f8f9fa;
+    border: none;
+    color: #6c757d;
     text-align: center;
-  }
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    padding: 10px 24px;
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    border: 2px solid #6c757d;
 
-  tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+    &:hover {
+      background-color: #6c757d;
+      color: white;
+    }
 
-  tbody tr:hover {
-    background-color: #ddd;
+    &.active {
+      background-color: #367047;
+      color: rgb(43, 101, 139);
+    }
   }
 }

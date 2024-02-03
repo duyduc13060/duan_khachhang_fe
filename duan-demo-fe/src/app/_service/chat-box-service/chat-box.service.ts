@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-const AUTH_API = 'http://localhost:8084/api/QLCHAT/chat-box';
+const AUTH_API = environment.apiUrl + "QLCHAT/chat-box";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,8 @@ export class ChatBoxService {
     return this.http.post(AUTH_API + "/generate-message-amazon", data);
   }
 
-
+  sendChatGeminiPro(data:any): Observable<any>{
+    return this.http.post(AUTH_API + "/generate-message-gemini-pro", data);
+  }
 
 }

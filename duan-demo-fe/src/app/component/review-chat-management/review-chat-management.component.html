@@ -1,4 +1,4 @@
-<div class="list-feedback" style="margin-left: 25px; margin-right: 25px;">
+<div class="list-feedback">
 
   <h1>Danh sách Feedback</h1>
 
@@ -11,17 +11,22 @@
             <th>AI Response</th>
             <th>Rating</th>
             <th>Request Type</th>
+            <th>Management</th>
         </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of listChatReview; let i = index">
-        <td>{{i + 1}}</td>
+        <td>{{count + i+1}}</td>
         <td>{{item.content}}</td>
         <td>{{item.messageRequest}}</td>
         <td>{{item.messageResponse}}</td>
         <td>{{item.rating}}</td>
         <td>{{item.type}}</td>
+        <td><button class="btn-delete" (click)="deleteReview(item.id)">Xóa</button></td>
       </tr>
     </tbody>
   </table>
+  <div class="pagination">
+    <button *ngFor="let page of totalPages" (click)="changePage(page)">{{page}}</button>
+  </div>
 </div>

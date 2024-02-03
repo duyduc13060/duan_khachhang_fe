@@ -38,11 +38,12 @@ import { PaginationComponent } from './component/pagination/pagination.component
 import { PublicComponent } from './component/public/public.component';
 import { QuestionAnswerComponent } from './component/question-answer/question-answer.component';
 import { RegisterAccountComponent } from './component/register-account/register-account.component';
+import { ReviewChatManagementComponent } from './component/review-chat-management/review-chat-management.component';
 import { ReviewComponent } from './component/review/review.component';
 import { Date2Component } from './component/share/date2/date2.component';
 import { SpinnerComponent } from './component/spinner/spinner.component';
 import { CalendarTriggerDirective } from './directives/calendar-trigger.directive';
-import { ReviewChatManagementComponent } from './component/review-chat-management/review-chat-management.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -97,6 +98,7 @@ import { ReviewChatManagementComponent } from './component/review-chat-managemen
     MatDialogModule,
     MatTooltipModule,
     MatCheckboxModule,
+
 
     ToastrModule.forRoot({
       timeOut: 4000,

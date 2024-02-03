@@ -1,7 +1,37 @@
-.container-fluid{
-    padding-right: 35px;
+// .container-fluid{
+//     padding-right: 35px;
 
-    padding-left: 250px !important;
-    height: 90vh;
-    overflow: auto;
+//     padding-left: 250px !important;
+//     height: 90vh;
+//     overflow: auto;
+// }
+
+.container-fluid {
+  margin-left: 250px;
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+
+  .card-header {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-weight: bold;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      text-align: left;
+      padding: 8px;
+      color: blue;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  }
 }

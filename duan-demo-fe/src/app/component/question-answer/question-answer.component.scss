@@ -1,9 +1,10 @@
 
 .container-fluid{
     height: 100vh;
-    overflow: auto;
+    // overflow: auto;
     padding-left: 250px;
     padding-right: 70px;
+    overflow: hidden;
 }
 body{
     background-color: #f4f7f6;

@@ -35,6 +35,7 @@ export class AuthenticatedComponent implements OnInit {
   authenQLCHAT = false;
   authenQLQS = false;
   authenQLPT = false;
+  authenQLFB = true;
   authen(){
     this.functionCode =  sessionStorage.getItem("functionCode");
 

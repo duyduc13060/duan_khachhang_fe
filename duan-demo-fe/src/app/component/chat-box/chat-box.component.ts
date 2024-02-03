@@ -20,6 +20,9 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
 
   listModel = [
     {
+      name: "gemini-pro"
+    },
+    {
       name: "mixtral-8x7b-instruct"
     },
     {
@@ -91,6 +94,29 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
       }
 
       this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+
+    }else if(this.chatRequest.model === 'gemini-pro'){
+      const request = {
+        contents: [
+          {
+            parts: [
+              {
+                text: this.chatRequest.content
+              }
+            ]
+          }
+        ]
+      }
+
+      this.chatBoxService.sendChatGeminiPro(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
           this.getMessage();

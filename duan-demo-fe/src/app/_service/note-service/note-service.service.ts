@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/_model/User';
+import { environment } from '../../../environments/environment';
 
-const AUTH_API = 'http://localhost:8084/api/QLNOTE/note';
+const AUTH_API = environment.apiUrl + "QLNOTE/note";
+
 @Injectable({
   providedIn: 'root'
 })
