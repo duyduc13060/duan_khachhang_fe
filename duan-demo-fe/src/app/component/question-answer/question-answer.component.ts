@@ -25,9 +25,6 @@ export class QuestionAnswerComponent implements OnInit {
 
   listModel = [
     {
-      name: "gemini-pro"
-    },
-    {
       name: "mixtral-8x7b-instruct"
     },
     {
@@ -35,6 +32,9 @@ export class QuestionAnswerComponent implements OnInit {
     },
     {
       name: "bedrock"
+    },
+    {
+      name: "gemini-pro"
     },
   ]
 
@@ -105,8 +105,8 @@ export class QuestionAnswerComponent implements OnInit {
       document: this.chatRequest.content
     }
     this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
-      this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
-
+      // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
+        this.documentResponse = res[0].document;
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
       }, 1000);
@@ -221,7 +221,7 @@ export class QuestionAnswerComponent implements OnInit {
         messages: [
           {
             role: "system",
-            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer "
+            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Chỉ ra ở cuối của câu trả lời là thông tin đó có ở trang bao nhiêu của tài liệu tên là gì."
           },
           {
             role: "user",
