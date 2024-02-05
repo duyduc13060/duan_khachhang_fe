@@ -89,6 +89,7 @@ export class QuestionAnswerComponent implements OnInit {
   filesImport: FileList;
   formData;
   form: FormGroup;
+  documentFileName;
 
   upload(files: FileList | null) {
     if (files && files.length > 0) {
@@ -102,15 +103,22 @@ export class QuestionAnswerComponent implements OnInit {
   searchEs(){
     this.isLoading = true;
     const data = {
-      document: this.chatRequest.content
+      content: this.chatRequest.content
     }
     this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
       // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
-        this.documentResponse = res[0].document;
+      if (res.length === 0) {
+        this.isLoading = false;
+        this.toastr.error('You do not upload documents! Please upload them.');
+      }
+      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+      res.sort((a, b) => a.trunkCount - b.trunkCount);
+      // Lấy ra content của 3 phần tử đầu tiên sau khi đã sắp xếp
+      this.documentResponse = res[0].content + res[1].content + res[2].content;
+      this.documentFileName = res[0].fileName;
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
       }, 1000);
-
     })
   }
 
@@ -221,7 +229,7 @@ export class QuestionAnswerComponent implements OnInit {
         messages: [
           {
             role: "system",
-            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Chỉ ra ở cuối của câu trả lời là thông tin đó có ở trang bao nhiêu của tài liệu tên là gì."
+            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Chỉ ra ở cuối của câu trả lời là thông tin đó có ở trang bao nhiêu của tài liệu tên là: " + this.documentFileName
           },
           {
             role: "user",

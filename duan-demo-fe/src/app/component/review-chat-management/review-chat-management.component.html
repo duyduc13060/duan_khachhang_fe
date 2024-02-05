@@ -7,10 +7,12 @@
         <tr>
             <th>STT</th>
             <th>Feedback</th>
+            <th>User Name</th>
             <th>Question</th>
             <th>AI Response</th>
             <th>Rating</th>
             <th>Request Type</th>
+            <th>Model Name</th>
             <th>Management</th>
         </tr>
     </thead>
@@ -18,10 +20,12 @@
       <tr *ngFor="let item of listChatReview; let i = index">
         <td>{{count + i+1}}</td>
         <td>{{item.content}}</td>
+        <td>{{item.createName}}</td>
         <td>{{item.messageRequest}}</td>
         <td>{{item.messageResponse}}</td>
         <td>{{item.rating}}</td>
         <td>{{item.type}}</td>
+        <td>{{item.modelName}}</td>
         <td><button class="btn-delete" (click)="deleteReview(item.id)">Xóa</button></td>
       </tr>
     </tbody>

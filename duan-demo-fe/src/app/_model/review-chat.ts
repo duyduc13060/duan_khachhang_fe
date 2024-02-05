@@ -5,4 +5,5 @@ export class Review {
   type: string;
   messageRequest: string;
   messageResponse: string;
+  models: string;
 }
