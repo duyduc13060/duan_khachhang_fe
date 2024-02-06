@@ -42,7 +42,9 @@ import { ReviewChatManagementComponent } from './component/review-chat-managemen
 import { ReviewComponent } from './component/review/review.component';
 import { Date2Component } from './component/share/date2/date2.component';
 import { SpinnerComponent } from './component/spinner/spinner.component';
+import { ViewReferDocumentComponent } from './component/view-refer-document/view-refer-document.component';
 import { CalendarTriggerDirective } from './directives/calendar-trigger.directive';
+import { HighlighterPipe } from './pipes/highlighter.pipe';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { CalendarTriggerDirective } from './directives/calendar-trigger.directiv
     NgbSingleDatePickerComponent,
     Date2Component,
     CalendarTriggerDirective,
-    ReviewChatManagementComponent
+    ReviewChatManagementComponent,
+    ViewReferDocumentComponent,
+    HighlighterPipe
    ],
   imports: [
     FormsModule,

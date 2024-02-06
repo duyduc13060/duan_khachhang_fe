@@ -15,6 +15,7 @@ import { PublicComponent } from './component/public/public.component';
 import { QuestionAnswerComponent } from './component/question-answer/question-answer.component';
 import { RegisterAccountComponent } from './component/register-account/register-account.component';
 import { ReviewChatManagementComponent } from './component/review-chat-management/review-chat-management.component';
+import { ViewReferDocumentComponent } from './component/view-refer-document/view-refer-document.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'list-note', component: ListNoteComponent, canActivate: [AuthGuard] },
       { path: 'review-chat-management', component: ReviewChatManagementComponent, canActivate: [AuthGuard] },
+      { path: 'view-refer-document', component: ViewReferDocumentComponent },
       { path: 'list-task', component: ListTaskComponent, canActivate: [AuthGuard] },
       { path: 'list-management-user', component: ManagementUserComponent, canActivate: [AuthGuard] },
 

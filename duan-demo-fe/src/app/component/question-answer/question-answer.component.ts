@@ -6,10 +6,10 @@ import { Action } from 'src/app/_model/action.model';
 import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
-import { ReviewServiceService } from 'src/app/_service/review-service/review-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewComponent } from '../review/review.component';
+import { ViewReferDocumentComponent } from '../view-refer-document/view-refer-document.component';
 
 @Component({
   selector: 'app-question-answer',
@@ -52,7 +52,6 @@ export class QuestionAnswerComponent implements OnInit {
     private toastr: ToastrService,
     private questionAnswerServiceService : QuestionAnswerServiceService,
     private chatBoxService: ChatBoxService,
-    private reviewService: ReviewServiceService,
     private matDialog: MatDialog,
   ) { }
 
@@ -62,6 +61,7 @@ export class QuestionAnswerComponent implements OnInit {
     //this.chatRequest.system = "System: Chỉ được sử dụng thông tin trong Context để trả lời yêu cầu ở cuối cùng. Nếu không biết thì trả lời là không biết. Yêu cầu trả lời hoàn toàn theo ngôn ngữ của yêu cầu ở dưới cùng."
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
+    this.documentFileName = '';
     this.getMessage()
     this.action = CommonFunction.getActionOfFunction('QLQS')
   }
@@ -90,6 +90,7 @@ export class QuestionAnswerComponent implements OnInit {
   formData;
   form: FormGroup;
   documentFileName;
+  allFileContent;
 
   upload(files: FileList | null) {
     if (files && files.length > 0) {
@@ -113,8 +114,15 @@ export class QuestionAnswerComponent implements OnInit {
       }
       // Sắp xếp mảng theo giá trị tăng dần của trunkCount
       res.sort((a, b) => a.trunkCount - b.trunkCount);
-      // Lấy ra content của 3 phần tử đầu tiên sau khi đã sắp xếp
-      this.documentResponse = res[0].content + res[1].content + res[2].content;
+
+      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+      if (res.length >= 3) {
+        this.documentResponse = res[0].content + res[1].content + res[2].content;
+      } else if (res.length === 2) {
+        this.documentResponse = res[0].content + res[1].content;
+      } else if (res.length === 1) {
+        this.documentResponse = res[0].content;
+      }
       this.documentFileName = res[0].fileName;
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
@@ -229,7 +237,7 @@ export class QuestionAnswerComponent implements OnInit {
         messages: [
           {
             role: "system",
-            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Chỉ ra ở cuối của câu trả lời là thông tin đó có ở trang bao nhiêu của tài liệu tên là: " + this.documentFileName
+            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Xuống dòng ở cuối câu trả lời và trả lời thông tin sau: thông tin context đó có ở trang bao nhiêu của tài liệu: " + this.documentFileName
           },
           {
             role: "user",
@@ -258,6 +266,36 @@ export class QuestionAnswerComponent implements OnInit {
       console.log(this.listMessage);
     })
   }
+
+  openPdfViewer(){
+    const data = {
+      filename: this.documentFileName,
+    }
+    this.matDialog
+     .open(ViewReferDocumentComponent, {
+        width: "850px",
+        maxHeight: "90vh",
+        maxWidth: "90vw",
+        data: data,
+        panelClass: "pdf-viewer-custom",
+        autoFocus: false,
+      })
+     .afterClosed().subscribe((resp) => {
+      });
+  }
+
+  clickRefer(data : any){
+    this.questionAnswerServiceService.getOriginalFile(data).subscribe(res =>{
+    // Nếu res có giá trị thì: this.allFileContent = res
+    if (res) {
+      this.allFileContent = res;
+      console.log(this.allFileContent); // In giá trị của allFileContent
+    }
+  }, err => {
+    // Nếu không thì báo lỗi
+    console.error('Có lỗi xảy ra:', err);
+  });
+}
 
   openFormCreate(messageId, rating){
     const data = {

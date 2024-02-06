@@ -121,7 +121,10 @@
                                       </div>
                                   </div>
                                   <div class="message my-message" style="white-space: break-spaces;">
-                                      {{item.contentResponse}}
+                                    {{item.contentResponse}}
+                                  </div>
+                                  <div *ngIf="documentFileName !== ''">
+                                    <span style="cursor: pointer; text-decoration: underline; color: blue;" (click)="openPdfViewer()">Refer: {{documentFileName}}</span>
                                   </div>
                                   <div style="margin-top: 10px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" (click)="openFormCreate(item.id, 'normal')" height="16" width="16" viewBox="0 0 512 512">

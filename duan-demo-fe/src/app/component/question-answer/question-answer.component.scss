@@ -301,3 +301,13 @@ body{
     left: 50%;
     position: absolute;
   }
+
+  .nav-link {
+    color: #007bff; // Màu xanh dương của hyperlink
+    text-decoration: underline; // Gạch chân cho hyperlink
+
+    &:hover {
+      color: #0056b3; // Màu khi hover
+      text-decoration: none; // Bỏ gạch chân khi hover
+    }
+  }

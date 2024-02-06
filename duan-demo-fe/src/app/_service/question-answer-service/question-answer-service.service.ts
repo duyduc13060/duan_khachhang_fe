@@ -26,6 +26,7 @@ export class QuestionAnswerServiceService {
     return this.http.delete(AUTH_API + '/delete/message_index');
   }
 
-
-
+  getOriginalFile(data:any) : Observable<any>{
+    return this.http.post(AUTH_API + '/get/original/file', data);
+  }
 }
