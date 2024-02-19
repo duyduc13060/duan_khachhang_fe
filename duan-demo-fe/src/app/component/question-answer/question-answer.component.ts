@@ -38,6 +38,8 @@ export class QuestionAnswerComponent implements OnInit {
     },
   ]
 
+  releated;
+
   listMessage;
   chatRequest = new ChatRequest();
   private timeoutId: any;
@@ -62,7 +64,9 @@ export class QuestionAnswerComponent implements OnInit {
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
     this.documentFileName = '';
-    this.getMessage()
+    this.getMessage0();
+    this.getMessage1();
+
     this.action = CommonFunction.getActionOfFunction('QLQS')
   }
 
@@ -202,7 +206,7 @@ export class QuestionAnswerComponent implements OnInit {
       this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage();
+          this.getMessage0();
           this.chatRequest.content = '';
         }else{
           this.toastr.error("co loi xay ra");
@@ -225,7 +229,7 @@ export class QuestionAnswerComponent implements OnInit {
       this.chatBoxService.sendChatGeminiPro(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage();
+          this.getMessage0();
           this.chatRequest.content = '';
         }else{
           this.toastr.error("co loi xay ra");
@@ -245,14 +249,42 @@ export class QuestionAnswerComponent implements OnInit {
           },
         ],
         max_tokens: 20000,
-        temperature: 0
+        temperature: 0,
+        type: 0
       }
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage();
+          this.getMessage0();
           this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+
+      const request2 = {
+        model:this.chatRequest.model,
+        messages: [
+          {
+            role: "system",
+            content: "Be precise and concise."
+          },
+          {
+            role: "user",
+            content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + this.chatRequest.content
+          },
+        ],
+        type: 1
+      }
+
+      this.chatBoxService.send(request2).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage1();
+          this.chatRequest.content = '';
+          sessionStorage.setItem('releated',res.data.choices[0].message.content);
+          console.log(res.data.choices[0].message.content);
         }else{
           this.toastr.error("co loi xay ra");
         }
@@ -260,9 +292,107 @@ export class QuestionAnswerComponent implements OnInit {
     }
   }
 
-  getMessage(){
-    this.chatBoxService.getMessage().subscribe(res =>{
+
+  documentResponse1:any;
+  searchEs1(dataR){
+    this.isLoading = true;
+    const data = {
+      content: dataR
+    }
+    this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
+      // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
+      if (res.length === 0) {
+        this.isLoading = false;
+        this.toastr.error('You do not upload documents! Please upload them.');
+      }
+      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+      res.sort((a, b) => a.trunkCount - b.trunkCount);
+
+      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+      if (res.length >= 3) {
+        this.documentResponse1 = res[0].content + res[1].content + res[2].content;
+      } else if (res.length === 2) {
+        this.documentResponse1 = res[0].content + res[1].content;
+      } else if (res.length === 1) {
+        this.documentResponse1 = res[0].content;
+      }
+      this.documentFileName = res[0].fileName;
+      this.timeoutId = setTimeout(() => {
+        this.clickChatWithDoc(this.documentResponse1,dataR);
+      }, 1000);
+    })
+  }
+
+  clickChatWithDoc(documentResponse1,dataR){
+    this.isLoading = true;
+    const request1 = {
+      model:this.chatRequest.model,
+      messages: [
+        {
+          role: "system",
+          content: "Be precise and concise."
+        },
+        {
+          role: "user",
+          content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Question: " + dataR +"</b>"
+        },
+      ],
+      type: 0
+    }
+
+    this.chatBoxService.send(request1).subscribe((res:any) =>{
+      if(res.status === "OK"){
+        this.isLoading = false;
+        this.getMessage0();
+        this.chatRequest.content = '';
+        sessionStorage.setItem('releated',res.data.choices[0].message.content);
+        console.log(res.data.choices[0].message.content);
+      }else{
+        this.toastr.error("co loi xay ra");
+      }
+    })
+
+    const request2 = {
+      model:this.chatRequest.model,
+      messages: [
+        {
+          role: "system",
+          content: "Be precise and concise."
+        },
+        {
+          role: "user",
+          content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + dataR
+        },
+      ],
+      type: 1
+    }
+
+    this.chatBoxService.send(request2).subscribe((res:any) =>{
+      if(res.status === "OK"){
+        this.isLoading = false;
+        this.getMessage1();
+        this.chatRequest.content = '';
+        sessionStorage.setItem('releated',res.data.choices[0].message.content);
+        console.log(res.data.choices[0].message.content);
+      }else{
+        this.toastr.error("co loi xay ra");
+      }
+    })
+  }
+
+  getMessage0(){
+    this.chatBoxService.getMessage(0).subscribe(res =>{
       this.listMessage = res;
+      console.log(this.listMessage);
+    })
+  }
+
+  listMessage1;
+  getMessage1(){
+    this.chatBoxService.getMessage(1).subscribe(res =>{
+      this.listMessage1 = res;
+      this.releated =  sessionStorage.getItem("releated");
+      console.log(this.releated);
       console.log(this.listMessage);
     })
   }

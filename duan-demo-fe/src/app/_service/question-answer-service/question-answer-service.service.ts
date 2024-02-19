@@ -29,4 +29,13 @@ export class QuestionAnswerServiceService {
   getOriginalFile(data:any) : Observable<any>{
     return this.http.post(AUTH_API + '/get/original/file', data);
   }
+
+  searchCreator(data): Observable<any>{
+    return this.http.post(AUTH_API + '/search/vector/creator',data);
+  }
+
+  deleteDocumentFilename(filename) : Observable<any>{
+    return this.http.delete(AUTH_API + `/delete/vector/filename?filename=${filename}`);
+  }
+
 }

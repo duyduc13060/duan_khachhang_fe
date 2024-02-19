@@ -16,6 +16,7 @@ import { QuestionAnswerComponent } from './component/question-answer/question-an
 import { RegisterAccountComponent } from './component/register-account/register-account.component';
 import { ReviewChatManagementComponent } from './component/review-chat-management/review-chat-management.component';
 import { ViewReferDocumentComponent } from './component/view-refer-document/view-refer-document.component';
+import { DocumentManagementPortalComponent } from './component/document-management-portal/document-management-portal.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
 
       { path: 'chat-box', component: ChatBoxComponent , canActivate: [AuthGuard]},
       { path: 'question-answer', component:  QuestionAnswerComponent, canActivate: [AuthGuard] },
+      { path: 'document-portal', component:  DocumentManagementPortalComponent, canActivate: [AuthGuard] },
     ]
   }
 ];

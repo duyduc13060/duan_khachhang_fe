@@ -45,6 +45,9 @@ import { SpinnerComponent } from './component/spinner/spinner.component';
 import { ViewReferDocumentComponent } from './component/view-refer-document/view-refer-document.component';
 import { CalendarTriggerDirective } from './directives/calendar-trigger.directive';
 import { HighlighterPipe } from './pipes/highlighter.pipe';
+import { DocumentManagementPortalComponent } from './component/document-management-portal/document-management-portal.component';
+import { ActionDocumentPortalComponent } from './component/document-management-portal/action-document-portal/action-document-portal.component';
+import { ViewDetailDocumentComponent } from './component/document-management-portal/view-detail-document/view-detail-document.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,10 @@ import { HighlighterPipe } from './pipes/highlighter.pipe';
     ClickLikePromptComponent,
 
     ChatBoxComponent,
+
+    DocumentManagementPortalComponent,
+    ViewDetailDocumentComponent,
+    ActionDocumentPortalComponent,
 
     QuestionAnswerComponent,
     ReviewComponent,

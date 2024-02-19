@@ -15,8 +15,8 @@ export class ChatBoxService {
   ) { }
 
 
-  getMessage(): Observable<any>{
-    return this.http.get(AUTH_API + '/get-message');
+  getMessage(type): Observable<any>{
+    return this.http.get(AUTH_API + `/get-message?type=${type}`);
   }
 
   send(data:any): Observable<any>{

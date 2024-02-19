@@ -47,7 +47,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   ngOnInit() {
     this.username = this.tokenStorageService.getUser();
     this.chatRequest.model = this.listModel[0].name
-    this.getMessage()
+    this.getMessage();
   }
 
   ngAfterViewInit() {
@@ -71,12 +71,11 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   listMessage;
   listMessageBedrock;
   getMessage(){
-    this.chatBoxService.getMessage().subscribe(res =>{
+    this.chatBoxService.getMessage(0).subscribe(res =>{
       this.listMessage = res;
       console.log(this.listMessage);
     })
   }
-
 
   sendChatBox(){
     this.isLoading = true;
@@ -138,7 +137,8 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
             role: "user",
             content: this.chatRequest.content
           },
-        ]
+        ],
+        type: 0
       }
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
@@ -150,6 +150,9 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
           this.toastr.error("co loi xay ra");
         }
       })
+
+
+
     }
 
   }
