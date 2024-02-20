@@ -15,10 +15,14 @@
     <div class="portal-management-header-create blue">
       <div [formGroup]="form">
         <div class="upload-file" (keydown.enter)="file.click()" >
-          <input #file type="file"  id="upload-file" style="display: none;"
-                  (change)="upload(file.files); importFile($event)">
-          <label for="upload-file"  tabindex="0" class="index-focus file i-btn"
-          style="width: auto; padding: 7px 15px;
+          <input #file type="file"  
+                  id="upload-file" 
+                  style="display: none;"
+                  multiple
+                  (change)="upload(file.files); 
+                  importFile($event)">
+          <label  for="upload-file"  tabindex="0" class="index-focus file i-btn"
+                  style="width: auto; padding: 7px 15px;
                   background: #308ee0;
                   color: white;
                   font-size: 15px;">

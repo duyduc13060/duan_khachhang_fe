@@ -59,7 +59,12 @@
                       <!-- *ngIf="role === 'ADMIN'" -->
                       <div *ngIf="action?.create" style="display: flex; align-items: center;">
                         <div class="upload-file" (keydown.enter)="file.click()" style="display: flex; align-items: center;">
-                          <input #file type="file" id="upload-file" style="display: none;" multiple (change)="upload(file.files); importFile()">
+                          <input #file type="file" 
+                                 id="upload-file" 
+                                 style="display: none;" 
+                                 multiple 
+                                 (change)="upload(file.files); 
+                                 importFile()">
                           <label for="upload-file" tabindex="0" class="index-focus file i-btn" style="padding: 7px 15px; background: #308ee0; color: white; font-size: 15px;">
                             <!-- SVG icon here -->
                             Tải file
@@ -149,9 +154,7 @@
                                         </div>
                                     </div>
                                   </div>
-
                               </div>
-
                           </li>
                       </ul>
                   </div>
