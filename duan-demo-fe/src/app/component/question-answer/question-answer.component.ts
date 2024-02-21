@@ -277,14 +277,23 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
+<<<<<<< HEAD
           // this.isLoading = false;
+=======
+          this.isLoading = false;
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
           this.getMessage0();
           this.chatRequest.content = '';
 
           this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+<<<<<<< HEAD
             // this.isLoading = false;
             if(res.status === "OK"){
               this.isLoading = false;
+=======
+            this.isLoading = false;
+            if(res.status === "OK"){
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
               // this.getMessage1();
               this.chatRequest.content = '';
               sessionStorage.setItem('releated',res.data.choices[0].message.content);
@@ -301,7 +310,11 @@ export class QuestionAnswerComponent implements OnInit {
         console.error(error);
       });
 
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
 
       // this.isLoading = false;
       // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
@@ -357,11 +370,19 @@ export class QuestionAnswerComponent implements OnInit {
       messages: [
         {
           role: "system",
+<<<<<<< HEAD
           content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Xuống dòng ở cuối câu trả lời và trả lời thông tin sau: thông tin context đó có ở trang bao nhiêu của tài liệu: " + this.documentFileName
         },
         {
           role: "user",
           content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Câu Hỏi: " + dataR +"</b>"
+=======
+          content: "Be precise and concise."
+        },
+        {
+          role: "user",
+          content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Question: " + dataR +"</b>"
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
         },
       ],
       type: 0
@@ -397,14 +418,23 @@ export class QuestionAnswerComponent implements OnInit {
 
     this.chatBoxService.send(request1).subscribe((res:any) =>{
       if(res.status === "OK"){
+<<<<<<< HEAD
         // this.isLoading = false;
+=======
+        this.isLoading = false;
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
         this.getMessage0();
         this.chatRequest.content = '';
 
         this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+<<<<<<< HEAD
           // this.isLoading = false;
           if(res.status === "OK"){
             this.isLoading = false;
+=======
+          this.isLoading = false;
+          if(res.status === "OK"){
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
             // this.getMessage1();
             this.chatRequest.content = '';
             sessionStorage.setItem('releated',res.data.choices[0].message.content);
@@ -421,7 +451,11 @@ export class QuestionAnswerComponent implements OnInit {
       console.error(error);
     });
 
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
     // this.isLoading = false;
     // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
     //   this.isLoading = false;

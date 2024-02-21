@@ -7,6 +7,75 @@
       <div>
           <div class="" style="padding-left: 10px; padding-right: 10px; padding-bottom: 5px; height: fit-content;">
               <div class="chat">
+<<<<<<< HEAD
+=======
+                  <div class="chat-header clearfix" style="margin-left: 20px;">
+
+                      <div *ngIf="action?.create" class="row">
+                          <!-- <div class="mb-3">
+                              <label for="exampleFormControlInput1" class="form-label">System</label>
+                              <input type="text" [(ngModel)]="chatRequest.system" class="form-control" id="exampleFormControlInput1"
+                                  style="width: 740px;" placeholder="">
+                          </div> -->
+                          <!-- <div class="mb-3">
+                              <textarea class="form-control"
+                                  [(ngModel)]=" chatRequest.system"
+                                  placeholder="Yêu cầu vai trò cho AI. Ví dụ: Chỉ được sử dụng thông tin trong Context để trả lời câu hỏi ở dưới cùng. Yêu cầu trả lời hoàn toàn bằng tiếng Việt Nam."
+                                  style="height: 50px; width: 1200px;">
+                              </textarea>
+                          </div> -->
+                      </div>
+                      <!-- *ngIf="role === 'ADMIN'" -->
+                      <div *ngIf="action?.create" style="display: flex; align-items: center;">
+                        <div class="upload-file" (keydown.enter)="file.click()" style="display: flex; align-items: center;">
+                          <input #file type="file" 
+                                 id="upload-file" 
+                                 style="display: none;" 
+                                 multiple 
+                                 (change)="upload(file.files); 
+                                 importFile()">
+                          <label for="upload-file" tabindex="0" class="index-focus file i-btn" style="padding: 7px 15px; background: #308ee0; color: white; font-size: 15px;">
+                            <!-- SVG icon here -->
+                            Tải file
+                          </label>
+                        </div>
+                        <button class="btn btn-success" style="margin-left: 10px;" (click)="clearContent()">Clear</button>
+                      </div>
+
+                  </div>
+
+                  <div class="chat-header clearfix row">
+                      <div style="display: flex; justify-content: space-between;
+                      padding: 8px;">
+                        <div class="col-lg-3">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                            </a>
+                            <div class="chat-about">
+                                <h6 class="m-b-0" style="font-size: 25px;">{{username}}</h6>
+                                <!-- <small>Last seen: 2 hours ago</small> -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label for="" style="margin-bottom: 10px;">Lựa chọn Model</label>
+                            <ng-select
+                            [items]="listModel"
+                            placeholder="Lựa chọn"
+                            [(ngModel)]="chatRequest.model"
+                            class="input-select"
+                            bindLabel="name"
+                            bindValue="name"
+                            [searchable]="false"
+                            [clearable]="false"
+                            style="width: 200px;"
+                            >
+                            </ng-select>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- body -->
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
                   <div class="chat-history" id="scroll" style="height: fit-content;">
                       <ul class="m-b-0" style="height: 65vh;overflow: scroll;" #scrollframe1>
 
@@ -48,10 +117,17 @@
                                   <div class="message my-message" style="margin-bottom: 15px; margin-top: 15px;" *ngIf="releated">
                                     <h1>Related</h1>
                                     <div *ngFor="let part of releated.split('\n')" style="display: flex;">
+<<<<<<< HEAD
                                         {{ part }}
                                         <div  (click)="searchEs1(part)">
                                             <i class="fa-solid fa-plus"
                                                 style="cursor: pointer;"
+=======
+                                        {{ part }} 
+                                        <div  (click)="searchEs1(part)">
+                                            <i class="fa-solid fa-plus" 
+                                                style="cursor: pointer;" 
+>>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
                                                >
                                             </i>
                                         </div>
