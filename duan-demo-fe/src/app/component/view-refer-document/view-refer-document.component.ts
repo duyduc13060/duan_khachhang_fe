@@ -13,7 +13,7 @@ export class ViewReferDocumentComponent implements OnInit {
 
   documentFileName: string;
   allFileContent: string;
-  contentHighline = 'Bột keo ong hòa tan trong nước';
+  contentHighline = '';
   body;
   constructor(
     private route: ActivatedRoute,
@@ -25,6 +25,7 @@ export class ViewReferDocumentComponent implements OnInit {
 
   ngOnInit(): void {
     this.clickRefer(this.data);
+    this.contentHighline = this.data.contentHighline;
   }
 
   ngAfterViewInit() {

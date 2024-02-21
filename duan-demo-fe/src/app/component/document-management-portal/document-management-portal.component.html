@@ -1,0 +1,76 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-primary spinner-center" role="status">
+    </div>
+  </div>
+
+  <div class="portal-management-header-title">
+    <h1>Trang quản trị</h1>
+  </div>
+
+  <div class="header">
+    <div class="portal-management-header">
+      <label for="">Cổng quản lý tài liệu</label>
+    </div>
+    <div class="portal-management-header-create blue">
+      <div [formGroup]="form">
+        <div class="upload-file" (keydown.enter)="file.click()" >
+          <input #file type="file"  
+                  id="upload-file" 
+                  style="display: none;"
+                  multiple
+                  (change)="upload(file.files); 
+                  importFile($event)">
+          <label  for="upload-file"  tabindex="0" class="index-focus file i-btn"
+                  style="width: auto; padding: 7px 15px;
+                  background: #308ee0;
+                  color: white;
+                  font-size: 15px;">
+              <svg xmlns="http://www.w3.org/2000/svg"  style="fill: white;"  height="16" width="14" viewBox="0 0 448 512">
+                  <path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3V320c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 53 43 96 96 96H352c53 0 96-43 96-96V352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V352z"/>
+              </svg>
+              Tải file
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- list  -->
+  <div class="row">
+    <div class="grid" style="margin-top: 50px;">
+      <ag-grid-angular
+        [suppressRowTransform]="true"
+        [tooltipShowDelay]="0"
+        [suppressRowClickSelection]="true"
+        style="width: 100%; min-height: 480px"
+        domLayout="{{ rowData.length ? 'autoHeight' : 'normal' }}"
+        class="ag-theme-balham"
+        [ngClass]="{'set-height-ag-root-wrapper': !rowData.length}"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [headerHeight]="headerHeight"
+        [suppressMovableColumns]="true"
+        [rowHeight]="rowHeight"
+        (gridReady)="onGridReady($event)"
+        (gridSizeChanged)="gridSizeChanged($event)"
+        [enableCellTextSelection]="true"
+      >
+      </ag-grid-angular>
+    </div>
+    <div style="margin-bottom: 32px;">
+      <app-pagination 
+            [total]="total" 
+            [totalPage]="totalPage" 
+            [dataLength]="rowData?.length" 
+            [pageSize]="pageSize"
+            [currentPage]="currentPage" 
+            [collapse]="false" 
+            (paginate)="searchCreator($event)">
+      </app-pagination>
+    </div>
+  </div>
+ 
+</div>
+
+

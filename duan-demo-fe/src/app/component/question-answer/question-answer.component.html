@@ -5,124 +5,32 @@
   </div>
   <div class="row clearfix">
       <div>
-          <!-- <div class="card chat-app"> -->
           <div class="" style="padding-left: 10px; padding-right: 10px; padding-bottom: 5px; height: fit-content;">
-              <!-- <div id="plist" class="people-list">
-              <div [formGroup]="form">
-                  <div class="upload-file" (keydown.enter)="file.click()" >
-                      <input #file type="file"  id="upload-file" style="display: none;"
-                              (change)="upload(file.files); importFile()">
-                      <label for="upload-file"  tabindex="0" class="index-focus file i-btn"
-                      style="width: auto; padding: 7px 15px;
-                              background: #308ee0;
-                              color: white;
-                              font-size: 15px;">
-                          <svg xmlns="http://www.w3.org/2000/svg"  style="fill: white;"  height="16" width="14" viewBox="0 0 448 512">
-                              <path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3V320c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 53 43 96 96 96H352c53 0 96-43 96-96V352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V352z"/>
-                          </svg>
-                          Tải file
-                      </label>
-                  </div>
-                  <div style="margin-top: 15px;">
-                      <span>
-                          {{fileName}}
-                      </span>
-                  </div>
-                  <div>
-                      <button class="btn btn-success"
-                          style="margin-top: 10px;width: 91px;">
-                          Clear
-                      </button>
-                  </div>
-              </div>
-            </div> -->
-
-
-
               <div class="chat">
-                  <div class="chat-header clearfix" style="margin-left: 20px;">
-
-                      <div *ngIf="action?.create" class="row">
-                          <!-- <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">System</label>
-                              <input type="text" [(ngModel)]="chatRequest.system" class="form-control" id="exampleFormControlInput1"
-                                  style="width: 740px;" placeholder="">
-                          </div> -->
-                          <!-- <div class="mb-3">
-                              <textarea class="form-control"
-                                  [(ngModel)]=" chatRequest.system"
-                                  placeholder="Yêu cầu vai trò cho AI. Ví dụ: Chỉ được sử dụng thông tin trong Context để trả lời câu hỏi ở dưới cùng. Yêu cầu trả lời hoàn toàn bằng tiếng Việt Nam."
-                                  style="height: 50px; width: 1200px;">
-                              </textarea>
-                          </div> -->
-                      </div>
-                      <!-- *ngIf="role === 'ADMIN'" -->
-                      <div *ngIf="action?.create" style="display: flex; align-items: center;">
-                        <div class="upload-file" (keydown.enter)="file.click()" style="display: flex; align-items: center;">
-                          <input #file type="file" id="upload-file" style="display: none;" multiple (change)="upload(file.files); importFile()">
-                          <label for="upload-file" tabindex="0" class="index-focus file i-btn" style="padding: 7px 15px; background: #308ee0; color: white; font-size: 15px;">
-                            <!-- SVG icon here -->
-                            Tải file
-                          </label>
-                        </div>
-                        <button class="btn btn-success" style="margin-left: 10px;" (click)="clearContent()">Clear</button>
-                      </div>
-
-                  </div>
-
-                  <div class="chat-header clearfix row">
-                      <div style="display: flex; justify-content: space-between;
-                      padding: 8px;">
-                        <div class="col-lg-3">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                            </a>
-                            <div class="chat-about">
-                                <h6 class="m-b-0" style="font-size: 25px;">{{username}}</h6>
-                                <!-- <small>Last seen: 2 hours ago</small> -->
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <label for="" style="margin-bottom: 10px;">Lựa chọn Model</label>
-                            <ng-select
-                            [items]="listModel"
-                            placeholder="Lựa chọn"
-                            [(ngModel)]="chatRequest.model"
-                            class="input-select"
-                            bindLabel="name"
-                            bindValue="name"
-                            [searchable]="false"
-                            [clearable]="false"
-                            style="width: 200px;"
-                            >
-                            </ng-select>
-                        </div>
-                    </div>
-                  </div>
-                  <!-- body -->
                   <div class="chat-history" id="scroll" style="height: fit-content;">
                       <ul class="m-b-0" style="height: 65vh;overflow: scroll;" #scrollframe1>
 
                           <li class="clearfix" *ngFor="let item of listMessage" #item1>
-                              <div class="message-data text-right" style="display: flex;
-                            align-items: center;">
-                                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                  <div style="font-size: 15px; text-transform: uppercase;">YOU</div>
-                              </div>
-                              <div class="message other-message" style="margin-right: 20px;">
-                                <span style="float: inline-start;" [innerHTML]="item.contentRequest"></span>
-                              </div>
-                              <div style="margin-top: 50px;">
-                                  <div class="message-data text-right">
-                                      <span class="message-data-time">{{item.createTime | date:'dd-MM-yyyy'}}</span>
-                                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                      <div style="font-size: 15px; text-transform: uppercase;">{{item.roleChoices}}
-                                      </div>
+                              <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div class="message-data text-right" style="display: flex; align-items: center;">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                    <div style="font-size: 15px; text-transform: uppercase;">YOU</div>
+                                </div>
+                                <div class="message other-message" style="margin-right: 20px;">
+                                    <span style="float: inline-start;" [innerHTML]="item.contentRequest"></span>
+                                </div>
+                            </div>
+                              <div style="margin-top: 20px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                  <div class="message-data text-right" style="display: flex; align-items: center;">
+                                      <!-- <span class="message-data-time">{{item.createTime | date:'dd-MM-yyyy'}}</span> -->
+                                      <!-- <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar"> -->
+                                      <div style="font-size: 15px; text-transform: uppercase;">{{item.roleChoices}}</div>
                                   </div>
-                                  <div class="message my-message" style="white-space: break-spaces;">
-                                    {{item.contentResponse}}
+                                  <div class="message my-message" style="white-space: break-spaces; margin-right: 20px;">
+                                      {{item.contentResponse}}
                                   </div>
+                              </div>
                                   <div *ngIf="documentFileName !== ''">
                                     <span style="cursor: pointer; text-decoration: underline; color: blue;" (click)="openPdfViewer()">Refer: {{documentFileName}}</span>
                                   </div>
@@ -136,9 +44,20 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-left: 15px; cursor: pointer;" (click)="openFormCreate(item.id, 'bad')" height="16" width="16" viewBox="0 0 512 512">
                                         <path fill="#006400" d="M313.4 479.1c26-5.2 42.9-30.5 37.7-56.5l-2.3-11.4c-5.3-26.7-15.1-52.1-28.8-75.2H464c26.5 0 48-21.5 48-48c0-18.5-10.5-34.6-25.9-42.6C497 236.6 504 223.1 504 208c0-23.4-16.8-42.9-38.9-47.1c4.4-7.3 6.9-15.8 6.9-24.9c0-21.3-13.9-39.4-33.1-45.6c.7-3.3 1.1-6.8 1.1-10.4c0-26.5-21.5-48-48-48H294.5c-19 0-37.5 5.6-53.3 16.1L202.7 73.8C176 91.6 160 121.6 160 153.7V192v48 24.9c0 29.2 13.3 56.7 36 75l7.4 5.9c26.5 21.2 44.6 51 51.2 84.2l2.3 11.4c5.2 26 30.5 42.9 56.5 37.7zM32 384H96c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H32C14.3 96 0 110.3 0 128V352c0 17.7 14.3 32 32 32z"/>
                                     </svg>
-                                </div>
+                                  </div>
+                                  <div class="message my-message" style="margin-bottom: 15px; margin-top: 15px;" *ngIf="releated">
+                                    <h1>Related</h1>
+                                    <div *ngFor="let part of releated.split('\n')" style="display: flex;">
+                                        {{ part }}
+                                        <div  (click)="searchEs1(part)">
+                                            <i class="fa-solid fa-plus"
+                                                style="cursor: pointer;"
+                                               >
+                                            </i>
+                                        </div>
+                                    </div>
+                                  </div>
                               </div>
-
                           </li>
                       </ul>
                   </div>

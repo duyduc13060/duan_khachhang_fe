@@ -26,17 +26,10 @@ export class QuestionAnswerComponent implements OnInit {
   listModel = [
     {
       name: "mixtral-8x7b-instruct"
-    },
-    {
-      name: "codellama-34b-instruct"
-    },
-    {
-      name: "bedrock"
-    },
-    {
-      name: "gemini-pro"
-    },
+    }
   ]
+
+  releated;
 
   listMessage;
   chatRequest = new ChatRequest();
@@ -62,8 +55,9 @@ export class QuestionAnswerComponent implements OnInit {
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
     this.documentFileName = '';
-    this.getMessage()
-    this.action = CommonFunction.getActionOfFunction('QLQS')
+    this.getMessage0();
+    this.action = CommonFunction.getActionOfFunction('QLQS');
+    this.releated =  sessionStorage.getItem("releated");
   }
 
   ngAfterViewInit() {
@@ -84,6 +78,7 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   fileName;
+  contentHighline;
   fileNames: string[];
   fileImport: File;
   filesImport: FileList;
@@ -112,16 +107,32 @@ export class QuestionAnswerComponent implements OnInit {
         this.isLoading = false;
         this.toastr.error('You do not upload documents! Please upload them.');
       }
-      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
-      res.sort((a, b) => a.trunkCount - b.trunkCount);
-
-      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
-      if (res.length >= 3) {
-        this.documentResponse = res[0].content + res[1].content + res[2].content;
-      } else if (res.length === 2) {
-        this.documentResponse = res[0].content + res[1].content;
-      } else if (res.length === 1) {
+      if (res.length === 1) {
         this.documentResponse = res[0].content;
+      }else if (res.length >= 2) {
+        // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+        res.sort((a, b) => a.trunkCount - b.trunkCount);
+        // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+        if (res.length >= 3) {
+          this.documentResponse = res[0].content + res[1].content + res[2].content;
+        } else if (res.length === 2) {
+          this.documentResponse = res[0].content + res[1].content;
+        }
+      }
+
+      // Lấy dòng thứ 2 của res[1].content để highline
+      let content = res[0].content;
+
+      // Sử dụng phương thức split() để tách chuỗi thành một mảng các dòng
+      let lines = content.split('\n');
+
+      // Kiểm tra xem mảng có ít nhất 2 phần tử (dòng) không
+      if (lines.length >= 2) {
+        // Gán giá trị cho contentHighline bằng dòng thứ hai trong mảng
+        this.contentHighline = lines[2];
+      } else {
+        // Xử lý trường hợp không đủ dòng, ví dụ gán giá trị mặc định hoặc thông báo lỗi
+        this.contentHighline = ''; // Hoặc giá trị mặc định khác
       }
       this.documentFileName = res[0].fileName;
       this.timeoutId = setTimeout(() => {
@@ -202,7 +213,7 @@ export class QuestionAnswerComponent implements OnInit {
       this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage();
+          this.getMessage0();
           this.chatRequest.content = '';
         }else{
           this.toastr.error("co loi xay ra");
@@ -225,7 +236,7 @@ export class QuestionAnswerComponent implements OnInit {
       this.chatBoxService.sendChatGeminiPro(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage();
+          this.getMessage0();
           this.chatRequest.content = '';
         }else{
           this.toastr.error("co loi xay ra");
@@ -245,24 +256,198 @@ export class QuestionAnswerComponent implements OnInit {
           },
         ],
         max_tokens: 20000,
-        temperature: 0
+        temperature: 0,
+        type: 0
+      }
+
+      const request2 = {
+        model:this.chatRequest.model,
+        messages: [
+          {
+            role: "system",
+            content: "Be precise and concise."
+          },
+          {
+            role: "user",
+            content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + this.chatRequest.content
+          },
+        ],
+        type: 1
       }
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-          this.isLoading = false;
-          this.getMessage();
+          // this.isLoading = false;
+          this.getMessage0();
           this.chatRequest.content = '';
+
+          this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+            // this.isLoading = false;
+            if(res.status === "OK"){
+              this.isLoading = false;
+              // this.getMessage1();
+              this.chatRequest.content = '';
+              sessionStorage.setItem('releated',res.data.choices[0].message.content);
+              console.log(res.data.choices[0].message.content);
+            }else{
+              this.toastr.error("co loi xay ra");
+            }
+          })
         }else{
           this.toastr.error("co loi xay ra");
         }
-      })
+      }, error => {
+        this.isLoading = false;
+        console.error(error);
+      });
+
+
+
+      // this.isLoading = false;
+      // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+      //   this.isLoading = false;
+      //   if(res.status === "OK"){
+      //     // this.getMessage1();
+      //     this.chatRequest.content = '';
+      //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+      //     console.log(res.data.choices[0].message.content);
+      //   }else{
+      //     this.toastr.error("co loi xay ra");
+      //   }
+      //   console.log(res);
+      // })
     }
   }
 
-  getMessage(){
-    this.chatBoxService.getMessage().subscribe(res =>{
+
+  documentResponse1:any;
+  searchEs1(dataR){
+    this.isLoading = true;
+    const data = {
+      content: dataR
+    }
+    this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
+      // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
+      if (res.length === 0) {
+        this.isLoading = false;
+        this.toastr.error('You do not upload documents! Please upload them.');
+      }
+      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+      res.sort((a, b) => a.trunkCount - b.trunkCount);
+
+      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+      if (res.length >= 3) {
+        this.documentResponse1 = res[0].content + res[1].content + res[2].content;
+      } else if (res.length === 2) {
+        this.documentResponse1 = res[0].content + res[1].content;
+      } else if (res.length === 1) {
+        this.documentResponse1 = res[0].content;
+      }
+      this.documentFileName = res[0].fileName;
+      this.timeoutId = setTimeout(() => {
+        this.clickChatWithDoc(this.documentResponse1,dataR);
+      }, 1000);
+    })
+  }
+
+  clickChatWithDoc(documentResponse1,dataR){
+    this.isLoading = true;
+    const request1 = {
+      model:this.chatRequest.model,
+      messages: [
+        {
+          role: "system",
+          content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Xuống dòng ở cuối câu trả lời và trả lời thông tin sau: thông tin context đó có ở trang bao nhiêu của tài liệu: " + this.documentFileName
+        },
+        {
+          role: "user",
+          content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Câu Hỏi: " + dataR +"</b>"
+        },
+      ],
+      type: 0
+    }
+
+    const request2 = {
+      model:this.chatRequest.model,
+      messages: [
+        {
+          role: "system",
+          content: "Be precise and concise."
+        },
+        {
+          role: "user",
+          content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + dataR
+        },
+      ],
+      type: 1
+    }
+
+
+    // this.chatBoxService.send(request1).subscribe((res:any) =>{
+    //   if(res.status === "OK"){
+    //     this.isLoading = false;
+    //     this.getMessage0();
+    //     this.chatRequest.content = '';
+    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+    //     console.log(res.data.choices[0].message.content);
+    //   }else{
+    //     this.toastr.error("co loi xay ra");
+    //   }
+    // })
+
+    this.chatBoxService.send(request1).subscribe((res:any) =>{
+      if(res.status === "OK"){
+        // this.isLoading = false;
+        this.getMessage0();
+        this.chatRequest.content = '';
+
+        this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+          // this.isLoading = false;
+          if(res.status === "OK"){
+            this.isLoading = false;
+            // this.getMessage1();
+            this.chatRequest.content = '';
+            sessionStorage.setItem('releated',res.data.choices[0].message.content);
+            console.log(res.data.choices[0].message.content);
+          }else{
+            this.toastr.error("co loi xay ra");
+          }
+        })
+      }else{
+        this.toastr.error("co loi xay ra");
+      }
+    }, error => {
+      this.isLoading = false;
+      console.error(error);
+    });
+
+
+    // this.isLoading = false;
+    // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+    //   this.isLoading = false;
+    //   if(res.status === "OK"){
+    //     // this.getMessage1();
+    //     this.chatRequest.content = '';
+    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+    //     console.log(res.data.choices[0].message.content);
+    //   }else{
+    //     this.toastr.error("co loi xay ra");
+    //   }
+    // })
+  }
+
+  getMessage0(){
+    this.chatBoxService.getMessage(0).subscribe(res =>{
       this.listMessage = res;
+      console.log(this.listMessage);
+    })
+  }
+
+  listMessage1;
+  getMessage1(){
+    this.chatBoxService.getMessage(1).subscribe(res =>{
+      this.listMessage1 = res;
+      console.log(this.releated);
       console.log(this.listMessage);
     })
   }
@@ -270,6 +455,7 @@ export class QuestionAnswerComponent implements OnInit {
   openPdfViewer(){
     const data = {
       filename: this.documentFileName,
+      contentHighline : this.contentHighline,
     }
     this.matDialog
      .open(ViewReferDocumentComponent, {
