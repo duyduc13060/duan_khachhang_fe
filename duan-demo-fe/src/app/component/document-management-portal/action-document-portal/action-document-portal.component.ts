@@ -51,14 +51,11 @@ export class ActionDocumentPortalComponent implements OnInit {
 
 
   deleteDocument(){
-    console.log(this.cellValue.filename);
-    this.questionAnswerServiceService.deleteDocumentFilename(this.cellValue.fileName).subscribe(res=>{
-      
+    this.questionAnswerServiceService.deleteDocumentFilename(this.cellValue.filename).subscribe(res=>{
+      this.toaStr.success("Xoa thanh cong !!!");
     })
-    this.toaStr.success("Xoa thanh cong !!!");
     this.modalRef.hide();
-    // this.documentManagementPortalComponent.searchCreator(1);
-    window.location.reload();
+    this.documentManagementPortalComponent.searchCreator(1);
   }
 
 }

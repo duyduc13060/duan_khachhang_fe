@@ -274,16 +274,15 @@ export class DocumentManagementPortalComponent implements OnInit {
         console.log('File Size:', file.size);
         console.log('File Type:', file.type);
 
-        // // Check file size before uploading
-        // const maxSize = 1048576; // 1 MB
-        // if (file.size > maxSize) {
-        //   console.error('File size exceeds the maximum allowed size.');
-        //   // You can display a message to the user here
-        // } else {
+        // Check file size before uploading
+        const maxSize = 1048576; // 1 MB
+        if (file.size > maxSize) {
+          console.error('File size exceeds the maximum allowed size.');
+          // You can display a message to the user here
+        } else {
           // Continue with uploading logic
           const formData = new FormData();
           formData.append('file', file);
-          this.toastr.success("Upload file thành công");
           
           this.questionAnswerServiceService.uploadFile(formData).subscribe(
             (res: any) => {
@@ -293,14 +292,12 @@ export class DocumentManagementPortalComponent implements OnInit {
               console.error('File upload failed.', error);
             }
           );
-        // }
+        }
       });
     } else {
       console.error('File is not selected.');
       this.toastr.error('File is not selected.');
     }
-    // this.searchCreator(1);
-    this.ngOnInit();
   }
 
   onGridReady(params) {

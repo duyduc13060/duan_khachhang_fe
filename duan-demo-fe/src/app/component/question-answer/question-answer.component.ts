@@ -26,7 +26,16 @@ export class QuestionAnswerComponent implements OnInit {
   listModel = [
     {
       name: "mixtral-8x7b-instruct"
-    }
+    },
+    {
+      name: "codellama-34b-instruct"
+    },
+    {
+      name: "bedrock"
+    },
+    {
+      name: "gemini-pro"
+    },
   ]
 
   releated;
@@ -78,7 +87,6 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   fileName;
-  contentHighline;
   fileNames: string[];
   fileImport: File;
   filesImport: FileList;
@@ -107,32 +115,16 @@ export class QuestionAnswerComponent implements OnInit {
         this.isLoading = false;
         this.toastr.error('You do not upload documents! Please upload them.');
       }
-      if (res.length === 1) {
+      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+      res.sort((a, b) => a.trunkCount - b.trunkCount);
+
+      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+      if (res.length >= 3) {
+        this.documentResponse = res[0].content + res[1].content + res[2].content;
+      } else if (res.length === 2) {
+        this.documentResponse = res[0].content + res[1].content;
+      } else if (res.length === 1) {
         this.documentResponse = res[0].content;
-      }else if (res.length >= 2) {
-        // Sắp xếp mảng theo giá trị tăng dần của trunkCount
-        res.sort((a, b) => a.trunkCount - b.trunkCount);
-        // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
-        if (res.length >= 3) {
-          this.documentResponse = res[0].content + res[1].content + res[2].content;
-        } else if (res.length === 2) {
-          this.documentResponse = res[0].content + res[1].content;
-        }
-      }
-
-      // Lấy dòng thứ 2 của res[1].content để highline
-      let content = res[0].content;
-
-      // Sử dụng phương thức split() để tách chuỗi thành một mảng các dòng
-      let lines = content.split('\n');
-
-      // Kiểm tra xem mảng có ít nhất 2 phần tử (dòng) không
-      if (lines.length >= 2) {
-        // Gán giá trị cho contentHighline bằng dòng thứ hai trong mảng
-        this.contentHighline = lines[2];
-      } else {
-        // Xử lý trường hợp không đủ dòng, ví dụ gán giá trị mặc định hoặc thông báo lỗi
-        this.contentHighline = ''; // Hoặc giá trị mặc định khác
       }
       this.documentFileName = res[0].fileName;
       this.timeoutId = setTimeout(() => {
@@ -277,23 +269,13 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-<<<<<<< HEAD
-          // this.isLoading = false;
-=======
           this.isLoading = false;
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
           this.getMessage0();
           this.chatRequest.content = '';
 
           this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-<<<<<<< HEAD
-            // this.isLoading = false;
-            if(res.status === "OK"){
-              this.isLoading = false;
-=======
             this.isLoading = false;
             if(res.status === "OK"){
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
               // this.getMessage1();
               this.chatRequest.content = '';
               sessionStorage.setItem('releated',res.data.choices[0].message.content);
@@ -310,11 +292,7 @@ export class QuestionAnswerComponent implements OnInit {
         console.error(error);
       });
 
-<<<<<<< HEAD
-
-=======
       
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
 
       // this.isLoading = false;
       // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
@@ -370,19 +348,11 @@ export class QuestionAnswerComponent implements OnInit {
       messages: [
         {
           role: "system",
-<<<<<<< HEAD
-          content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Xuống dòng ở cuối câu trả lời và trả lời thông tin sau: thông tin context đó có ở trang bao nhiêu của tài liệu: " + this.documentFileName
-        },
-        {
-          role: "user",
-          content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Câu Hỏi: " + dataR +"</b>"
-=======
           content: "Be precise and concise."
         },
         {
           role: "user",
           content: "{Context} " + this.chatRequest.context + " " + documentResponse1 + " {End}.<br><b>Question: " + dataR +"</b>"
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
         },
       ],
       type: 0
@@ -418,23 +388,13 @@ export class QuestionAnswerComponent implements OnInit {
 
     this.chatBoxService.send(request1).subscribe((res:any) =>{
       if(res.status === "OK"){
-<<<<<<< HEAD
-        // this.isLoading = false;
-=======
         this.isLoading = false;
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
         this.getMessage0();
         this.chatRequest.content = '';
 
         this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-<<<<<<< HEAD
-          // this.isLoading = false;
-          if(res.status === "OK"){
-            this.isLoading = false;
-=======
           this.isLoading = false;
           if(res.status === "OK"){
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
             // this.getMessage1();
             this.chatRequest.content = '';
             sessionStorage.setItem('releated',res.data.choices[0].message.content);
@@ -451,11 +411,7 @@ export class QuestionAnswerComponent implements OnInit {
       console.error(error);
     });
 
-<<<<<<< HEAD
-
-=======
    
->>>>>>> 22fda0847e711a75d7571104d459893c4f2f611f
     // this.isLoading = false;
     // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
     //   this.isLoading = false;
@@ -489,7 +445,6 @@ export class QuestionAnswerComponent implements OnInit {
   openPdfViewer(){
     const data = {
       filename: this.documentFileName,
-      contentHighline : this.contentHighline,
     }
     this.matDialog
      .open(ViewReferDocumentComponent, {
