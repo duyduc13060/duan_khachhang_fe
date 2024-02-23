@@ -65,8 +65,9 @@ export class QuestionAnswerComponent implements OnInit {
     this.role = this.tokenStorageService.getRole();
     this.documentFileName = '';
     this.getMessage0();
-    this.action = CommonFunction.getActionOfFunction('QLQS');
-    this.releated =  sessionStorage.getItem("releated");
+    this.getMessage1();
+
+    this.action = CommonFunction.getActionOfFunction('QLQS')
   }
 
   ngAfterViewInit() {
@@ -252,6 +253,16 @@ export class QuestionAnswerComponent implements OnInit {
         type: 0
       }
 
+      this.chatBoxService.send(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage0();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+
       const request2 = {
         model:this.chatRequest.model,
         messages: [
@@ -267,46 +278,17 @@ export class QuestionAnswerComponent implements OnInit {
         type: 1
       }
 
-      this.chatBoxService.send(request).subscribe((res:any) =>{
+      this.chatBoxService.send(request2).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage0();
+          this.getMessage1();
           this.chatRequest.content = '';
-
-          this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-            this.isLoading = false;
-            if(res.status === "OK"){
-              // this.getMessage1();
-              this.chatRequest.content = '';
-              sessionStorage.setItem('releated',res.data.choices[0].message.content);
-              console.log(res.data.choices[0].message.content);
-            }else{
-              this.toastr.error("co loi xay ra");
-            }
-          })
+          sessionStorage.setItem('releated',res.data.choices[0].message.content);
+          console.log(res.data.choices[0].message.content);
         }else{
           this.toastr.error("co loi xay ra");
         }
-      }, error => {
-        this.isLoading = false;
-        console.error(error);
-      });
-
-      
-
-      // this.isLoading = false;
-      // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-      //   this.isLoading = false;
-      //   if(res.status === "OK"){
-      //     // this.getMessage1();
-      //     this.chatRequest.content = '';
-      //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
-      //     console.log(res.data.choices[0].message.content);
-      //   }else{
-      //     this.toastr.error("co loi xay ra");
-      //   }
-      //   console.log(res);
-      // })
+      })
     }
   }
 
@@ -358,6 +340,18 @@ export class QuestionAnswerComponent implements OnInit {
       type: 0
     }
 
+    this.chatBoxService.send(request1).subscribe((res:any) =>{
+      if(res.status === "OK"){
+        this.isLoading = false;
+        this.getMessage0();
+        this.chatRequest.content = '';
+        sessionStorage.setItem('releated',res.data.choices[0].message.content);
+        console.log(res.data.choices[0].message.content);
+      }else{
+        this.toastr.error("co loi xay ra");
+      }
+    })
+
     const request2 = {
       model:this.chatRequest.model,
       messages: [
@@ -373,57 +367,17 @@ export class QuestionAnswerComponent implements OnInit {
       type: 1
     }
 
-
-    // this.chatBoxService.send(request1).subscribe((res:any) =>{
-    //   if(res.status === "OK"){
-    //     this.isLoading = false;
-    //     this.getMessage0();
-    //     this.chatRequest.content = '';
-    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
-    //     console.log(res.data.choices[0].message.content);
-    //   }else{
-    //     this.toastr.error("co loi xay ra");
-    //   }
-    // })
-
-    this.chatBoxService.send(request1).subscribe((res:any) =>{
+    this.chatBoxService.send(request2).subscribe((res:any) =>{
       if(res.status === "OK"){
         this.isLoading = false;
-        this.getMessage0();
+        this.getMessage1();
         this.chatRequest.content = '';
-
-        this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-          this.isLoading = false;
-          if(res.status === "OK"){
-            // this.getMessage1();
-            this.chatRequest.content = '';
-            sessionStorage.setItem('releated',res.data.choices[0].message.content);
-            console.log(res.data.choices[0].message.content);
-          }else{
-            this.toastr.error("co loi xay ra");
-          }
-        })
+        sessionStorage.setItem('releated',res.data.choices[0].message.content);
+        console.log(res.data.choices[0].message.content);
       }else{
         this.toastr.error("co loi xay ra");
       }
-    }, error => {
-      this.isLoading = false;
-      console.error(error);
-    });
-
-   
-    // this.isLoading = false;
-    // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
-    //   this.isLoading = false;
-    //   if(res.status === "OK"){
-    //     // this.getMessage1();
-    //     this.chatRequest.content = '';
-    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
-    //     console.log(res.data.choices[0].message.content);
-    //   }else{
-    //     this.toastr.error("co loi xay ra");
-    //   }
-    // })
+    })
   }
 
   getMessage0(){
@@ -437,6 +391,7 @@ export class QuestionAnswerComponent implements OnInit {
   getMessage1(){
     this.chatBoxService.getMessage(1).subscribe(res =>{
       this.listMessage1 = res;
+      this.releated =  sessionStorage.getItem("releated");
       console.log(this.releated);
       console.log(this.listMessage);
     })
