@@ -65,9 +65,8 @@ export class QuestionAnswerComponent implements OnInit {
     this.role = this.tokenStorageService.getRole();
     this.documentFileName = '';
     this.getMessage0();
-    this.getMessage1();
-
-    this.action = CommonFunction.getActionOfFunction('QLQS')
+    this.action = CommonFunction.getActionOfFunction('QLQS');
+    // this.releated =  sessionStorage.getItem("releated");
   }
 
   ngAfterViewInit() {
@@ -94,7 +93,9 @@ export class QuestionAnswerComponent implements OnInit {
   formData;
   form: FormGroup;
   documentFileName;
+  listFileName: string[] = [];
   allFileContent;
+  count = 0;
 
   upload(files: FileList | null) {
     if (files && files.length > 0) {
@@ -107,6 +108,8 @@ export class QuestionAnswerComponent implements OnInit {
   documentResponse:any;
   searchEs(){
     this.isLoading = true;
+    this.documentFileName = '';
+    this.documentResponse = '';
     const data = {
       content: this.chatRequest.content
     }
@@ -116,18 +119,20 @@ export class QuestionAnswerComponent implements OnInit {
         this.isLoading = false;
         this.toastr.error('You do not upload documents! Please upload them.');
       }
-      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
-      res.sort((a, b) => a.trunkCount - b.trunkCount);
-
-      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
-      if (res.length >= 3) {
-        this.documentResponse = res[0].content + res[1].content + res[2].content;
-      } else if (res.length === 2) {
-        this.documentResponse = res[0].content + res[1].content;
-      } else if (res.length === 1) {
-        this.documentResponse = res[0].content;
+      this.count = 0;
+      this.documentResponse = '';
+      for (let i = 0; i < res.length; i++) {
+        if (this.count >= 4) break; // Dừng vòng lặp nếu đã đủ 4 phần tử
+        this.documentResponse += res[i].fullContent;
+        this.documentFileName += res[i].fileName + ' và ';
+        if (this.listFileName.length == 0)
+          this.listFileName.push(res[i].fileName);
+        else if (!this.listFileName.includes(res[i].fileName)) {
+          this.listFileName.push(res[i].fileName);
+        }
+        this.count++;
       }
-      this.documentFileName = res[0].fileName;
+
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
       }, 1000);
@@ -245,23 +250,13 @@ export class QuestionAnswerComponent implements OnInit {
           },
           {
             role: "user",
-            content: "{Context} " + this.chatRequest.context + " " + documentResponse + " {End}.<br><b>Question: " + this.chatRequest.content +"</b>"
+            content: '<span class="hidden-content"> {Context} ' + this.chatRequest.context + " " + documentResponse + " {End}</span>.<br><b>Question: " + this.chatRequest.content +"</b>"
           },
         ],
         max_tokens: 20000,
         temperature: 0,
         type: 0
       }
-
-      this.chatBoxService.send(request).subscribe((res:any) =>{
-        if(res.status === "OK"){
-          this.isLoading = false;
-          this.getMessage0();
-          this.chatRequest.content = '';
-        }else{
-          this.toastr.error("co loi xay ra");
-        }
-      })
 
       const request2 = {
         model:this.chatRequest.model,
@@ -278,17 +273,46 @@ export class QuestionAnswerComponent implements OnInit {
         type: 1
       }
 
-      this.chatBoxService.send(request2).subscribe((res:any) =>{
+      this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
-          this.getMessage1();
+          this.getMessage0();
           this.chatRequest.content = '';
-          sessionStorage.setItem('releated',res.data.choices[0].message.content);
-          console.log(res.data.choices[0].message.content);
+
+          // uncomment sau
+          // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+          //   this.isLoading = false;
+          //   if(res.status === "OK"){
+          //     this.chatRequest.content = '';
+          //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+          //     console.log(res.data.choices[0].message.content);
+          //   }else{
+          //     this.toastr.error("co loi xay ra");
+          //   }
+          // })
         }else{
           this.toastr.error("co loi xay ra");
         }
-      })
+      }, error => {
+        this.isLoading = false;
+        console.error(error);
+      });
+
+
+
+      // this.isLoading = false;
+      // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+      //   this.isLoading = false;
+      //   if(res.status === "OK"){
+      //     // this.getMessage1();
+      //     this.chatRequest.content = '';
+      //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+      //     console.log(res.data.choices[0].message.content);
+      //   }else{
+      //     this.toastr.error("co loi xay ra");
+      //   }
+      //   console.log(res);
+      // })
     }
   }
 
@@ -340,18 +364,6 @@ export class QuestionAnswerComponent implements OnInit {
       type: 0
     }
 
-    this.chatBoxService.send(request1).subscribe((res:any) =>{
-      if(res.status === "OK"){
-        this.isLoading = false;
-        this.getMessage0();
-        this.chatRequest.content = '';
-        sessionStorage.setItem('releated',res.data.choices[0].message.content);
-        console.log(res.data.choices[0].message.content);
-      }else{
-        this.toastr.error("co loi xay ra");
-      }
-    })
-
     const request2 = {
       model:this.chatRequest.model,
       messages: [
@@ -367,17 +379,57 @@ export class QuestionAnswerComponent implements OnInit {
       type: 1
     }
 
-    this.chatBoxService.send(request2).subscribe((res:any) =>{
+
+    // this.chatBoxService.send(request1).subscribe((res:any) =>{
+    //   if(res.status === "OK"){
+    //     this.isLoading = false;
+    //     this.getMessage0();
+    //     this.chatRequest.content = '';
+    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+    //     console.log(res.data.choices[0].message.content);
+    //   }else{
+    //     this.toastr.error("co loi xay ra");
+    //   }
+    // })
+
+    this.chatBoxService.send(request1).subscribe((res:any) =>{
       if(res.status === "OK"){
         this.isLoading = false;
-        this.getMessage1();
+        this.getMessage0();
         this.chatRequest.content = '';
-        sessionStorage.setItem('releated',res.data.choices[0].message.content);
-        console.log(res.data.choices[0].message.content);
+
+        // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+        //   this.isLoading = false;
+        //   if(res.status === "OK"){
+        //     // this.getMessage1();
+        //     this.chatRequest.content = '';
+        //     // sessionStorage.setItem('releated',res.data.choices[0].message.content);
+        //     console.log(res.data.choices[0].message.content);
+        //   }else{
+        //     this.toastr.error("co loi xay ra");
+        //   }
+        // })
       }else{
         this.toastr.error("co loi xay ra");
       }
-    })
+    }, error => {
+      this.isLoading = false;
+      console.error(error);
+    });
+
+
+    // this.isLoading = false;
+    // this.chatBoxService.genarateChatBox(request2).subscribe((res:any) =>{
+    //   this.isLoading = false;
+    //   if(res.status === "OK"){
+    //     // this.getMessage1();
+    //     this.chatRequest.content = '';
+    //     sessionStorage.setItem('releated',res.data.choices[0].message.content);
+    //     console.log(res.data.choices[0].message.content);
+    //   }else{
+    //     this.toastr.error("co loi xay ra");
+    //   }
+    // })
   }
 
   getMessage0(){
@@ -391,15 +443,14 @@ export class QuestionAnswerComponent implements OnInit {
   getMessage1(){
     this.chatBoxService.getMessage(1).subscribe(res =>{
       this.listMessage1 = res;
-      this.releated =  sessionStorage.getItem("releated");
       console.log(this.releated);
       console.log(this.listMessage);
     })
   }
 
-  openPdfViewer(){
+  openPdfViewer(documentFileName){
     const data = {
-      filename: this.documentFileName,
+      filename: documentFileName,
     }
     this.matDialog
      .open(ViewReferDocumentComponent, {
