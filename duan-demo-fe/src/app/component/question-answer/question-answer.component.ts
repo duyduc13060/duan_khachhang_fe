@@ -122,9 +122,9 @@ export class QuestionAnswerComponent implements OnInit {
       this.count = 0;
       this.documentResponse = '';
       for (let i = 0; i < res.length; i++) {
-        if (this.count >= 4) break; // Dừng vòng lặp nếu đã đủ 4 phần tử
+        if (this.count >= 9) break; // Dừng vòng lặp nếu đã đủ 9 phần tử
         this.documentResponse += res[i].fullContent;
-        this.documentFileName += res[i].fileName + ' và ';
+        this.documentFileName += res[i].fileName + ' , ';
         if (this.listFileName.length == 0)
           this.listFileName.push(res[i].fileName);
         else if (!this.listFileName.includes(res[i].fileName)) {
@@ -246,11 +246,13 @@ export class QuestionAnswerComponent implements OnInit {
         messages: [
           {
             role: "system",
-            content: "Only use the following pieces of context to provide a concise answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Xuống dòng ở cuối câu trả lời và trả lời thông tin sau: thông tin context đó có ở trang bao nhiêu của tài liệu: " + this.documentFileName
+            // content: "Only use the following needed pieces of context to provide a detail answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Bắt buộc trả lời thông tin sau một cách chính xác nhất có thể: Thông tin context dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau đây: " + this.documentFileName
+            //content: "Only use the following of context to provide the detail answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. At the end of your answer, provide information on which page and document the context is found in the following documents: " + this.documentFileName
+            content: "Hãy chỉ sử dụng các phần thông tin cần thiết cho câu trả lời ở trong context để tạo câu trả lời đầy đủ và chi tiết bằng tiếng Việt Nam cho câu hỏi ở cuối cùng. Nếu bạn không biết câu trả lời hoặc không có thông tin trong context, hãy nói rằng bạn không biết, đừng cố gắng tạo ra câu trả lời. Bắt buộc trả lời thông tin sau một cách chính xác nhất có thể: Thông tin context dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau đây: " + this.documentFileName
           },
           {
             role: "user",
-            content: '<span class="hidden-content"> {Context} ' + this.chatRequest.context + " " + documentResponse + " {End}</span>.<br><b>Question: " + this.chatRequest.content +"</b>"
+            content: "{Context} " + this.chatRequest.context + " " + documentResponse + " {Context End}" + '</p>' + "<br><b>Câu Hỏi: " + this.chatRequest.content +"</b>"
           },
         ],
         max_tokens: 20000,

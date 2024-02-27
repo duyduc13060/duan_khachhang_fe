@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Action } from 'src/app/_model/action.model';
-import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
-import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
 import { DocumentPortalService } from 'src/app/_service/document-portal/document-portal.service';
+import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
+import { changeWidthAgCenterColsContainerStyleHasMinWidth } from 'src/app/helpers/utils';
 import { ActionDocumentPortalComponent } from './action-document-portal/action-document-portal.component';
-import { MatDialog } from '@angular/material/dialog';
 import { ViewDetailDocumentComponent } from './view-detail-document/view-detail-document.component';
 
 @Component({
@@ -42,6 +42,8 @@ export class DocumentManagementPortalComponent implements OnInit {
   total;
   totalPage;
   currentPage = 1;
+  // Thêm một thuộc tính mới để lưu trữ giá trị nhập vào từ textbox
+  documentGroup: string = '';
 
   constructor(
     private changeDetechtorRef: ChangeDetectorRef,
@@ -51,7 +53,7 @@ export class DocumentManagementPortalComponent implements OnInit {
     private documentPortalService: DocumentPortalService,
     private tokenStorageService: TokenStorageService,
     private matDialog: MatDialog,
-  ) { 
+  ) {
     this.buildColumnDefs();
   }
 
@@ -71,7 +73,7 @@ export class DocumentManagementPortalComponent implements OnInit {
       console.log(this.filesImport);
       this.fileNames = Array.from(files).map(file => file.name);
     }
-  }
+}
 
   buildColumnDefs(){
     this.columnDefs = [
@@ -214,7 +216,7 @@ export class DocumentManagementPortalComponent implements OnInit {
 
     this.currentPage = page;
     this.questionAnswerServiceService.searchCreator(this.objSearch).subscribe(res=>{
-    
+
       this.rowData = res.data.content
 
       this.total = res?.data?.totalElements;
@@ -262,45 +264,46 @@ export class DocumentManagementPortalComponent implements OnInit {
   //   }
   // }
 
+  // Phương thức để cập nhật giá trị của documentGroup từ textbox
+  updateDocumentGroup(value: string) {
+    this.documentGroup = value;
+  }
 
-  importFile(event: any) {
-    const files = (event.target as HTMLInputElement).files;
+  importFile(){
+    // Kiểm tra nếu giá trị nhập vào từ textbox là rỗng
+    if (!this.documentGroup) {
+      this.toastr.error('Vui lòng nhập tài liệu thuộc nhóm nào');
+      return;
+    }
 
-    const fileValue = this.form.get('file').value;
-    
-    if (files) {
-      Array.from(files).forEach(file => {
+    if (this.filesImport) {
+      Array.from(this.filesImport).forEach(file => {
         console.log('File Name:', file.name);
         console.log('File Size:', file.size);
         console.log('File Type:', file.type);
 
-        // // Check file size before uploading
-        // const maxSize = 1048576; // 1 MB
-        // if (file.size > maxSize) {
-        //   console.error('File size exceeds the maximum allowed size.');
-        //   // You can display a message to the user here
-        // } else {
-          // Continue with uploading logic
-          const formData = new FormData();
-          formData.append('file', file);
-          this.toastr.success("Upload file thành công");
-          
-          this.questionAnswerServiceService.uploadFile(formData).subscribe(
-            (res: any) => {
-              this.toastr.success('Upload file thành công');
-            },
-            (error) => {
-              console.error('File upload failed.', error);
-            }
-          );
-        // }
+        // Tạo FormData và thêm file vào đó
+        const formData = new FormData();
+        formData.append('file', file);
+        // Thêm biến documentGroup vào FormData
+        formData.append('documentGroup', this.documentGroup);
+        this.toastr.success("Upload file thành công");
+
+        // Gửi formData đến server
+        this.questionAnswerServiceService.uploadFile(formData).subscribe(
+          (res:any) => {
+              this.toastr.success("Upload file thành công");
+              this.searchCreator(1);
+          },
+          (error) => {
+            console.error("File is not selected.", error);
+          }
+        );
       });
     } else {
       console.error('File is not selected.');
       this.toastr.error('File is not selected.');
     }
-    // this.searchCreator(1);
-    this.ngOnInit();
   }
 
   onGridReady(params) {
@@ -315,6 +318,18 @@ export class DocumentManagementPortalComponent implements OnInit {
     params.api.sizeColumnsToFit();
     changeWidthAgCenterColsContainerStyleHasMinWidth(1160,8);
     this.changeDetechtorRef.detectChanges();
+  }
+
+  clearContent() {
+    this.toastr.success('Document index was successfully deleted.');
+    this.questionAnswerServiceService.deleteDocument().subscribe(
+      (res:any) => {
+        this.toastr.success("Upload file thành công");
+      },
+      (error) => {
+        console.error("File is not selected.", error);
+      }
+    );
   }
 
 
