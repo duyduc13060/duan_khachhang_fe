@@ -10,6 +10,7 @@ import { TokenStorageService } from 'src/app/_service/token-storage-service/toke
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewComponent } from '../review/review.component';
 import { ViewReferDocumentComponent } from '../view-refer-document/view-refer-document.component';
+import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 
 @Component({
   selector: 'app-question-answer',
@@ -17,6 +18,7 @@ import { ViewReferDocumentComponent } from '../view-refer-document/view-refer-do
   styleUrls: ['./question-answer.component.scss']
 })
 export class QuestionAnswerComponent implements OnInit {
+  @ViewChild('inforHeight', { read: ElementRef }) inforHeightElement: ElementRef;
 
   isLoading: boolean = false;
   username;
@@ -55,11 +57,16 @@ export class QuestionAnswerComponent implements OnInit {
     private questionAnswerServiceService : QuestionAnswerServiceService,
     private chatBoxService: ChatBoxService,
     private matDialog: MatDialog,
+    private authService: AuthenticationService
   ) { }
 
 
   ngOnInit() {
-    this.chatRequest.model = this.listModel[0].name
+    this.authService.currentResult.subscribe((result)=>{
+      this.chatRequest.model = result;
+      console.log(this.chatRequest.model);
+    })
+    // this.chatRequest.model = this.listModel[0].name
     //this.chatRequest.system = "System: Chỉ được sử dụng thông tin trong Context để trả lời yêu cầu ở cuối cùng. Nếu không biết thì trả lời là không biết. Yêu cầu trả lời hoàn toàn theo ngôn ngữ của yêu cầu ở dưới cùng."
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
@@ -67,11 +74,19 @@ export class QuestionAnswerComponent implements OnInit {
     this.getMessage0();
     this.action = CommonFunction.getActionOfFunction('QLQS');
     // this.releated =  sessionStorage.getItem("releated");
+    // this.checkHeight();
   }
 
   ngAfterViewInit() {
+
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+    // if (this.listMessage) {
+    //   this.checkHeight();
+    // }
+    // if (this.inforHeightElement && this.inforHeightElement.nativeElement) {
+    //   console.log(this.inforHeightElement.nativeElement);
+    // }
   }
 
   private onItemElementsChanged(): void {
@@ -96,7 +111,6 @@ export class QuestionAnswerComponent implements OnInit {
   listFileName: string[] = [];
   allFileContent;
   count = 0;
-
   upload(files: FileList | null) {
     if (files && files.length > 0) {
       this.filesImport = files;
@@ -438,6 +452,9 @@ export class QuestionAnswerComponent implements OnInit {
     this.chatBoxService.getMessage(0).subscribe(res =>{
       this.listMessage = res;
       console.log(this.listMessage);
+    }, () => {},
+    () => {
+      this.checkHeight();
     })
   }
 
@@ -497,4 +514,96 @@ export class QuestionAnswerComponent implements OnInit {
       .afterClosed().subscribe((resp) => {
       });
   }
+
+
+  checkIntroSeller: boolean = false;
+  checkHidePresentlyIntroSeller: boolean = false;
+  // checkHeight(){
+
+  //   let textContainer = document.getElementById("infor_height");
+  //   let lineHeight = parseInt(window.getComputedStyle(textContainer).lineHeight, 10);
+  //   let maxHeight = 20 * 3; // Chiều cao tối đa là ba dòng
+  //   let introSeller = document.querySelector(".intro_seller") as HTMLElement;
+
+  //   if (introSeller.offsetHeight > maxHeight) {
+  //     introSeller.classList.add("height_seller");
+  //     this.checkIntroSeller = true;
+  //   } else {
+  //     introSeller.classList.remove("height_seller");
+  //     this.checkIntroSeller = false;
+  //     this.checkHidePresentlyIntroSeller = false;
+  //   }
+  // }
+
+
+  checkHeight(): void {
+    // Lặp qua từng phần tử trong mảng items
+    for (let i = 0; i < this.listMessage.length; i++) {
+      // Tạo ID cho phần tử
+      const elementId = 'infor_height_' + i;
+
+      // Lấy phần tử theo ID
+      let element0 = document.getElementById(elementId);
+      console.log(element0);
+
+      let element = document.getElementById(elementId) as HTMLElement;
+      console.log(element);
+
+      // Kiểm tra chiều cao của phần tử
+      if (element) {
+        let lineHeight = parseInt(window.getComputedStyle(element).lineHeight, 10);
+        let maxHeight = 20 * 3; // Chiều cao tối đa là ba dòng
+        if (element.offsetHeight > maxHeight) {
+          element.classList.add("height_seller");
+        } else {
+          element.classList.remove("height_seller");
+        }
+      }
+    }
+  }
+  
+
+  // presentlySeller(number){
+  //   if(number == 0){
+  //     let introSeller = document.querySelector(".intro_seller") as HTMLElement;
+  //     introSeller.classList.remove("height_seller");
+  //     this.checkIntroSeller = false;
+  //     this.checkHidePresentlyIntroSeller = true;
+  //   }
+  // }
+
+  // hideSeller(number){
+  //   if(number == 0){
+  //     let introSeller = document.querySelector(".intro_seller") as HTMLElement;
+  //     introSeller.classList.add("height_seller");
+  //     this.checkIntroSeller = true;
+  //     this.checkHidePresentlyIntroSeller = false;
+  //   }
+  // }
+
+  presentlySeller(number: number) {
+    if (number >= 0) {
+      let introSeller = document.getElementById('infor_height_' + number) as HTMLElement;
+      if (introSeller) {
+        introSeller.classList.remove("height_seller");
+        this.checkIntroSeller = false;
+        this.checkHidePresentlyIntroSeller = true;
+      }
+    }
+  }
+  
+  hideSeller(number: number) {
+    if (number >= 0) {
+      let introSeller = document.getElementById('infor_height_' + number) as HTMLElement;
+      if (introSeller) {
+        introSeller.classList.add("height_seller");
+        this.checkIntroSeller = true;
+        this.checkHidePresentlyIntroSeller = false;
+      }
+    }
+  }
+
+
+
+
 }

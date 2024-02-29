@@ -5,6 +5,7 @@ import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ReviewComponent } from '../review/review.component';
+import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
   private scrollContainer: any;
+  
 
   listModel = [
     {
@@ -42,9 +44,14 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     private tokenStorageService: TokenStorageService,
     private toastr: ToastrService,
     private matDialog: MatDialog,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
+    this.authService.currentResult.subscribe((result)=>{
+      this.chatRequest.model = result;
+      console.log(this.chatRequest.model);
+    })
     this.username = this.tokenStorageService.getUser();
     this.chatRequest.model = this.listModel[0].name
     this.getMessage();
