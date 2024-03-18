@@ -22,6 +22,14 @@ export class QuestionAnswerServiceService {
     return this.http.post(AUTH_API + '/search/vector',data);
   }
 
+  getListUserQuestion(data:any) : Observable<any>{
+    return this.http.post(AUTH_API + '/get-list-user-question',data);
+  }
+
+  vectorIndexUserQuestion(data:any): Observable<any>{
+    return this.http.post(AUTH_API + "/vector-index-question", data);
+  }
+
   deleteDocument() : Observable<any>{
     return this.http.delete(AUTH_API + '/delete/message_index');
   }
@@ -34,8 +42,8 @@ export class QuestionAnswerServiceService {
     return this.http.post(AUTH_API + '/search/vector/creator',data);
   }
 
-  deleteDocumentFilename(filename) : Observable<any>{
-    return this.http.delete(AUTH_API + `/delete/vector/filename?filename=${filename}`);
+  deleteDocumentFilename(filename: string, documentGroup: string): Observable<any> {
+    return this.http.delete(`${AUTH_API}/delete/vector/filename?filename=${filename}&documentGroup=${documentGroup}`);
   }
 
 }

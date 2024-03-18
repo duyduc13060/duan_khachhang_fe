@@ -1,10 +1,10 @@
 <div class="modal-content modal-dialog-custom">
   <div class="modal-header">
-    <b>Xem chi tiết nội dung tài liệu</b>
+    <b>Nội dung được sử dụng trong {{documentFileName}}</b>
   </div>
     <div class="modal-body" style="padding: 15px;">
     <div class="row view-detail" style="white-space: break-spaces; margin-left: 15px;">
-      <p [innerHTML]="allFileContent | highlighter:contentHighline"></p>
+      <p>{{contextHighline}}</p>
     </div>
   </div>
 </div>

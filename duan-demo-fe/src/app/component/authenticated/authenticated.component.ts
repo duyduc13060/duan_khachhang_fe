@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ChatRequest } from 'src/app/_model/chat-request.model';
-import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { environment } from 'src/environments/environment';
 
@@ -12,27 +10,9 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthenticatedComponent implements OnInit {
 
-  chatRequest = new ChatRequest();
-
-  listModel = [
-    {
-      name: "mixtral-8x7b-instruct"
-    },
-    {
-      name: "codellama-34b-instruct"
-    },
-    {
-      name: "bedrock"
-    },
-    {
-      name: "gemini-pro"
-    },
-  ]
-
   constructor(
     private tokenStorageService: TokenStorageService,
-    private toastr: ToastrService,
-    private authService: AuthenticationService
+    private toastr: ToastrService
   ) { }
 
   username;
@@ -41,16 +21,10 @@ export class AuthenticatedComponent implements OnInit {
   functionCode;
 
   ngOnInit() {
-    this.chatRequest.model = this.listModel[0].name
     // this.username = this.tokenStorageService.getUser();
     this.fullname = this.tokenStorageService.getFullName();
     this.username = this.tokenStorageService.getUser();
     this.authen();
-  }
-
-
-  changModelChat(event){
-    this.authService.setModelChat(event.name)
   }
 
   authenQLU = false;

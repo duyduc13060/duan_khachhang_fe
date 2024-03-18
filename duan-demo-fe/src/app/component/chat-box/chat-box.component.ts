@@ -5,7 +5,6 @@ import { ChatRequest } from 'src/app/_model/chat-request.model';
 import { ChatBoxService } from 'src/app/_service/chat-box-service/chat-box.service';
 import { TokenStorageService } from 'src/app/_service/token-storage-service/token-storage.service';
 import { ReviewComponent } from '../review/review.component';
-import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 
 
 @Component({
@@ -18,7 +17,6 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
   @ViewChild('scrollframe', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
   private scrollContainer: any;
-  
 
   listModel = [
     {
@@ -26,6 +24,9 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     },
     {
       name: "mixtral-8x7b-instruct"
+    },
+    {
+      name: "gpt-3.5-turbo"
     },
     {
       name: "codellama-34b-instruct"
@@ -44,14 +45,9 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
     private tokenStorageService: TokenStorageService,
     private toastr: ToastrService,
     private matDialog: MatDialog,
-    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
-    this.authService.currentResult.subscribe((result)=>{
-      this.chatRequest.model = result;
-      console.log(this.chatRequest.model);
-    })
     this.username = this.tokenStorageService.getUser();
     this.chatRequest.model = this.listModel[0].name
     this.getMessage();
@@ -132,7 +128,31 @@ export class ChatBoxComponent implements OnInit,AfterViewInit {
         }
       })
 
-    }else{
+    }else if(this.chatRequest.model === 'gpt-3.5-turbo'){
+      const request = {
+        model:this.chatRequest.model,
+        messages: [
+          {
+            role: "system",
+            content: "Be precise and concise."
+          },
+          {
+            role: "user",
+            content: this.chatRequest.content
+          },
+        ],
+        temperature: 0.01,
+      }
+      this.chatBoxService.sendChatGPT(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage();
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
+    } else{
       const request = {
         model:this.chatRequest.model,
         messages: [

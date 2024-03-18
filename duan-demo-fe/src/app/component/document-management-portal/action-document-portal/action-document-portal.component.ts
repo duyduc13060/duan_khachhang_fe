@@ -1,11 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Action } from 'src/app/_model/action.model';
-import { DocumentManagementPortalComponent } from '../document-management-portal.component';
-import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { Action } from 'src/app/_model/action.model';
 import { QuestionAnswerServiceService } from 'src/app/_service/question-answer-service/question-answer-service.service';
 import { CommonFunction } from 'src/app/utils/common-function';
+import { DocumentManagementPortalComponent } from '../document-management-portal.component';
 
 @Component({
   selector: 'app-action-document-portal',
@@ -52,8 +52,8 @@ export class ActionDocumentPortalComponent implements OnInit {
 
   deleteDocument(){
     console.log(this.cellValue.filename);
-    this.questionAnswerServiceService.deleteDocumentFilename(this.cellValue.fileName).subscribe(res=>{
-      
+    this.questionAnswerServiceService.deleteDocumentFilename(this.cellValue.fileName, this.cellValue.documentGroup).subscribe(res=>{
+
     })
     this.toaStr.success("Xoa thanh cong !!!");
     this.modalRef.hide();

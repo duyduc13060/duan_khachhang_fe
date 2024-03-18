@@ -38,7 +38,7 @@ export class DocumentManagementPortalComponent implements OnInit {
   username;
 
   page;
-  pageSize = 10;
+  pageSize = 5;
   total;
   totalPage;
   currentPage = 1;
@@ -148,9 +148,9 @@ export class DocumentManagementPortalComponent implements OnInit {
         tooltipField: 'fileName',
       },
       {
-        headerName:  'Người tạo',
-        headerTooltip: 'Người tạo',
-        field: 'creator',
+        headerName:  'Nhóm tài liệu',
+        headerTooltip: 'Nhóm tài liệu',
+        field: 'documentGroup',
         suppressMovable: true,
         headerClass: 'grid-title',
         // minWidth: 102,
@@ -166,7 +166,7 @@ export class DocumentManagementPortalComponent implements OnInit {
           overflow: 'hidden',
           'text-align': 'center',
         },
-        tooltipField: 'creator',
+        tooltipField: 'documentGroup',
       },
       {
         headerName: '',
@@ -234,49 +234,17 @@ export class DocumentManagementPortalComponent implements OnInit {
   }
 
 
-
-
-  // importFile(){
-  //   if (this.filesImport) {
-  //     Array.from(this.filesImport).forEach(file => {
-  //       console.log('File Name:', file.name);
-  //       console.log('File Size:', file.size);
-  //       console.log('File Type:', file.type);
-
-  //       // Tạo FormData và thêm file vào đó
-  //       const formData = new FormData();
-  //       formData.append('file', file);
-  //       this.toastr.success("Upload file thành công");
-
-  //       // Gửi formData đến server
-  //       this.questionAnswerServiceService.uploadFile(formData).subscribe(
-  //         (res:any) => {
-  //             this.toastr.success("Upload file thành công");
-  //         },
-  //         (error) => {
-  //           console.error("File is not selected.", error);
-  //         }
-  //       );
-  //     });
-  //   } else {
-  //     console.error('File is not selected.');
-  //     this.toastr.error('File is not selected.');
-  //   }
-  // }
-
   // Phương thức để cập nhật giá trị của documentGroup từ textbox
   updateDocumentGroup(value: string) {
     this.documentGroup = value;
   }
 
   importFile(){
-    // Kiểm tra nếu giá trị nhập vào từ textbox là rỗng
-    if (!this.documentGroup) {
-      this.toastr.error('Vui lòng nhập tài liệu thuộc nhóm nào');
-      return;
-    }
-
     if (this.filesImport) {
+      // Kiểm tra nếu giá trị nhập vào từ textbox là rỗng
+      if (!this.documentGroup) {
+        this.toastr.error('Vui lòng nhập tài liệu thuộc nhóm nào');
+      } else {
       Array.from(this.filesImport).forEach(file => {
         console.log('File Name:', file.name);
         console.log('File Size:', file.size);
@@ -300,10 +268,12 @@ export class DocumentManagementPortalComponent implements OnInit {
           }
         );
       });
+      }
     } else {
       console.error('File is not selected.');
       this.toastr.error('File is not selected.');
     }
+    this.filesImport = null;
   }
 
   onGridReady(params) {

@@ -1,75 +1,22 @@
-.modal-content {
-    .modal-header {
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 30px;
-        align-items: center;
-        text-align: center;
-        text-transform: uppercase;
-        color: #101840;
-        margin-top: 20px;
+.view-detail {
+  color: #000; /* Màu chữ đen */
+  font-size: 16px; /* Kích thước chữ */
+  line-height: 1.6; /* Khoảng cách giữa các dòng */
+  padding: 0 0 1em 0; /* Padding dưới cùng của văn bản */
+  text-align: justify; /* Căn lề hai bên cho văn bản */
+  font-family: Arial, sans-serif; /* Phông chữ */
+  white-space: pre-wrap; /* Giữ nguyên các khoảng trắng và xuống dòng */
 
-        position: sticky;
-        top: 0;
-        z-index: 9999;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        border-bottom: 1px solid;
-        margin-bottom: 30px;
+  /* Điều chỉnh chiều rộng của đoạn văn bản để tối ưu hóa việc đọc */
+  max-width: 100ch;
+  margin: auto;
 
-        h4 {
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 30px;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            text-transform: uppercase;
-            color: #101840;
-            margin-top: 15px;
-        }
-    }
+  /* Cải thiện độ tương phản giữa chữ và nền */
+  background-color: #f0f2f5; /* Màu nền nhẹ */
+  padding: 15px; /* Padding xung quanh văn bản */
+  border-radius: 5px; /* Làm tròn góc */
 
-    .modal-body {
-             
-    }
-    .modal-footer{
-        position: sticky;
-        bottom: 0;
-        z-index: 9999;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        border-top: 1px solid;
-        margin-top: 30px;
-        .btn-action{
-            display: flex;
-            margin-top: 30px;
-            margin-bottom: 30px;
-          }
-          .btn-action-dv{
-            width: 105px;
-            height: 32px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 12px;
-            line-height: 16px;
-            text-align: center;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-          }
-          .gray{
-            background: #E6E8F0;
-            color: #696F8C;
-          }
-          .orange{
-            background: #330387;
-          }
-    }
+  /* Điều chỉnh khoảng cách giữa các từ và chữ cái */
+  word-spacing: normal;
+  letter-spacing: normal;
 }
-
-

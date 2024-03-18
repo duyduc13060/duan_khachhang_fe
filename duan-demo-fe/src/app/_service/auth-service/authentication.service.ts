@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/_model/User';
 import { environment } from '../../../environments/environment';
 import { TokenStorageService } from '../token-storage-service/token-storage.service';
@@ -13,14 +13,6 @@ const AUTH_API = environment.apiUrl + "auth";
 export class AuthenticationService {
 
   isLogin: any = false;
-
-  private modelResultSource = new BehaviorSubject<any>(null);
-  currentResult = this.modelResultSource.asObservable();
-
-
-  setModelChat(result: any) {
-    this.modelResultSource.next(result);
-  }
 
   constructor(
     private http: HttpClient,

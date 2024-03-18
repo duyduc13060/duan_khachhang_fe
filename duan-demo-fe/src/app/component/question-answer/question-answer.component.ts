@@ -10,7 +10,6 @@ import { TokenStorageService } from 'src/app/_service/token-storage-service/toke
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewComponent } from '../review/review.component';
 import { ViewReferDocumentComponent } from '../view-refer-document/view-refer-document.component';
-import { AuthenticationService } from 'src/app/_service/auth-service/authentication.service';
 
 @Component({
   selector: 'app-question-answer',
@@ -18,7 +17,6 @@ import { AuthenticationService } from 'src/app/_service/auth-service/authenticat
   styleUrls: ['./question-answer.component.scss']
 })
 export class QuestionAnswerComponent implements OnInit {
-  @ViewChild('inforHeight', { read: ElementRef }) inforHeightElement: ElementRef;
 
   isLoading: boolean = false;
   username;
@@ -26,6 +24,9 @@ export class QuestionAnswerComponent implements OnInit {
   action: Action = new Action();
 
   listModel = [
+    {
+      name: "gpt-3.5-turbo"
+    },
     {
       name: "mixtral-8x7b-instruct"
     },
@@ -40,8 +41,15 @@ export class QuestionAnswerComponent implements OnInit {
     },
   ]
 
-  releated;
+  // listGroupDocument = [
+  //   {
+  //     name: "All Document"
+  //   },
+  // ]
 
+  releated;
+  groupDocument;
+  listGroupDocument = [];
   listMessage;
   chatRequest = new ChatRequest();
   private timeoutId: any;
@@ -57,36 +65,25 @@ export class QuestionAnswerComponent implements OnInit {
     private questionAnswerServiceService : QuestionAnswerServiceService,
     private chatBoxService: ChatBoxService,
     private matDialog: MatDialog,
-    private authService: AuthenticationService
   ) { }
 
 
   ngOnInit() {
-    this.authService.currentResult.subscribe((result)=>{
-      this.chatRequest.model = result;
-      console.log(this.chatRequest.model);
-    })
-    // this.chatRequest.model = this.listModel[0].name
+    this.chatRequest.model = this.listModel[0].name
+    // this.groupDocument = this.listGroupDocument[0].groupName
     //this.chatRequest.system = "System: Chỉ được sử dụng thông tin trong Context để trả lời yêu cầu ở cuối cùng. Nếu không biết thì trả lời là không biết. Yêu cầu trả lời hoàn toàn theo ngôn ngữ của yêu cầu ở dưới cùng."
     this.username = this.tokenStorageService.getUser();
     this.role = this.tokenStorageService.getRole();
     this.documentFileName = '';
     this.getMessage0();
+    this.getDocumentGroupList();
     this.action = CommonFunction.getActionOfFunction('QLQS');
     // this.releated =  sessionStorage.getItem("releated");
-    // this.checkHeight();
   }
 
   ngAfterViewInit() {
-
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
-    // if (this.listMessage) {
-    //   this.checkHeight();
-    // }
-    // if (this.inforHeightElement && this.inforHeightElement.nativeElement) {
-    //   console.log(this.inforHeightElement.nativeElement);
-    // }
   }
 
   private onItemElementsChanged(): void {
@@ -109,8 +106,11 @@ export class QuestionAnswerComponent implements OnInit {
   form: FormGroup;
   documentFileName;
   listFileName: string[] = [];
+  listContextHighline: string[] = [];
   allFileContent;
   count = 0;
+  listUserQuestion;
+
   upload(files: FileList | null) {
     if (files && files.length > 0) {
       this.filesImport = files;
@@ -124,8 +124,11 @@ export class QuestionAnswerComponent implements OnInit {
     this.isLoading = true;
     this.documentFileName = '';
     this.documentResponse = '';
+    this.listFileName = [];
+    this.listContextHighline = [];
     const data = {
-      content: this.chatRequest.content
+      content: this.chatRequest.content,
+      groupDocument: this.groupDocument
     }
     this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
       // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
@@ -138,17 +141,65 @@ export class QuestionAnswerComponent implements OnInit {
       for (let i = 0; i < res.length; i++) {
         if (this.count >= 9) break; // Dừng vòng lặp nếu đã đủ 9 phần tử
         this.documentResponse += res[i].fullContent;
-        this.documentFileName += res[i].fileName + ' , ';
         if (this.listFileName.length == 0)
+        {
           this.listFileName.push(res[i].fileName);
+          this.listContextHighline.push(res[i].fullContent);
+          this.documentFileName += res[i].fileName + ' , ';
+        }
         else if (!this.listFileName.includes(res[i].fileName)) {
           this.listFileName.push(res[i].fileName);
+          this.listContextHighline.push(res[i].fullContent);
+          this.documentFileName += res[i].fileName + ' , ';
         }
         this.count++;
       }
 
       this.timeoutId = setTimeout(() => {
         this.sendChatBox(this.documentResponse);
+      }, 1000);
+    })
+  }
+
+  documentResponse1:any;
+  searchEsByRelatedQuestion(relatedQuestion){
+    this.isLoading = true;
+    this.documentFileName = '';
+    this.documentResponse1 = '';
+    this.chatRequest.content = relatedQuestion;
+    this.listFileName = [];
+    this.listContextHighline = [];
+    const data = {
+      content: relatedQuestion,
+      groupDocument: this.groupDocument
+    }
+    this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
+      // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
+      if (res.length === 0) {
+        this.isLoading = false;
+        this.toastr.error('You do not upload documents! Please upload them.');
+      }
+      this.count = 0;
+      this.documentResponse1 = '';
+      for (let i = 0; i < res.length; i++) {
+        if (this.count >= 9) break; // Dừng vòng lặp nếu đã đủ 9 phần tử
+        this.documentResponse1 += res[i].fullContent;
+        if (this.listFileName.length == 0)
+        {
+          this.listFileName.push(res[i].fileName);
+          this.listContextHighline.push(res[i].fullContent);
+          this.documentFileName += res[i].fileName + ' , ';
+        }
+        else if (!this.listFileName.includes(res[i].fileName)) {
+          this.listFileName.push(res[i].fileName);
+          this.listContextHighline.push(res[i].fullContent);
+          this.documentFileName += res[i].fileName + ' , ';
+        }
+        this.count++;
+      }
+
+      this.timeoutId = setTimeout(() => {
+        this.sendChatBox(this.documentResponse1);
       }, 1000);
     })
   }
@@ -254,6 +305,53 @@ export class QuestionAnswerComponent implements OnInit {
           this.toastr.error("co loi xay ra");
         }
       })
+    }
+    else if(this.chatRequest.model === 'gpt-3.5-turbo'){
+      const request = {
+        model:this.chatRequest.model,
+        messages: [
+          {
+            role: "system",
+            content: "Chỉ sử dụng các phần thông tin liên quan tới Câu Hỏi để tạo câu trả lời đầy đủ và chi tiết bằng tiếng Việt Nam cho câu hỏi ở trên cùng. Lưu ý rằng không phải tất cả thông tin trong context đều liên quan tới câu hỏi, bạn phải chọn lọc các thông tin trong context để trả lời chi tiết cho câu hỏi ở trên cùng, những thông tin càng gần với câu hỏi ở trên cùng thì càng liên quan nhiều hơn tới câu hỏi, nếu có nhiều thông tin liên quan tới câu hỏi, thì phải trả lời đầy đủ thông tin. Nếu bạn không biết câu trả lời hoặc không có thông tin trong context, hãy nói rằng bạn không biết, đừng cố gắng tạo ra câu trả lời. Nếu bạn trả lời đầy đủ, chính xác và chi tiết thông tin cho câu hỏi, thì sẽ sớm được thăng chức lên trưởng phòng. Trích dẫn ở cuối câu trả lời rằng phần thông tin được dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau: " + this.documentFileName
+          },
+          {
+            role: "user",
+            content: "<b>Câu Hỏi: " + this.chatRequest.content +"</b><br>" + "{Context} " + this.chatRequest.context + " " + documentResponse + " {Context End}"
+          }
+        ],
+        temperature: 0.01,
+      }
+
+      const data = {
+        question: this.chatRequest.content,
+        groupDocument: this.groupDocument
+      }
+      this.questionAnswerServiceService.getListUserQuestion(data).subscribe(res=>{
+        if(res.length > 0){
+          this.listUserQuestion = res;
+        }
+      })
+
+      this.chatBoxService.sendChatGPT(request).subscribe((res:any) =>{
+        if(res.status === "OK"){
+          this.isLoading = false;
+          this.getMessage0();
+          if (this.chatRequest.content.length >= 30){
+            const data = {
+              content: this.chatRequest.content,
+              groupDocument: this.groupDocument
+            }
+            this.questionAnswerServiceService.vectorIndexUserQuestion(data).subscribe((res:any) =>{
+              if(res.status === "OK"){
+                console.log('Index câu hỏi thành công');
+              }
+            });
+          }
+          this.chatRequest.content = '';
+        }else{
+          this.toastr.error("co loi xay ra");
+        }
+      })
     }else{
       const request = {
         model:this.chatRequest.model,
@@ -262,37 +360,57 @@ export class QuestionAnswerComponent implements OnInit {
             role: "system",
             // content: "Only use the following needed pieces of context to provide a detail answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. Bắt buộc trả lời thông tin sau một cách chính xác nhất có thể: Thông tin context dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau đây: " + this.documentFileName
             //content: "Only use the following of context to provide the detail answer in Vietnamese to the question at the end. If you don't know the answer or don't have information in the context, just say that you don't know, don't try to make up an answer. At the end of your answer, provide information on which page and document the context is found in the following documents: " + this.documentFileName
-            content: "Hãy chỉ sử dụng các phần thông tin cần thiết cho câu trả lời ở trong context để tạo câu trả lời đầy đủ và chi tiết bằng tiếng Việt Nam cho câu hỏi ở cuối cùng. Nếu bạn không biết câu trả lời hoặc không có thông tin trong context, hãy nói rằng bạn không biết, đừng cố gắng tạo ra câu trả lời. Bắt buộc trả lời thông tin sau một cách chính xác nhất có thể: Thông tin context dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau đây: " + this.documentFileName
+            content: "Chỉ sử dụng các phần thông tin liên quan tới Câu Hỏi để tạo câu trả lời đầy đủ và chi tiết bằng tiếng Việt Nam cho câu hỏi ở trên cùng. Lưu ý rằng không phải tất cả thông tin trong context đều liên quan tới câu hỏi, bạn phải chọn lọc các thông tin trong context để trả lời chi tiết cho câu hỏi ở trên cùng, những thông tin càng gần với câu hỏi ở trên cùng thì càng liên quan nhiều hơn tới câu hỏi, nếu có nhiều thông tin liên quan tới câu hỏi, thì phải trả lời đầy đủ thông tin. Nếu bạn không biết câu trả lời hoặc không có thông tin trong context, hãy nói rằng bạn không biết, đừng cố gắng tạo ra câu trả lời. Nếu bạn trả lời đầy đủ, chính xác và chi tiết thông tin cho câu hỏi, thì sẽ sớm được thăng chức. Trích dẫn ở cuối câu trả lời rằng phần thông tin được dùng cho câu trả lời có ở trang bao nhiêu của tài liệu nào trong các tài liệu sau: " + this.documentFileName
           },
           {
             role: "user",
-            content: "{Context} " + this.chatRequest.context + " " + documentResponse + " {Context End}" + '</p>' + "<br><b>Câu Hỏi: " + this.chatRequest.content +"</b>"
+            content: "<b>Câu Hỏi: " + this.chatRequest.content +"</b><br>" + "{Context} " + this.chatRequest.context + " " + documentResponse + " {Context End}"
           },
         ],
         max_tokens: 20000,
-        temperature: 0,
+        temperature: 0.01,
         type: 0
       }
 
-      const request2 = {
-        model:this.chatRequest.model,
-        messages: [
-          {
-            role: "system",
-            content: "Be precise and concise."
-          },
-          {
-            role: "user",
-            content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + this.chatRequest.content
-          },
-        ],
-        type: 1
+      // const request2 = {
+      //   model:this.chatRequest.model,
+      //   messages: [
+      //     {
+      //       role: "system",
+      //       content: "Be precise and concise."
+      //     },
+      //     {
+      //       role: "user",
+      //       content: "Hãy tạo cho tôi 3 câu hỏi bằng tiếng việt tương tự câu hỏi sau: " + this.chatRequest.content
+      //     },
+      //   ],
+      //   type: 1
+      // }
+      const data = {
+        question: this.chatRequest.content,
+        groupDocument: this.groupDocument
       }
+      this.questionAnswerServiceService.getListUserQuestion(data).subscribe(res=>{
+        if(res.length > 0){
+          this.listUserQuestion = res;
+        }
+      })
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
           this.isLoading = false;
           this.getMessage0();
+          if (this.chatRequest.content.length >= 30){
+            const data = {
+              content: this.chatRequest.content,
+              groupDocument: this.groupDocument
+            }
+            this.questionAnswerServiceService.vectorIndexUserQuestion(data).subscribe((res:any) =>{
+              if(res.status === "OK"){
+                console.log('Index câu hỏi thành công');
+              }
+            });
+          }
           this.chatRequest.content = '';
 
           // uncomment sau
@@ -333,35 +451,35 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
 
-  documentResponse1:any;
-  searchEs1(dataR){
-    this.isLoading = true;
-    const data = {
-      content: dataR
-    }
-    this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
-      // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
-      if (res.length === 0) {
-        this.isLoading = false;
-        this.toastr.error('You do not upload documents! Please upload them.');
-      }
-      // Sắp xếp mảng theo giá trị tăng dần của trunkCount
-      res.sort((a, b) => a.trunkCount - b.trunkCount);
+  // documentResponse1:any;
+  // searchEs1(dataR){
+  //   this.isLoading = true;
+  //   const data = {
+  //     content: dataR
+  //   }
+  //   this.questionAnswerServiceService.searchEs(data).subscribe(res=>{
+  //     // this.documentResponse = res.length >= 7 ? res.slice(0, 7).map(item => item.document).join('') : res[0].document;
+  //     if (res.length === 0) {
+  //       this.isLoading = false;
+  //       this.toastr.error('You do not upload documents! Please upload them.');
+  //     }
+  //     // Sắp xếp mảng theo giá trị tăng dần của trunkCount
+  //     res.sort((a, b) => a.trunkCount - b.trunkCount);
 
-      // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
-      if (res.length >= 3) {
-        this.documentResponse1 = res[0].content + res[1].content + res[2].content;
-      } else if (res.length === 2) {
-        this.documentResponse1 = res[0].content + res[1].content;
-      } else if (res.length === 1) {
-        this.documentResponse1 = res[0].content;
-      }
-      this.documentFileName = res[0].fileName;
-      this.timeoutId = setTimeout(() => {
-        this.clickChatWithDoc(this.documentResponse1,dataR);
-      }, 1000);
-    })
-  }
+  //     // Kiểm tra số lượng phần tử trong mảng và lấy ra content tương ứng
+  //     if (res.length >= 3) {
+  //       this.documentResponse1 = res[0].content + res[1].content + res[2].content;
+  //     } else if (res.length === 2) {
+  //       this.documentResponse1 = res[0].content + res[1].content;
+  //     } else if (res.length === 1) {
+  //       this.documentResponse1 = res[0].content;
+  //     }
+  //     this.documentFileName = res[0].fileName;
+  //     this.timeoutId = setTimeout(() => {
+  //       this.clickChatWithDoc(this.documentResponse1,dataR);
+  //     }, 1000);
+  //   })
+  // }
 
   clickChatWithDoc(documentResponse1,dataR){
     this.isLoading = true;
@@ -452,10 +570,20 @@ export class QuestionAnswerComponent implements OnInit {
     this.chatBoxService.getMessage(0).subscribe(res =>{
       this.listMessage = res;
       console.log(this.listMessage);
-    }, () => {},
-    () => {
-      this.checkHeight();
     })
+  }
+
+  getDocumentGroupList(){
+    this.chatBoxService.getDocumentGroupList().subscribe(data => {
+      this.listGroupDocument.push({name: "All Document"});
+      this.groupDocument = this.listGroupDocument[0].name;
+      // Duyệt qua mỗi phần tử trong dữ liệu trả về và thêm vào this.listGroupDocument
+      data.forEach(item => {
+        this.listGroupDocument.push({name: item.groupName});
+      });
+    }, error => {
+      console.error('There was an error!', error);
+    });
   }
 
   listMessage1;
@@ -467,9 +595,10 @@ export class QuestionAnswerComponent implements OnInit {
     })
   }
 
-  openPdfViewer(documentFileName){
+  openPdfViewer(documentFileName, documentContextHighline){
     const data = {
       filename: documentFileName,
+      contextHighline: documentContextHighline
     }
     this.matDialog
      .open(ViewReferDocumentComponent, {
@@ -515,95 +644,9 @@ export class QuestionAnswerComponent implements OnInit {
       });
   }
 
+  isExpanded = false;
 
-  checkIntroSeller: boolean = false;
-  checkHidePresentlyIntroSeller: boolean = false;
-  // checkHeight(){
-
-  //   let textContainer = document.getElementById("infor_height");
-  //   let lineHeight = parseInt(window.getComputedStyle(textContainer).lineHeight, 10);
-  //   let maxHeight = 20 * 3; // Chiều cao tối đa là ba dòng
-  //   let introSeller = document.querySelector(".intro_seller") as HTMLElement;
-
-  //   if (introSeller.offsetHeight > maxHeight) {
-  //     introSeller.classList.add("height_seller");
-  //     this.checkIntroSeller = true;
-  //   } else {
-  //     introSeller.classList.remove("height_seller");
-  //     this.checkIntroSeller = false;
-  //     this.checkHidePresentlyIntroSeller = false;
-  //   }
-  // }
-
-
-  checkHeight(): void {
-    // Lặp qua từng phần tử trong mảng items
-    for (let i = 0; i < this.listMessage.length; i++) {
-      // Tạo ID cho phần tử
-      const elementId = 'infor_height_' + i;
-
-      // Lấy phần tử theo ID
-      let element0 = document.getElementById(elementId);
-      console.log(element0);
-
-      let element = document.getElementById(elementId) as HTMLElement;
-      console.log(element);
-
-      // Kiểm tra chiều cao của phần tử
-      if (element) {
-        let lineHeight = parseInt(window.getComputedStyle(element).lineHeight, 10);
-        let maxHeight = 20 * 3; // Chiều cao tối đa là ba dòng
-        if (element.offsetHeight > maxHeight) {
-          element.classList.add("height_seller");
-        } else {
-          element.classList.remove("height_seller");
-        }
-      }
-    }
+  toggleContent() {
+    this.isExpanded = !this.isExpanded;
   }
-  
-
-  // presentlySeller(number){
-  //   if(number == 0){
-  //     let introSeller = document.querySelector(".intro_seller") as HTMLElement;
-  //     introSeller.classList.remove("height_seller");
-  //     this.checkIntroSeller = false;
-  //     this.checkHidePresentlyIntroSeller = true;
-  //   }
-  // }
-
-  // hideSeller(number){
-  //   if(number == 0){
-  //     let introSeller = document.querySelector(".intro_seller") as HTMLElement;
-  //     introSeller.classList.add("height_seller");
-  //     this.checkIntroSeller = true;
-  //     this.checkHidePresentlyIntroSeller = false;
-  //   }
-  // }
-
-  presentlySeller(number: number) {
-    if (number >= 0) {
-      let introSeller = document.getElementById('infor_height_' + number) as HTMLElement;
-      if (introSeller) {
-        introSeller.classList.remove("height_seller");
-        this.checkIntroSeller = false;
-        this.checkHidePresentlyIntroSeller = true;
-      }
-    }
-  }
-  
-  hideSeller(number: number) {
-    if (number >= 0) {
-      let introSeller = document.getElementById('infor_height_' + number) as HTMLElement;
-      if (introSeller) {
-        introSeller.classList.add("height_seller");
-        this.checkIntroSeller = true;
-        this.checkHidePresentlyIntroSeller = false;
-      }
-    }
-  }
-
-
-
-
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -24,6 +24,10 @@ export class ChatBoxService {
     return this.http.get(AUTH_API + `/get-message?type=${type}`);
   }
 
+  getDocumentGroupList(): Observable<any>{
+    return this.http.get(AUTH_API + "/get-document-group-list");
+  }
+
   send(data:any): Observable<any>{
     return this.http.post(AUTH_API + "/generate-message", data);
   }
@@ -36,6 +40,8 @@ export class ChatBoxService {
     return this.http.post(AUTH_API + "/generate-message-gemini-pro", data);
   }
 
-
+  sendChatGPT(data:any): Observable<any>{
+    return this.http.post(AUTH_API + "/generate-message-gpt3.5", data);
+  }
 
 }

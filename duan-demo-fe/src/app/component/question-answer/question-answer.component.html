@@ -4,63 +4,69 @@
       </div>
   </div>
   <div class="row clearfix">
-      <div >
+      <div>
           <div class="" style="padding-left: 10px; padding-right: 10px; padding-bottom: 5px; height: fit-content;">
-            <!-- <div class="chat-header clearfix">
-                <div class="row">
-                    <div style="display: flex; justify-content: space-between;">
-                        <div class="col-lg-6">
-                        </div>
-                        <div>
-                            <label for="" style="margin-bottom: 5px;">Lựa chọn Model</label>
-                            <ng-select
-                            [items]="listModel"
-                            placeholder="Lựa chọn"
-                            [(ngModel)]="chatRequest.model"
-                            class="input-select"
-                            bindLabel="name"
-                            bindValue="name"
-                            [searchable]="false"
-                            [clearable]="false"
-                            style="width: 200px;"
-                            >
-                            </ng-select>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <div class="chat">
+            <div class="chat-header clearfix">
+              <div class="row">
+                  <div style="display: flex; justify-content: space-between;">
+                      <div class="col-lg-6">
+                          <!-- <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                              <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                          </a>
+                          <div class="chat-about">
+                              <h6 class="m-b-0" style="font-size: 25px;">{{username}}</h6>
+                              <small>Last seen: 2 hours ago</small>
+                          </div> -->
+                      </div>
+                      <div>
+                        <label for="" style="margin-bottom: 5px; margin-top: 10px;"><b>Lựa chọn nhóm tài liệu</b></label>
+                        <ng-select
+                          placeholder="Lựa chọn"
+                          [(ngModel)]="groupDocument"
+                          class="input-select"
+                          bindLabel="name"
+                          bindValue="name"
+                          [searchable]="false"
+                          [clearable]="false"
+                          style="width: 200px;"
+                        >
+                          <ng-option *ngFor="let group of listGroupDocument" [value]="group.name">
+                            {{ group.name }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                      <div>
+                          <label for="" style="margin-bottom: 5px; margin-top: 10px;"><b>Lựa chọn Model</b></label>
+                          <ng-select
+                          [items]="listModel"
+                          placeholder="Lựa chọn"
+                          [(ngModel)]="chatRequest.model"
+                          class="input-select"
+                          bindLabel="name"
+                          bindValue="name"
+                          [searchable]="false"
+                          [clearable]="false"
+                          style="width: 200px;"
+                          >
+                          </ng-select>
+                      </div>
+                  </div>
+              </div>
+          </div>
+              <div class="chat">
                   <div class="chat-history" id="scroll" style="height: fit-content;">
-                    <ul class="m-b-0" style="height: 85vh;overflow-y: auto;overflow-x: hidden;" #scrollframe1>
-                      <!-- <ul class="m-b-0" style="height: 85vh;overflow: scroll;" #scrollframe1> -->
-                          <li class="clearfix" *ngFor="let item of listMessage; let i = index" #item1>
+                      <ul class="m-b-0" style="height: 79vh;overflow: scroll;" #scrollframe1>
+
+                          <li class="clearfix" *ngFor="let item of listMessage" #item1>
                               <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <div class="message-data text-right" style="display: flex; align-items: center;">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                     <div style="font-size: 15px; text-transform: uppercase; margin-right: 10px">YOU</div>
                                 </div>
-                                <div class="message other-message father_seller" id="haha" style="margin-right: 20px;">
-                                    <div #inforHeight class="intro_seller"  [id]="'infor_height_' + i"
-                                          style="float: inline-start;" [innerHTML]="item.contentRequest">
-                                    </div>
-                                    <span   class="add_view" (click)="presentlySeller(i)">
-                                        xem them
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path
-                                            d="M8.00001 11.1999C7.53335 11.1999 7.06668 11.0199 6.71335 10.6666L2.36668 6.31993C2.17335 6.12659 2.17335 5.8066 2.36668 5.61326C2.56001 5.41993 2.88001 5.41993 3.07335 5.61326L7.42001 9.95993C7.74001 10.2799 8.26001 10.2799 8.58001 9.95993L12.9267 5.61326C13.12 5.41993 13.44 5.41993 13.6333 5.61326C13.8267 5.8066 13.8267 6.12659 13.6333 6.31993L9.28668 10.6666C8.93335 11.0199 8.46668 11.1999 8.00001 11.1999Z"
-                                            fill="#F26522" />
-                                        </svg>
-                                    </span>
-                                    <span *ngIf="!checkIntroSeller && checkHidePresentlyIntroSeller" class="add_view" (click)="hideSeller(i)">
-                                    thu gon
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                        d="M13.28 10.5332C13.1533 10.5332 13.0267 10.4866 12.9267 10.3866L8.58001 6.03989C8.26001 5.71989 7.74001 5.71989 7.42001 6.03989L3.07335 10.3866C2.88001 10.5799 2.56001 10.5799 2.36668 10.3866C2.17335 10.1932 2.17335 9.87322 2.36668 9.67989L6.71335 5.33322C7.42001 4.62656 8.57335 4.62656 9.28668 5.33322L13.6333 9.67989C13.8267 9.87322 13.8267 10.1932 13.6333 10.3866C13.5333 10.4799 13.4067 10.5332 13.28 10.5332Z"
-                                        fill="#F26522" />
-                                    </svg>
-                                    </span>
+                                <div class="message other-message" style="margin-right: 20px;">
+                                  <span [ngClass]="{'truncate': !isExpanded}" [innerHTML]="item.contentRequest"></span>
+                                  <button class="toggleButton" (click)="toggleContent()">{{isExpanded ? 'Thu gọn' : 'Mở rộng'}}</button>
                                 </div>
-                                
                             </div>
                               <div style="margin-top: 20px;">
                                 <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -69,12 +75,9 @@
                                       <!-- <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar"> -->
                                       <div style="font-size: 15px; text-transform: uppercase; margin-right: 10px;">BOT</div>
                                   </div>
-                                  <div class="message my-message"  style="white-space: break-spaces; margin-right: 20px;">
+                                  <div class="message my-message" style="white-space: break-spaces; margin-right: 20px;">
                                       {{item.contentResponse}}
                                   </div>
-                              </div>
-                              <div *ngFor="let fileName of listFileName">
-                                <span style="cursor: pointer; text-decoration: underline; color: blue;" (click)="openPdfViewer(fileName)">Refer: {{fileName}}</span><br>
                               </div>
                                   <div style="margin-top: 10px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" (click)="openFormCreate(item.id, 'normal')" height="16" width="16" viewBox="0 0 512 512">
@@ -87,20 +90,23 @@
                                         <path fill="#006400" d="M313.4 479.1c26-5.2 42.9-30.5 37.7-56.5l-2.3-11.4c-5.3-26.7-15.1-52.1-28.8-75.2H464c26.5 0 48-21.5 48-48c0-18.5-10.5-34.6-25.9-42.6C497 236.6 504 223.1 504 208c0-23.4-16.8-42.9-38.9-47.1c4.4-7.3 6.9-15.8 6.9-24.9c0-21.3-13.9-39.4-33.1-45.6c.7-3.3 1.1-6.8 1.1-10.4c0-26.5-21.5-48-48-48H294.5c-19 0-37.5 5.6-53.3 16.1L202.7 73.8C176 91.6 160 121.6 160 153.7V192v48 24.9c0 29.2 13.3 56.7 36 75l7.4 5.9c26.5 21.2 44.6 51 51.2 84.2l2.3 11.4c5.2 26 30.5 42.9 56.5 37.7zM32 384H96c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H32C14.3 96 0 110.3 0 128V352c0 17.7 14.3 32 32 32z"/>
                                     </svg>
                                   </div>
-                                  <div class="message my-message" style="margin-bottom: 15px; margin-top: 15px;" *ngIf="releated">
-                                    <h1>Related</h1>
-                                    <div *ngFor="let part of releated.split('\n')" style="display: flex;">
-                                        {{ part }}
-                                        <div  (click)="searchEs1(part)">
-                                            <i class="fa-solid fa-plus"
-                                                style="cursor: pointer;"
-                                               >
-                                            </i>
-                                        </div>
-                                    </div>
-                                  </div>
                               </div>
                           </li>
+                          <div *ngFor="let fileName of listFileName let i = index">
+                            <span style="cursor: pointer; text-decoration: underline; color: blue;" (click)="openPdfViewer(fileName, listContextHighline[i])">Tài liệu sử dụng: {{fileName}}</span><br>
+                          </div>
+                          <div class="message my-message" style="margin-bottom: 5px; margin-top: 10px;" *ngIf="listUserQuestion">
+                            <h2>Câu hỏi gợi ý</h2>
+                            <div *ngFor="let part of listUserQuestion" style="display: flex;">
+                                {{ part.content }}
+                                <div  (click)="searchEsByRelatedQuestion(part.content)">
+                                    <i class="fa-solid fa-plus"
+                                        style="cursor: pointer; margin-left: 10px;"
+                                       >
+                                    </i>
+                                </div>
+                            </div>
+                          </div>
                       </ul>
                   </div>
                   <!-- body -->
@@ -121,6 +127,10 @@
                       </div>
                   </div>
               </div>
+
+
+
+
           </div>
       </div>
   </div>
