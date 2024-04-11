@@ -57,7 +57,7 @@
                   <div class="chat-history" id="scroll" style="height: fit-content;">
                       <ul class="m-b-0" style="height: 79vh;overflow: scroll;" #scrollframe1>
 
-                          <li class="clearfix" *ngFor="let item of listMessage" #item1>
+                          <li class="clearfix" *ngFor="let item of listMessage let isFirst = first; let isLast = last; let i = index" #item1>
                               <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <div class="message-data text-right" style="display: flex; align-items: center;">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
@@ -75,9 +75,8 @@
                                       <!-- <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar"> -->
                                       <div style="font-size: 15px; text-transform: uppercase; margin-right: 10px;">BOT</div>
                                   </div>
-                                  <div class="message my-message" style="white-space: break-spaces; margin-right: 20px;">
-                                      {{item.contentResponse}}
-                                  </div>
+                                  <div *ngIf="item.isFirst" class="message my-message" style="white-space: break-spaces; margin-right: 20px;" >{{item.contentResponse}}</div>
+                                  <div *ngIf="!item.isFirst" class="message my-message" style="white-space: break-spaces; margin-right: 20px;" #tw></div>
                               </div>
                                   <div style="margin-top: 10px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" (click)="openFormCreate(item.id, 'normal')" height="16" width="16" viewBox="0 0 512 512">

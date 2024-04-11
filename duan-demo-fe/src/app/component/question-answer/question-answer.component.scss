@@ -187,9 +187,13 @@ body{
 }
 
 .chat .chat-history .my-message {
-    background: #efefef
+    background: #efefef;
+    width: 100%;
 }
-
+.tw::after{
+    content: " ";
+    white-space: pre;
+}
 .chat .chat-history .my-message:after {
     bottom: 100%;
     // left: 30px;

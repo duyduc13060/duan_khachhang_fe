@@ -10,6 +10,7 @@ import { TokenStorageService } from 'src/app/_service/token-storage-service/toke
 import { CommonFunction } from 'src/app/utils/common-function';
 import { ReviewComponent } from '../review/review.component';
 import { ViewReferDocumentComponent } from '../view-refer-document/view-refer-document.component';
+import Typewriter from 't-writer.js';
 
 @Component({
   selector: 'app-question-answer',
@@ -56,16 +57,19 @@ export class QuestionAnswerComponent implements OnInit {
 
   @ViewChild('scrollframe1', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item1') itemElements: QueryList<any>;
+  @ViewChildren('tw') typewriterElements: QueryList<any>;
   private scrollContainer: any;
-
-
+  typeWriter: any;
+  isFirst = true;
   constructor(
     private tokenStorageService: TokenStorageService,
     private toastr: ToastrService,
     private questionAnswerServiceService : QuestionAnswerServiceService,
     private chatBoxService: ChatBoxService,
     private matDialog: MatDialog,
-  ) { }
+  ) {
+    
+   }
 
 
   ngOnInit() {
@@ -78,12 +82,14 @@ export class QuestionAnswerComponent implements OnInit {
     this.getMessage0();
     this.getDocumentGroupList();
     this.action = CommonFunction.getActionOfFunction('QLQS');
+    
     // this.releated =  sessionStorage.getItem("releated");
   }
 
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+    
   }
 
   private onItemElementsChanged(): void {
@@ -245,10 +251,8 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   sendChatBox(documentResponse){
-    this.isLoading = true;
     if(this.chatRequest.content === null || this.chatRequest.content === '' || this.chatRequest.content == undefined){
       this.toastr.error("Ban chua nhap content truoc khi gui yeu cau");
-      this.isLoading = false;
       return;
     }
 
@@ -275,7 +279,6 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.sendChatAmazon(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-          this.isLoading = false;
           this.getMessage0();
           this.chatRequest.content = '';
         }else{
@@ -298,7 +301,6 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.sendChatGeminiPro(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-          this.isLoading = false;
           this.getMessage0();
           this.chatRequest.content = '';
         }else{
@@ -334,7 +336,6 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.sendChatGPT(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-          this.isLoading = false;
           this.getMessage0();
           if (this.chatRequest.content.length >= 30){
             const data = {
@@ -398,7 +399,6 @@ export class QuestionAnswerComponent implements OnInit {
 
       this.chatBoxService.send(request).subscribe((res:any) =>{
         if(res.status === "OK"){
-          this.isLoading = false;
           this.getMessage0();
           if (this.chatRequest.content.length >= 30){
             const data = {
@@ -566,11 +566,35 @@ export class QuestionAnswerComponent implements OnInit {
     // })
   }
 
-  getMessage0(){
-    this.chatBoxService.getMessage(0).subscribe(res =>{
+  getMessage0() {
+    this.chatBoxService.getMessage(0).subscribe(res => {
       this.listMessage = res;
+      this.listMessage.forEach(item => {
+        item.isFirst = true;
+      })
+      if (!this.isFirst) {
+        const lastMessage = this.listMessage.length - 1;
+        this.listMessage[lastMessage].isFirst = false;
+        setTimeout(() => {
+          this.initializeTypewriters();
+        }, 100);
+      }
+      this.isFirst = false;
       console.log(this.listMessage);
     })
+  }
+
+  /**
+   * Hàm render text writer
+   */
+  initializeTypewriters(): void {
+    const lastItemIndex = this.listMessage.length - 1;
+    const lastItem = this.listMessage[lastItemIndex];
+    const lastTypewriter = new Typewriter(this.typewriterElements.last.nativeElement, {
+      loop: false,
+      typeSpeed: 30, // tốc độ chạy của text
+    });
+    lastTypewriter.type(lastItem.contentResponse).start();
   }
 
   getDocumentGroupList(){
